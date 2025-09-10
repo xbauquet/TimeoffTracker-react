@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { GitHubSettings } from '../GitHubSettings';
+import { GistService, GistSettings } from '../../services/gistService';
 import './Menu.scss';
 
 interface MenuItem {
@@ -17,6 +19,7 @@ interface MenuProps {
   onYearChange: (year: number) => void;
   onCountryChange: (country: string) => void;
   onStateChange: (state: string) => void;
+  onGitHubSettingsChange?: (settings: GistSettings) => void;
 }
 
 const defaultMenuItems: MenuItem[] = [
@@ -54,8 +57,11 @@ export const Menu: React.FC<MenuProps> = ({
   state,
   onYearChange,
   onCountryChange,
-  onStateChange
+  onStateChange,
+  onGitHubSettingsChange
 }) => {
+  const [showGitHubSettings, setShowGitHubSettings] = useState(false);
+  const [gitHubSettings, setGitHubSettings] = useState<GistSettings>(() => GistService.loadSettings());
   return (
     <nav className={`menu ${className}`}>
       <div className="menu-header">
@@ -120,11 +126,36 @@ export const Menu: React.FC<MenuProps> = ({
       </ul>
       
       <div className="menu-footer">
+        <div className="menu-github-section">
+          <div className="menu-github-status">
+            <span className={`github-status ${GistService.getStatus(gitHubSettings).status}`}>
+              {GistService.getStatus(gitHubSettings).message}
+            </span>
+          </div>
+          <button 
+            className="menu-github-btn"
+            onClick={() => setShowGitHubSettings(true)}
+            title="GitHub Settings"
+          >
+            ⚙️
+          </button>
+        </div>
+        
         <div className="menu-user">
           <span className="user-avatar">👤</span>
           <span className="user-name">User</span>
         </div>
       </div>
+
+      <GitHubSettings
+        isOpen={showGitHubSettings}
+        onClose={() => setShowGitHubSettings(false)}
+        onSettingsChange={(settings) => {
+          setGitHubSettings(settings);
+          onGitHubSettingsChange?.(settings);
+        }}
+        currentSettings={gitHubSettings}
+      />
     </nav>
   );
 };

@@ -1,0 +1,243 @@
+// === IMPORTS ===
+@import "../../styles/variables";
+
+// === GITHUB SETTINGS MODAL ===
+.github-settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-modal;
+}
+
+.github-settings-modal {
+  background: linear-gradient(135deg, $background-light 0%, $background-medium 100%);
+  padding: $spacing-5xl;
+  border-radius: $radius-3xl;
+  max-width: 500px;
+  width: 90%;
+  color: $text-primary;
+  border: 1px solid $border-medium;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.github-settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-4xl;
+  
+  h3 {
+    color: $primary-color;
+    font-size: $font-size-2xl;
+    font-weight: 300;
+    margin: 0;
+  }
+}
+
+.github-settings-close {
+  background: none;
+  border: none;
+  color: $text-muted;
+  font-size: $font-size-3xl;
+  cursor: pointer;
+  padding: $spacing-sm;
+  line-height: 1;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.github-settings-content {
+  margin-bottom: $spacing-4xl;
+}
+
+.github-settings-description {
+  margin-bottom: $spacing-4xl;
+  line-height: 1.5;
+  color: $text-light;
+}
+
+.github-settings-steps {
+  margin-bottom: $spacing-4xl;
+  padding-left: $spacing-4xl;
+  line-height: 1.6;
+  
+  li {
+    margin-bottom: $spacing-lg;
+    color: $text-light;
+    
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      
+      &:hover {
+        color: $primary-hover;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.github-settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4xl;
+}
+
+.github-settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  
+  label {
+    color: $text-white;
+    font-size: $font-size-lg;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.github-settings-input {
+  background: $primary-light;
+  border: 1px solid $primary-strong;
+  border-radius: $radius-xl;
+  padding: $spacing-lg $spacing-2xl;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  width: 100%;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: rgba($primary-color, 0.6);
+    box-shadow: 0 0 8px rgba($primary-color, 0.2);
+  }
+  
+  &:hover {
+    border-color: rgba($primary-color, 0.5);
+  }
+  
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+.github-settings-test-result {
+  padding: $spacing-lg $spacing-2xl;
+  border-radius: $radius-lg;
+  font-size: $font-size-lg;
+  font-weight: 500;
+  
+  &.success {
+    background: rgba($success-color, 0.1);
+    border: 1px solid rgba($success-color, 0.3);
+    color: $success-color;
+  }
+  
+  &.error {
+    background: rgba($error-color, 0.1);
+    border: 1px solid rgba($error-color, 0.3);
+    color: $error-color;
+  }
+}
+
+.github-settings-footer {
+  display: flex;
+  gap: $spacing-lg;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.github-settings-btn {
+  padding: $spacing-lg $spacing-4xl;
+  border: none;
+  border-radius: $radius-xl;
+  cursor: pointer;
+  font-size: $font-size-lg;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  &.github-settings-btn-primary {
+    background: $primary-color;
+    color: $text-black;
+    
+    &:hover:not(:disabled) {
+      background: $primary-hover;
+    }
+  }
+  
+  &.github-settings-btn-secondary {
+    background: $background-medium;
+    color: $text-primary;
+    border: 1px solid $border-medium;
+    
+    &:hover:not(:disabled) {
+      background: $background-hover;
+      border-color: $primary-color;
+    }
+  }
+}
+
+// === RESPONSIVE DESIGN ===
+@media (max-width: $mobile) {
+  .github-settings-modal {
+    padding: $spacing-4xl;
+    width: 95%;
+  }
+  
+  .github-settings-header {
+    margin-bottom: $spacing-2xl;
+    
+    h3 {
+      font-size: $font-size-xl;
+    }
+  }
+  
+  .github-settings-content {
+    margin-bottom: $spacing-2xl;
+  }
+  
+  .github-settings-description {
+    margin-bottom: $spacing-2xl;
+  }
+  
+  .github-settings-steps {
+    margin-bottom: $spacing-2xl;
+    padding-left: $spacing-2xl;
+  }
+  
+  .github-settings-form {
+    gap: $spacing-2xl;
+  }
+  
+  .github-settings-input {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-md;
+  }
+  
+  .github-settings-footer {
+    gap: $spacing-md;
+  }
+  
+  .github-settings-btn {
+    padding: $spacing-md $spacing-2xl;
+    font-size: $font-size-md;
+    min-width: 80px;
+  }
+}

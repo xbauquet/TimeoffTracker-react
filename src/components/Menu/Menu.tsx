@@ -8,9 +8,14 @@ interface MenuProps {
   year: number;
   country: string;
   state: string;
+  workDaysPerYear: number;
+  carryoverHolidays: number;
+  remainingHolidays: number;
   onYearChange: (year: number) => void;
   onCountryChange: (country: string) => void;
   onStateChange: (state: string) => void;
+  onWorkDaysChange: (workDays: number) => void;
+  onCarryoverChange: (carryover: number) => void;
   onGitHubSettingsChange?: (settings: GistSettings) => void;
 }
 
@@ -19,9 +24,14 @@ export const Menu: React.FC<MenuProps> = ({
   year,
   country,
   state,
+  workDaysPerYear,
+  carryoverHolidays,
+  remainingHolidays,
   onYearChange,
   onCountryChange,
   onStateChange,
+  onWorkDaysChange,
+  onCarryoverChange,
   onGitHubSettingsChange
 }) => {
   const [showGitHubSettings, setShowGitHubSettings] = useState(false);
@@ -69,6 +79,39 @@ export const Menu: React.FC<MenuProps> = ({
             <option value="DE">Germany</option>
             <option value="CA">Canada</option>
           </select>
+        </div>
+      </div>
+      
+      <div className="menu-work-settings">
+        <div className="menu-control-group">
+          <label className="menu-control-label">Jours de travail:</label>
+          <input 
+            type="number" 
+            value={workDaysPerYear} 
+            onChange={(e) => onWorkDaysChange(parseInt(e.target.value) || 216)}
+            className="menu-control-input"
+            min="200"
+            max="260"
+          />
+        </div>
+        
+        <div className="menu-control-group">
+          <label className="menu-control-label">Congés N-1:</label>
+          <input 
+            type="number" 
+            value={carryoverHolidays} 
+            onChange={(e) => onCarryoverChange(parseInt(e.target.value) || 0)}
+            className="menu-control-input"
+            min="0"
+            max="50"
+          />
+        </div>
+      </div>
+      
+      <div className="menu-holiday-counter">
+        <div className="holiday-counter-item">
+          <div className="holiday-counter-value">{remainingHolidays}</div>
+          <div className="holiday-counter-label">Congés restants</div>
         </div>
       </div>
       

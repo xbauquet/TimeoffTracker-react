@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
 import { GistService, GistSettings } from './services/gistService';
+import { HolidayCalculationService } from './services/holidayCalculationService';
 import './App.scss'
 
 function App() {
@@ -12,6 +13,16 @@ function App() {
   const [personalHolidays, setPersonalHolidays] = useState<Set<string>>(new Set());
   const [workDaysPerYear, setWorkDaysPerYear] = useState(216);
   const [carryoverHolidays, setCarryoverHolidays] = useState(0);
+
+  // Calculate remaining holidays using the service
+  const remainingHolidays = HolidayCalculationService.calculateRemainingHolidays({
+    year,
+    country,
+    state,
+    workDaysPerYear,
+    carryoverHolidays,
+    personalHolidays
+  }).remainingHolidays;
 
   // Auto-save to GitHub when data changes
   useEffect(() => {
@@ -85,9 +96,14 @@ function App() {
         year={year}
         country={country}
         state={state}
+        workDaysPerYear={workDaysPerYear}
+        carryoverHolidays={carryoverHolidays}
+        remainingHolidays={remainingHolidays}
         onYearChange={setYear}
         onCountryChange={setCountry}
         onStateChange={setState}
+        onWorkDaysChange={setWorkDaysPerYear}
+        onCarryoverChange={setCarryoverHolidays}
         onGitHubSettingsChange={handleGitHubSettingsChange}
       />
       

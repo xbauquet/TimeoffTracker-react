@@ -160,7 +160,50 @@
   border: none;
 }
 
-// === MENU LIST === (removed - no longer needed)
+// === MENU WORK SETTINGS ===
+.menu-work-settings {
+  padding: $spacing-2xl;
+  border-bottom: 1px solid $border-light;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+// === MENU HOLIDAY COUNTER ===
+.menu-holiday-counter {
+  padding: $spacing-2xl;
+  border-bottom: 1px solid $border-light;
+  display: flex;
+  justify-content: center;
+}
+
+.holiday-counter-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $primary-light;
+  border: 1px solid $primary-strong;
+  min-width: 120px;
+}
+
+.holiday-counter-value {
+  font-size: $font-size-3xl;
+  font-weight: bold;
+  color: $primary-color;
+  line-height: 1;
+  margin-bottom: $spacing-sm;
+}
+
+.holiday-counter-label {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-white;
+  text-align: center;
+}
 
 // === MENU FOOTER ===
 .menu-footer {
@@ -241,6 +284,27 @@
   
   .menu-controls {
     padding: $spacing-lg;
+  }
+  
+  .menu-work-settings {
+    padding: $spacing-lg;
+  }
+  
+  .menu-holiday-counter {
+    padding: $spacing-lg;
+  }
+  
+  .holiday-counter-item {
+    min-width: 100px;
+    padding: $spacing-md;
+  }
+  
+  .holiday-counter-value {
+    font-size: $font-size-2xl;
+  }
+  
+  .holiday-counter-label {
+    font-size: $font-size-xs;
   }
   
   .menu-control-input,

@@ -24,7 +24,9 @@ function App() {
             year,
             Array.from(personalHolidays),
             workDaysPerYear,
-            carryoverHolidays
+            carryoverHolidays,
+            country,
+            state
           );
           
           if (result.success && result.gistId && result.gistId !== gitHubSettings.gistId) {
@@ -38,7 +40,7 @@ function App() {
 
       return () => clearTimeout(timeoutId);
     }
-  }, [personalHolidays, workDaysPerYear, carryoverHolidays, year, gitHubSettings]);
+  }, [personalHolidays, workDaysPerYear, carryoverHolidays, year, country, state, gitHubSettings]);
 
   // Load data from GitHub when settings change
   useEffect(() => {
@@ -58,6 +60,14 @@ function App() {
           setPersonalHolidays(new Set(yearData.holidays));
           setWorkDaysPerYear(yearData.workDaysPerYear);
           setCarryoverHolidays(yearData.carryoverHolidays);
+          
+          // Load country and state if available
+          if (yearData.country) {
+            setCountry(yearData.country);
+          }
+          if (yearData.state) {
+            setState(yearData.state);
+          }
         }
       }
     } catch (error) {

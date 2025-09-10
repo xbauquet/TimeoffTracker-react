@@ -3,15 +3,7 @@ import { GitHubSettings } from '../GitHubSettings';
 import { GistService, GistSettings } from '../../services/gistService';
 import './Menu.scss';
 
-interface MenuItem {
-  id: string;
-  label: string;
-  icon?: string;
-  onClick?: () => void;
-}
-
 interface MenuProps {
-  items?: MenuItem[];
   className?: string;
   year: number;
   country: string;
@@ -22,35 +14,7 @@ interface MenuProps {
   onGitHubSettingsChange?: (settings: GistSettings) => void;
 }
 
-const defaultMenuItems: MenuItem[] = [
-  {
-    id: 'calendar',
-    label: 'Calendar',
-    icon: '📅',
-    onClick: () => console.log('Navigate to Calendar')
-  },
-  {
-    id: 'holidays',
-    label: 'Holidays',
-    icon: '🎉',
-    onClick: () => console.log('Navigate to Holidays')
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: '⚙️',
-    onClick: () => console.log('Navigate to Settings')
-  },
-  {
-    id: 'reports',
-    label: 'Reports',
-    icon: '📊',
-    onClick: () => console.log('Navigate to Reports')
-  }
-];
-
 export const Menu: React.FC<MenuProps> = ({ 
-  items = defaultMenuItems, 
   className = '',
   year,
   country,
@@ -108,23 +72,6 @@ export const Menu: React.FC<MenuProps> = ({
         </div>
       </div>
       
-      <ul className="menu-list">
-        {items.map((item) => (
-          <li key={item.id} className="menu-item">
-            <button 
-              className="menu-button"
-              onClick={item.onClick}
-              type="button"
-            >
-              {item.icon && (
-                <span className="menu-icon">{item.icon}</span>
-              )}
-              <span className="menu-label">{item.label}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-      
       <div className="menu-footer">
         <div className="menu-github-section">
           <div className="menu-github-status">
@@ -139,11 +86,6 @@ export const Menu: React.FC<MenuProps> = ({
           >
             ⚙️
           </button>
-        </div>
-        
-        <div className="menu-user">
-          <span className="user-avatar">👤</span>
-          <span className="user-name">User</span>
         </div>
       </div>
 

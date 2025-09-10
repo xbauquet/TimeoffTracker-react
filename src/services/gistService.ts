@@ -3,6 +3,8 @@ export interface GistData {
     holidays: string[];
     workDaysPerYear: number;
     carryoverHolidays: number;
+    country: string;
+    state?: string;
     savedAt: string;
     note: string;
   };
@@ -65,7 +67,9 @@ export class GistService {
     year: number,
     holidays: string[],
     workDaysPerYear: number,
-    carryoverHolidays: number
+    carryoverHolidays: number,
+    country: string,
+    state?: string
   ): Promise<{ success: boolean; gistId?: string; error?: string }> {
     try {
       // Get existing data from gist to preserve other years
@@ -97,6 +101,8 @@ export class GistService {
           holidays,
           workDaysPerYear,
           carryoverHolidays,
+          country,
+          state,
           savedAt: new Date().toISOString(),
           note: 'Calendrier de congés personnels'
         }

@@ -160,37 +160,7 @@
   border: none;
 }
 
-// === MENU LIST ===
-.menu-list {
-  flex: 1;
-  list-style: none;
-  padding: $spacing-lg 0;
-  margin: 0;
-  overflow-y: auto;
-}
-
-.menu-item {
-  margin: 0;
-  padding: 0 $spacing-lg;
-  
-  &:not(:last-child) {
-    margin-bottom: $spacing-xs;
-  }
-}
-
-.menu-button {
-  @include menu-button-base;
-}
-
-.menu-icon {
-  font-size: $font-size-xl;
-  width: 20px;
-  text-align: center;
-}
-
-.menu-label {
-  flex: 1;
-}
+// === MENU LIST === (removed - no longer needed)
 
 // === MENU FOOTER ===
 .menu-footer {
@@ -199,6 +169,7 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
+  margin-top: auto; // Push footer to bottom
 }
 
 .menu-github-section {
@@ -252,37 +223,7 @@
   }
 }
 
-.menu-user {
-  display: flex;
-  align-items: center;
-  gap: $spacing-lg;
-  padding: $spacing-lg;
-  border-radius: $radius-lg;
-  background: $overlay-light;
-  transition: background 0.2s ease;
-  
-  &:hover {
-    background: $overlay-medium;
-  }
-}
-
-.user-avatar {
-  font-size: $font-size-xl;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: $primary-light;
-  border-radius: $radius-full;
-  border: 1px solid $primary-border;
-}
-
-.user-name {
-  font-size: $font-size-lg;
-  font-weight: 500;
-  color: $text-primary;
-}
+// Removed unused user section styles
 
 // === RESPONSIVE DESIGN ===
 @media (max-width: $mobile) {
@@ -319,27 +260,5 @@
     font-size: $font-size-md;
   }
   
-  .menu-button {
-    padding: $spacing-md $spacing-lg;
-    font-size: $font-size-md;
-  }
-  
-  .menu-icon {
-    font-size: $font-size-lg;
-    width: 16px;
-  }
-  
-  .menu-user {
-    padding: $spacing-md;
-  }
-  
-  .user-avatar {
-    width: 28px;
-    height: 28px;
-    font-size: $font-size-lg;
-  }
-  
-  .user-name {
-    font-size: $font-size-md;
-  }
+  // Removed unused menu button and user styles
 }

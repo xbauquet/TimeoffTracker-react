@@ -1,0 +1,142 @@
+// === IMPORTS ===
+@use "sass:color";
+
+// === VARIABLES ===
+$primary-color: #ffa500;
+$text-color: #e0e6ed;
+$background-dark: #000000;
+$background-light: #1a1a1a;
+$background-medium: #2a2a2a;
+$background-header: #404040;
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+// === MIXINS ===
+@mixin control-input {
+  background: rgba($primary-color, 0.1);
+  border: 1px solid rgba($primary-color, 0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: $text-color;
+  font-size: 14px;
+  min-width: 120px;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: rgba($primary-color, 0.6);
+    box-shadow: 0 0 8px rgba($primary-color, 0.2);
+  }
+  
+  &:hover {
+    border-color: rgba($primary-color, 0.5);
+  }
+}
+
+@mixin responsive-mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+// === RESET ===
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// === BODY ===
+body {
+  font-family: $font-family;
+  background: linear-gradient(135deg, $background-dark 0%, $background-light 100%);
+  min-height: 100vh;
+  color: $text-color;
+}
+
+// === APP LAYOUT ===
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// === HEADER ===
+.app-header {
+  background: linear-gradient(135deg, $background-light 0%, $background-medium 100%);
+  border-bottom: 1px solid rgba($primary-color, 0.2);
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  
+  h1 {
+    color: $primary-color;
+    font-size: 2em;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+// === CONTROLS ===
+.app-controls {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  
+  label {
+    color: #ffffff;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  input,
+  select {
+    @include control-input;
+  }
+}
+
+// === MAIN CONTENT ===
+.app-main {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+// === RESPONSIVE DESIGN ===
+@include responsive-mobile {
+  .app-header {
+    padding: 15px;
+    
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
+  }
+  
+  .app-controls {
+    gap: 20px;
+  }
+  
+  .control-group {
+    input,
+    select {
+      min-width: 100px;
+      font-size: 12px;
+    }
+  }
+  
+  .app-main {
+    padding: 10px;
+  }
+}

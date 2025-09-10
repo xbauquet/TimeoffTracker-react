@@ -1,0 +1,427 @@
+// === IMPORTS ===
+@use "sass:color";
+
+// === VARIABLES ===
+$primary-color: #ffa500;
+$primary-hover: #ff8c00;
+$text-color: #e0e6ed;
+$background-dark: #000000;
+$background-light: #1a1a1a;
+$background-medium: #2a2a2a;
+$background-header: #404040;
+$weekend-color: #4a90e2;
+$holiday-color: #28a745;
+$holiday-weekend-color: #20c997;
+$personal-holiday-color: #ffa500;
+$personal-holiday-hover: #ff8c00;
+$error-color: #e74c3c;
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+// === MIXINS ===
+@mixin day-base {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 600;
+  margin: 1px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+@mixin day-hover {
+  transform: scale(1.1);
+}
+
+@mixin day-special {
+  border: 2px solid;
+  box-shadow: 0 0 8px;
+}
+
+@mixin responsive-mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+// === LINEAR CALENDAR LAYOUT ===
+.calendar-linear {
+  padding: 10px;
+  font-family: $font-family;
+  flex: 0 0 auto;
+}
+
+// === DAY NAMES ===
+.linear-day-names {
+  background: transparent !important;
+  padding: 2px !important;
+  display: flex;
+  align-items: center;
+  margin-left: 60px; // Align with month labels
+  margin-right: 0; // Remove right margin
+  flex: 1; // Take up remaining space
+}
+
+.linear-day-name {
+  width: 20px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 600;
+  margin: 1px;
+  color: $primary-color;
+  text-transform: uppercase;
+  letter-spacing: 0px;
+  box-sizing: border-box;
+  
+  &.empty {
+    color: transparent;
+  }
+}
+
+.linear-day-name-header {
+  width: 20px;
+  height: 20px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  margin: 1px;
+  color: $primary-color !important;
+  text-transform: uppercase;
+  letter-spacing: 0px;
+  box-sizing: border-box;
+  background: transparent !important;
+  border: none !important;
+  cursor: default;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+// === MONTH HEADERS ===
+.header-month {
+  background: $background-light !important;
+  border: 1px solid rgba($primary-color, 0.2) !important;
+  margin-bottom: 2px;
+  margin-right: 0;
+  padding-right: 0;
+  
+  .linear-days {
+    margin-right: 0;
+    padding-right: 0;
+  }
+  
+  .linear-day-name-header {
+    color: $primary-color !important;
+    background: transparent !important;
+    border: none !important;
+    font-weight: bold !important;
+    font-size: 10px !important;
+    display: flex !important;
+    visibility: visible !important;
+  }
+}
+
+// === MONTH ROWS ===
+.linear-month {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1px;
+  background: $background-medium;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba($primary-color, 0.1);
+  align-items: center;
+  min-height: 32px;
+  
+  &.quarter-start {
+    margin-top: 15px;
+  }
+}
+
+.linear-month-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.linear-month-label {
+  background: $background-header;
+  color: $primary-color;
+  padding: 6px 10px;
+  min-width: 50px;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  border-right: 1px solid rgba($primary-color, 0.2);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linear-days {
+  display: flex;
+  flex: 1;
+  padding: 2px;
+  background: $background-medium;
+  align-items: center;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+// === DAY STYLES ===
+.linear-day {
+  @include day-base;
+  
+  &.empty {
+    background: transparent;
+    cursor: default;
+    width: 20px;
+    height: 20px;
+    margin: 1px;
+  }
+  
+  &.normal {
+    background: $background-header;
+    color: $text-color;
+    
+    &:hover {
+      background: color.scale($background-header, $lightness: 10%);
+      @include day-hover;
+    }
+  }
+  
+  &.weekend {
+    background: $weekend-color;
+    color: #ffffff;
+  }
+  
+  &.holiday {
+    background: $holiday-color;
+    color: white;
+  }
+  
+  &.holiday-weekend {
+    background: $holiday-weekend-color;
+    color: white;
+  }
+  
+  &.personal-holiday {
+    background: $personal-holiday-color;
+    color: #000000;
+    
+    &:hover {
+      background: $personal-holiday-hover;
+      @include day-hover;
+    }
+  }
+  
+  &.today {
+    @include day-special;
+    border-color: $primary-color;
+    box-shadow: 0 0 8px rgba($primary-color, 0.4);
+  }
+  
+  &.selected {
+    @include day-special;
+    border-color: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  }
+}
+
+.linear-month-total {
+  background: $background-light;
+  padding: 6px 8px;
+  min-width: 30px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: $primary-color;
+  border-left: 1px solid rgba($primary-color, 0.2);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// === LEGEND ===
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 15px 20px;
+  border-top: 1px solid rgba($primary-color, 0.2);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  span {
+    font-size: 0.85em;
+    color: $text-color;
+  }
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 2px solid rgba($primary-color, 0.3);
+  
+  &.normal {
+    background-color: $background-header;
+  }
+  
+  &.weekend {
+    background-color: $weekend-color;
+    border-color: $weekend-color;
+  }
+  
+  &.holiday {
+    background-color: $holiday-color;
+    border-color: $holiday-color;
+  }
+  
+  &.holiday-weekend {
+    background-color: $holiday-weekend-color;
+    border-color: $holiday-weekend-color;
+  }
+  
+  &.personal-holiday {
+    background-color: $personal-holiday-color;
+    border-color: $personal-holiday-color;
+  }
+}
+
+// === TOOLTIP ===
+.day-tooltip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.tooltip-content {
+  background: rgba(0, 0, 0, 0.9);
+  color: $text-color;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  border: 1px solid rgba($primary-color, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.tooltip-date {
+  font-weight: 600;
+  color: $primary-color;
+  margin-bottom: 4px;
+}
+
+.tooltip-holiday {
+  color: $holiday-color;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.tooltip-type {
+  color: $text-color;
+  font-size: 11px;
+}
+
+// === LOADING AND ERROR STATES ===
+.calendar-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: $background-medium;
+  border-radius: 12px;
+  color: $text-color;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba($primary-color, 0.3);
+  border-top: 3px solid $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.calendar-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: $background-medium;
+  border-radius: 12px;
+  color: $error-color;
+  font-weight: 500;
+}
+
+.calendar-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// === RESPONSIVE ===
+@include responsive-mobile {
+  .calendar-linear {
+    padding: 5px;
+  }
+  
+  .linear-day {
+    width: 18px;
+    height: 18px;
+    font-size: 8px;
+  }
+  
+  .linear-day-name {
+    width: 18px;
+    font-size: 7px;
+  }
+  
+  .linear-month-label {
+    min-width: 40px;
+    font-size: 9px;
+    padding: 4px 6px;
+  }
+  
+  .linear-month-total {
+    min-width: 25px;
+    font-size: 9px;
+    padding: 4px 6px;
+  }
+  
+  .linear-day-names {
+    margin-left: 40px;
+    margin-right: 25px;
+  }
+  
+  .legend {
+    gap: 10px;
+    padding: 10px;
+    
+    .legend-item span {
+      font-size: 0.8em;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+// === IMPORTS ===
+@use "sass:color";
+@import "../../../styles/variables";
+
+.dh-day-hearder {
+  display: flex;
+  flex: 1;
+}
+
+.dh-day-hearder-days {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.dh-day-hearder-label {
+  width: 50px;
+}
+
+.dh-day-hearder-day-name {
+  width: 20px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  margin: 1px;
+  color: $primary-color;
+  text-transform: uppercase;
+  letter-spacing: 0px;
+  box-sizing: border-box;
+  
+  &.empty {
+    color: transparent;
+  }
+}

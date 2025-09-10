@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { YearData, Day } from '../types/year';
-import MonthView from './MonthView';
-import DayHeader from './DayHeader';
+import { YearData, Day } from '../../types/year';
+import MonthView from '../MonthView';
+import DayHeader from '../DayHeader';
+import './YearView.scss';
 
 interface YearViewProps {
   yearData: YearData;

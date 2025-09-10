@@ -1,0 +1,87 @@
+// === IMPORTS ===
+@use "sass:color";
+@import "../../../styles/variables";
+
+// === MIXINS ===
+@mixin day-base {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  margin: 1px;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+@mixin day-hover {
+  transform: scale(1.1);
+}
+
+@mixin day-special {
+  border: 2px solid;
+  box-shadow: 0 0 8px;
+}
+
+// === DAY STYLES ===
+.linear-day {
+  @include day-base;
+  
+  &.empty {
+    background: transparent;
+    cursor: default;
+    width: 20px;
+    height: 20px;
+    margin: 1px;
+  }
+  
+  &.normal {
+    background: $background-header;
+    color: $text-primary;
+    
+    &:hover {
+      background: $background-hover;
+      @include day-hover;
+    }
+  }
+  
+  &.weekend {
+    background: $day-weekend;
+    color: $text-white;
+  }
+  
+  &.holiday {
+    background: $day-holiday;
+    color: $text-white;
+  }
+  
+  &.holiday-weekend {
+    background: $day-holiday-weekend;
+    color: $text-white;
+  }
+  
+  &.personal-holiday {
+    background: $day-personal-holiday;
+    color: $text-black;
+    
+    &:hover {
+      background: $day-personal-holiday-hover;
+      @include day-hover;
+    }
+  }
+  
+  &.today {
+    @include day-special;
+    border-color: $primary-color;
+    box-shadow: 0 0 8px rgba($primary-color, 0.4);
+  }
+  
+  &.selected {
+    @include day-special;
+    border-color: $text-white;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  }
+}

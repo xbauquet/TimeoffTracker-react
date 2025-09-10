@@ -1,0 +1,104 @@
+// === COLOR PALETTE ===
+// Primary colors
+$primary-color: #ffa500;
+$primary-hover: #ff8c00;
+$primary-light: rgba(255, 165, 0, 0.1);
+$primary-medium: rgba(255, 165, 0, 0.2);
+$primary-strong: rgba(255, 165, 0, 0.3);
+$primary-border: rgba(255, 165, 0, 0.2);
+
+// Background colors
+$background-dark: #000000;
+$background-light: #1a1a1a;
+$background-medium: #2a2a2a;
+$background-header: #404040;
+$background-hover: #4a4a4a;
+
+// Text colors
+$text-primary: #e0e6ed;
+$text-white: #ffffff;
+$text-black: #000000;
+$text-muted: #888888;
+$text-light: rgba(255, 255, 255, 0.6);
+
+// Calendar day colors
+$day-normal: #404040;
+$day-weekend: #4a90e2;
+$day-holiday: #28a745;
+$day-holiday-weekend: #20c997;
+$day-personal-holiday: #ffa500;
+$day-personal-holiday-hover: #ff8c00;
+
+// Event colors
+$event-background: linear-gradient(135deg, #4a90e2, #357abd);
+$event-background-hover: linear-gradient(135deg, #357abd, #2c5aa0);
+$event-accent: #ffa500;
+
+// Status colors
+$success-color: #28a745;
+$error-color: #e74c3c;
+$warning-color: #ffa500;
+$info-color: #4a90e2;
+
+// Border colors
+$border-light: rgba(255, 255, 255, 0.1);
+$border-medium: rgba(255, 255, 255, 0.15);
+$border-strong: rgba(255, 165, 0, 0.3);
+
+// Shadow colors
+$shadow-light: rgba(0, 0, 0, 0.2);
+$shadow-medium: rgba(0, 0, 0, 0.3);
+$shadow-strong: rgba(0, 0, 0, 0.5);
+$shadow-primary: rgba(255, 165, 0, 0.3);
+$shadow-primary-strong: rgba(255, 165, 0, 0.4);
+
+// Overlay colors
+$overlay-light: rgba(255, 255, 255, 0.05);
+$overlay-medium: rgba(255, 255, 255, 0.08);
+$overlay-strong: rgba(0, 0, 0, 0.9);
+
+// === TYPOGRAPHY ===
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-size-xs: 8px;
+$font-size-sm: 9px;
+$font-size-base: 10px;
+$font-size-md: 11px;
+$font-size-lg: 12px;
+$font-size-xl: 14px;
+$font-size-2xl: 16px;
+$font-size-3xl: 20px;
+
+// === SPACING ===
+$spacing-xs: 2px;
+$spacing-sm: 4px;
+$spacing-md: 6px;
+$spacing-lg: 8px;
+$spacing-xl: 10px;
+$spacing-2xl: 12px;
+$spacing-3xl: 15px;
+$spacing-4xl: 20px;
+$spacing-5xl: 30px;
+
+// === BORDER RADIUS ===
+$radius-sm: 2px;
+$radius-md: 3px;
+$radius-lg: 4px;
+$radius-xl: 6px;
+$radius-2xl: 8px;
+$radius-3xl: 12px;
+$radius-full: 50%;
+
+// === BREAKPOINTS ===
+$mobile: 768px;
+$tablet: 900px;
+$desktop: 1200px;
+
+// === Z-INDEX ===
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-fixed: 300;
+$z-modal-backdrop: 400;
+$z-modal: 500;
+$z-popover: 600;
+$z-tooltip: 700;
+$z-toast: 1500;

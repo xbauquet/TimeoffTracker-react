@@ -1,5 +1,6 @@
 import React from 'react';
-import { Day } from '../types/year';
+import { Day } from '../../types/year';
+import './DayView.scss';
 
 interface DayViewProps {
   day: Day;

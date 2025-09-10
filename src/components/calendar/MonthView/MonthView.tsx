@@ -1,6 +1,7 @@
 import React from 'react';
-import { Month, Day } from '../types/year';
-import DayView from './DayView';
+import { Month, Day } from '../../types/year';
+import DayView from '../DayView';
+import './MonthView.scss';
 
 interface MonthViewProps {
   month: Month;

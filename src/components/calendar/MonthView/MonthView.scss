@@ -1,0 +1,67 @@
+// === IMPORTS ===
+@use "sass:color";
+@import "../../../styles/variables";
+
+// === MONTH ROWS ===
+.linear-month {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1px;
+  background: $background-medium;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px $shadow-light;
+  border: 1px solid $primary-light;
+  align-items: center;
+  min-height: 32px;
+  
+  &.quarter-start {
+    margin-top: 15px;
+  }
+}
+
+.linear-month-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.linear-month-label {
+  background: $background-header;
+  color: $primary-color;
+  padding: 6px 10px;
+  min-width: 50px;
+  font-size: $font-size-base;
+  font-weight: 600;
+  text-align: center;
+  border-right: 1px solid $primary-border;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linear-days {
+  display: flex;
+  flex: 1;
+  padding: 2px;
+  background: $background-medium;
+  align-items: center;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.linear-month-total {
+  background: $background-light;
+  padding: 6px 8px;
+  min-width: 30px;
+  text-align: center;
+  font-size: $font-size-base;
+  font-weight: 600;
+  color: $primary-color;
+  border-left: 1px solid $primary-border;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

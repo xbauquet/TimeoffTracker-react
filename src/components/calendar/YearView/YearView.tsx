@@ -54,33 +54,6 @@ const YearView: React.FC<YearViewProps> = ({
         ))}
       </div>
 
-      {/* Legend */}
-      <div className="legend">
-        <div className="legend-item">
-          <div className="legend-color normal"></div>
-          <span>Jour normal</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color weekend"></div>
-          <span>Week-end</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color holiday"></div>
-          <span>Jour férié</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color holiday-weekend"></div>
-          <span>Jour férié (week-end)</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color personal-holiday"></div>
-          <span>Congé personnel</span>
-        </div>
-        <div className="legend-item">
-          <div className="legend-color has-ical-events"></div>
-          <span>Événements iCal</span>
-        </div>
-      </div>
 
       {/* Day info tooltip - commented out for now */}
       {/* {hoveredDay && (

@@ -58,7 +58,7 @@ body {
 // === APP CONTENT ===
 .app-content {
   flex: 1;
-  margin-left: 250px; // Account for fixed menu width
+  margin-left: 200px; // Account for fixed menu width
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -67,9 +67,68 @@ body {
 // === MAIN CONTENT ===
 .app-main {
   flex: 1;
-  padding: 20px;
   display: flex;
   justify-content: center;
+}
+
+// === LEGEND ===
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 15px 20px;
+  background: $background-light;
+  border-top: 1px solid $primary-border;
+  margin-top: auto;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  span {
+    font-size: 0.85em;
+    color: $text-primary;
+  }
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 2px solid $primary-strong;
+  
+  &.normal {
+    background-color: $background-header;
+  }
+  
+  &.weekend {
+    background-color: $day-weekend;
+    border-color: $day-weekend;
+  }
+  
+  &.holiday {
+    background-color: $day-holiday;
+    border-color: $day-holiday;
+  }
+  
+  &.holiday-weekend {
+    background-color: $day-holiday-weekend;
+    border-color: $day-holiday-weekend;
+  }
+  
+  &.personal-holiday {
+    background-color: $day-personal-holiday;
+    border-color: $day-personal-holiday;
+  }
+
+  &.has-ical-events {
+    background-color: $event-color;
+    border-color: $event-color;
+    position: relative;
+  }
 }
 
 // === RESPONSIVE DESIGN ===

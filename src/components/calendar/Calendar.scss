@@ -4,9 +4,12 @@
 
 // === CALENDAR LAYOUT ===
 .calendar-linear {
-  padding: 10px;
+  padding: 20px;
   font-family: $font-family;
   flex: 0 0 auto;
+  overflow-x: auto;
+  overflow-y: visible;
+  min-width: 0;
 }
 
 // === LOADING AND ERROR STATES ===

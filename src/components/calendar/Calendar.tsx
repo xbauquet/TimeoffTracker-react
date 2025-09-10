@@ -8,13 +8,17 @@ interface CalendarProps {
   country?: string;
   state?: string;
   className?: string;
+  personalHolidays?: Set<string>;
+  onPersonalHolidayToggle?: (dateKey: string) => void;
 }
 
 const Calendar: React.FC<CalendarProps> = ({ 
   year = new Date().getFullYear(),
   country = 'US',
   state,
-  className = ''
+  className = '',
+  personalHolidays = new Set(),
+  onPersonalHolidayToggle
 }) => {
   const [yearData, setYearData] = useState<YearData | null>(null);
   const [selectedDay, setSelectedDay] = useState<Day | null>(null);
@@ -37,8 +41,13 @@ const Calendar: React.FC<CalendarProps> = ({
   }, [year, country, state]);
 
   const handleDayClick = (day: Day) => {
-    setSelectedDay(day);
-    console.log('Selected day:', day);
+    // Only allow toggling personal holidays on working days (not weekends or bank holidays)
+    if (!day.isWeekend && !day.isBankHoliday && onPersonalHolidayToggle) {
+      const dateKey = `${day.year}-${String(day.month).padStart(2, '0')}-${String(day.dayOfMonth).padStart(2, '0')}`;
+      onPersonalHolidayToggle(dateKey);
+    } else {
+      setSelectedDay(day);
+    }
   };
 
   if (loading) {
@@ -64,6 +73,7 @@ const Calendar: React.FC<CalendarProps> = ({
         yearData={yearData}
         selectedDay={selectedDay}
         onDayClick={handleDayClick}
+        personalHolidays={personalHolidays}
       />
     </div>
   );

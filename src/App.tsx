@@ -87,6 +87,18 @@ function App() {
             year={year}
             country={country}
             state={state}
+            personalHolidays={personalHolidays}
+            onPersonalHolidayToggle={(dateKey) => {
+              setPersonalHolidays(prev => {
+                const newSet = new Set(prev);
+                if (newSet.has(dateKey)) {
+                  newSet.delete(dateKey);
+                } else {
+                  newSet.add(dateKey);
+                }
+                return newSet;
+              });
+            }}
           />
         </main>
       </div>

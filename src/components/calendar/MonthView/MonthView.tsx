@@ -7,6 +7,7 @@ interface MonthViewProps {
   month: Month;
   selectedDay?: Day;
   onDayClick?: (day: Day) => void;
+  personalHolidays?: Set<string>;
   className?: string;
 }
 
@@ -14,6 +15,7 @@ const MonthView: React.FC<MonthViewProps> = ({
   month, 
   selectedDay, 
   onDayClick,
+  personalHolidays = new Set(),
   className = ''
 }) => {
   const today = new Date();
@@ -27,12 +29,11 @@ const MonthView: React.FC<MonthViewProps> = ({
     <div key={`empty-${index}`} className="linear-day empty"></div>
   ));
 
-  // Calculate personal holidays count for this month (placeholder for now)
-  const personalHolidaysCount = month.days.filter(day => 
-    // This would be where we check for personal holidays
-    // For now, return 0 or a random number for demo
-    false
-  ).length;
+  // Calculate personal holidays count for this month
+  const personalHolidaysCount = month.days.filter(day => {
+    const dateKey = `${day.year}-${String(day.month).padStart(2, '0')}-${String(day.dayOfMonth).padStart(2, '0')}`;
+    return personalHolidays.has(dateKey);
+  }).length;
 
   return (
     <div className={`linear-month ${className}`}>
@@ -41,15 +42,21 @@ const MonthView: React.FC<MonthViewProps> = ({
       </div>
       <div className="linear-days">
         {emptyDays}
-        {month.days.map((day) => (
-          <DayView
-            key={`${day.year}-${day.month}-${day.dayOfMonth}`}
-            day={day}
-            isToday={isCurrentMonth && day.dayOfMonth === today.getDate()}
-            isSelected={selectedDay?.date.getTime() === day.date.getTime()}
-            onClick={onDayClick}
-          />
-        ))}
+        {month.days.map((day) => {
+          const dateKey = `${day.year}-${String(day.month).padStart(2, '0')}-${String(day.dayOfMonth).padStart(2, '0')}`;
+          const isPersonalHoliday = personalHolidays.has(dateKey);
+          
+          return (
+            <DayView
+              key={`${day.year}-${day.month}-${day.dayOfMonth}`}
+              day={day}
+              isToday={isCurrentMonth && day.dayOfMonth === today.getDate()}
+              isSelected={selectedDay?.date.getTime() === day.date.getTime()}
+              isPersonalHoliday={isPersonalHoliday}
+              onClick={onDayClick}
+            />
+          );
+        })}
       </div>
       <div className="linear-month-total">
         {personalHolidaysCount || 0}

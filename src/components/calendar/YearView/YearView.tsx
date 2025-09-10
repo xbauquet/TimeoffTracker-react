@@ -8,6 +8,7 @@ interface YearViewProps {
   yearData: YearData;
   selectedDay?: Day;
   onDayClick?: (day: Day) => void;
+  personalHolidays?: Set<string>;
   className?: string;
 }
 
@@ -15,6 +16,7 @@ const YearView: React.FC<YearViewProps> = ({
   yearData, 
   selectedDay, 
   onDayClick,
+  personalHolidays = new Set(),
   className = ''
 }) => {
   const [hoveredDay, setHoveredDay] = useState<Day | null>(null);
@@ -42,6 +44,7 @@ const YearView: React.FC<YearViewProps> = ({
             month={month}
             selectedDay={selectedDay}
             onDayClick={handleDayClick}
+            personalHolidays={personalHolidays}
             className={index >= 3 && index % 3 === 0 ? 'quarter-start' : ''}
           />
         ))}

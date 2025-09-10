@@ -6,6 +6,7 @@ interface DayViewProps {
   day: Day;
   isToday?: boolean;
   isSelected?: boolean;
+  isPersonalHoliday?: boolean;
   onClick?: (day: Day) => void;
   className?: string;
 }
@@ -14,13 +15,17 @@ const DayView: React.FC<DayViewProps> = ({
   day, 
   isToday = false, 
   isSelected = false, 
+  isPersonalHoliday = false,
   onClick,
   className = ''
 }) => {
   const getDayClassName = (): string => {
     const classes = ['linear-day'];
     
-    if (day.isBankHoliday && day.isWeekend) {
+    // Personal holidays take precedence over other day types
+    if (isPersonalHoliday && !day.isBankHoliday && !day.isWeekend) {
+      classes.push('personal-holiday');
+    } else if (day.isBankHoliday && day.isWeekend) {
       classes.push('holiday-weekend');
     } else if (day.isBankHoliday) {
       classes.push('holiday');

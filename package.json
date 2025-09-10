@@ -13,6 +13,7 @@
   },
   "homepage": "https://xavier.github.io/TimeoffTracker-react",
   "dependencies": {
+    "date-holidays": "^3.25.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

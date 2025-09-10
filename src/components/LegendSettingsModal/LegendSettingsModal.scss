@@ -1,0 +1,211 @@
+@use "sass:color";
+@use "../../styles/variables" as *;
+
+// Import responsive mixin
+@mixin responsive-mobile {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+
+.legend-settings-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-modal;
+  padding: 20px;
+}
+
+.legend-settings-modal {
+  background: $background-medium;
+  border-radius: $radius-3xl;
+  border: 1px solid $primary-border;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-4xl $spacing-4xl $spacing-2xl;
+  border-bottom: 1px solid $border-light;
+
+  h2 {
+    color: $text-primary;
+    font-size: $font-size-2xl;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .close-button {
+    background: none;
+    border: none;
+    color: $text-muted;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: $radius-md;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: $text-primary;
+      background: $background-hover;
+    }
+  }
+}
+
+.modal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-4xl;
+}
+
+.legend-settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4xl;
+}
+
+.legend-setting-item {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+  padding: $spacing-md;
+  background: $background-light;
+  overflow: auto;
+}
+
+.legend-setting-header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.legend-label {
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 500;
+}
+
+.legend-description {
+  color: $text-light;
+  font-size: $font-size-sm;
+  line-height: 1.4;
+}
+
+.legend-color-picker {
+  align-self: center;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-4xl;
+  border-top: 1px solid $border-light;
+  background: $background-light;
+}
+
+.reset-button {
+  background: none;
+  border: 1px solid $border-medium;
+  color: $text-muted;
+  padding: $spacing-lg $spacing-2xl;
+  border-radius: $radius-xl;
+  font-size: $font-size-md;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: $text-primary;
+    border-color: $primary-border;
+    background: $background-hover;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: $spacing-lg;
+}
+
+.cancel-button,
+.save-button {
+  padding: $spacing-lg $spacing-2xl;
+  border-radius: $radius-xl;
+  font-size: $font-size-md;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.cancel-button {
+  background: $background-hover;
+  color: $text-primary;
+  border: 1px solid $border-medium;
+
+  &:hover {
+    background: $background-medium;
+    border-color: $primary-border;
+  }
+}
+
+.save-button {
+  background: $primary-color;
+  color: $text-black;
+  border: 1px solid $primary-color;
+
+  &:hover {
+    background: $primary-hover;
+    border-color: $primary-hover;
+  }
+}
+
+// Responsive design
+@include responsive-mobile {
+  .legend-settings-modal {
+    margin: 10px;
+    max-height: 90vh;
+  }
+
+  .modal-header,
+  .modal-content,
+  .modal-footer {
+    padding: $spacing-3xl;
+  }
+
+  .legend-setting-item {
+    padding: $spacing-2xl;
+  }
+
+  .legend-color-picker {
+    align-self: center;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+
+  .modal-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .cancel-button,
+  .save-button {
+    flex: 1;
+  }
+}

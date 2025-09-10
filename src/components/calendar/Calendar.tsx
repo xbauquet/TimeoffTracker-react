@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { YearService, YearData, Day, ICalEvent } from '../../services';
+import { YearService, YearData, Day, ICalEvent, LegendColorSettings } from '../../services';
 import YearView from './YearView';
 import './Calendar.scss';
 
@@ -11,6 +11,7 @@ interface CalendarProps {
   personalHolidays?: Set<string>;
   icalEvents?: ICalEvent[];
   onPersonalHolidayToggle?: (dateKey: string) => void;
+  legendColorSettings?: LegendColorSettings;
 }
 
 const Calendar: React.FC<CalendarProps> = ({ 
@@ -20,7 +21,8 @@ const Calendar: React.FC<CalendarProps> = ({
   className = '',
   personalHolidays = new Set(),
   icalEvents = [],
-  onPersonalHolidayToggle
+  onPersonalHolidayToggle,
+  legendColorSettings
 }) => {
   const [yearData, setYearData] = useState<YearData | null>(null);
   const [selectedDay, setSelectedDay] = useState<Day | null>(null);
@@ -77,6 +79,7 @@ const Calendar: React.FC<CalendarProps> = ({
         onDayClick={handleDayClick}
         personalHolidays={personalHolidays}
         icalEvents={icalEvents}
+        legendColorSettings={legendColorSettings}
       />
     </div>
   );

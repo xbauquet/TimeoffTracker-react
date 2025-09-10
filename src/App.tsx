@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
+import { Legend } from './components/Legend';
 import { GistService, ICalService, ICalSettings, ICalEvent, EventColorService } from './services';
+import { LegendColorService, LegendColorSettings } from './services/legendColorService';
 import { GistSettings } from './services/gistService';
 import { HolidayCalculationService } from './services/holidayCalculationService';
 import './App.scss'
@@ -16,6 +18,7 @@ function App() {
   const [personalHolidays, setPersonalHolidays] = useState<Set<string>>(new Set());
   const [workDaysPerYear, setWorkDaysPerYear] = useState(216);
   const [carryoverHolidays, setCarryoverHolidays] = useState(0);
+  const [legendColorSettings, setLegendColorSettings] = useState<LegendColorSettings>(() => LegendColorService.loadSettings());
 
   // Calculate remaining holidays using the service
   const remainingHolidays = HolidayCalculationService.calculateRemainingHolidays({
@@ -158,6 +161,10 @@ function App() {
     ICalService.saveSettings(settings);
   };
 
+  const handleLegendColorSettingsChange = (settings: LegendColorSettings) => {
+    setLegendColorSettings(settings);
+  };
+
   // Use actual iCal events with assigned colors
   const eventsToDisplay = EventColorService.assignColorsToEvents(icalEvents);
 
@@ -187,6 +194,7 @@ function App() {
             state={state}
             personalHolidays={personalHolidays}
             icalEvents={eventsToDisplay}
+            legendColorSettings={legendColorSettings}
             onPersonalHolidayToggle={(dateKey) => {
               setPersonalHolidays(prev => {
                 const newSet = new Set(prev);
@@ -202,32 +210,10 @@ function App() {
         </main>
         
         {/* Legend */}
-        <div className="legend">
-          <div className="legend-item">
-            <div className="legend-color normal"></div>
-            <span>Jour normal</span>
-          </div>
-          <div className="legend-item">
-            <div className="legend-color weekend"></div>
-            <span>Week-end</span>
-          </div>
-          <div className="legend-item">
-            <div className="legend-color holiday"></div>
-            <span>Jour férié</span>
-          </div>
-          <div className="legend-item">
-            <div className="legend-color holiday-weekend"></div>
-            <span>Jour férié (week-end)</span>
-          </div>
-          <div className="legend-item">
-            <div className="legend-color personal-holiday"></div>
-            <span>Congé personnel</span>
-          </div>
-          <div className="legend-item">
-            <div className="legend-color has-ical-events"></div>
-            <span>Événements iCal</span>
-          </div>
-        </div>
+        <Legend
+          colorSettings={legendColorSettings}
+          onColorSettingsChange={handleLegendColorSettingsChange}
+        />
       </div>
     </div>
   )

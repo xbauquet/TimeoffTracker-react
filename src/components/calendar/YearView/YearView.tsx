@@ -1,6 +1,7 @@
 import React from 'react';
 import { YearData, Day } from '../../../types/year';
 import { ICalEvent } from '../../../types/ical';
+import { LegendColorSettings } from '../../../services';
 import MonthView from '../MonthView';
 import DayHeader from '../DayHeader';
 import './YearView.scss';
@@ -11,6 +12,7 @@ interface YearViewProps {
   onDayClick?: (day: Day) => void;
   personalHolidays?: Set<string>;
   icalEvents?: ICalEvent[];
+  legendColorSettings?: LegendColorSettings;
   className?: string;
 }
 
@@ -20,6 +22,7 @@ const YearView: React.FC<YearViewProps> = ({
   onDayClick,
   personalHolidays = new Set(),
   icalEvents = [],
+  legendColorSettings,
   className = ''
 }) => {
   // const [hoveredDay, setHoveredDay] = useState<Day | null>(null);
@@ -49,6 +52,7 @@ const YearView: React.FC<YearViewProps> = ({
             onDayClick={handleDayClick}
             personalHolidays={personalHolidays}
             icalEvents={icalEvents}
+            legendColorSettings={legendColorSettings}
             className={index >= 3 && index % 3 === 0 ? 'quarter-start' : ''}
           />
         ))}

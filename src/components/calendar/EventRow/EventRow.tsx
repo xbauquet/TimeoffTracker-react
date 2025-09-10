@@ -1,5 +1,6 @@
 import React from 'react';
 import { ICalEvent } from '../../../types/ical';
+import { LegendColorSettings } from '../../../services';
 import './EventRow.scss';
 
 interface EventRowProps {
@@ -7,6 +8,7 @@ interface EventRowProps {
   startOffset: number;
   span: number;
   endOffset: number;
+  legendColorSettings?: LegendColorSettings;
   className?: string;
 }
 
@@ -15,6 +17,7 @@ const EventRow: React.FC<EventRowProps> = ({
   startOffset,
   span,
   endOffset,
+  legendColorSettings,
   className = ''
 }) => {
   return (
@@ -35,7 +38,9 @@ const EventRow: React.FC<EventRowProps> = ({
           style={{
             width: `${span * 22}px`, // 20px per day + 2px margin
             minWidth: `${span * 22}px`,
-            maxWidth: `${span * 22}px`
+            maxWidth: `${span * 22}px`,
+            backgroundColor: legendColorSettings?.icalEvents || event.color || '#c2185b',
+            borderColor: legendColorSettings?.icalEvents || event.color || '#c2185b'
           }}
         >
           {event.summary}

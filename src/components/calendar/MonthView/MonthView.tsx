@@ -1,6 +1,6 @@
 import React from 'react';
 import { Month, Day } from '../../../types/year';
-import { ICalEvent } from '../../../services';
+import { ICalEvent, LegendColorSettings } from '../../../services';
 import DayView from '../DayView';
 import EventContainer from '../EventContainer';
 import './MonthView.scss';
@@ -11,6 +11,7 @@ interface MonthViewProps {
   onDayClick?: (day: Day) => void;
   personalHolidays?: Set<string>;
   icalEvents?: ICalEvent[];
+  legendColorSettings?: LegendColorSettings;
   className?: string;
 }
 
@@ -20,6 +21,7 @@ const MonthView: React.FC<MonthViewProps> = ({
   onDayClick,
   personalHolidays = new Set(),
   icalEvents = [],
+  legendColorSettings,
   className = ''
 }) => {
   const today = new Date();
@@ -84,6 +86,7 @@ const MonthView: React.FC<MonthViewProps> = ({
                 isSelected={selectedDay?.date.getTime() === day.date.getTime()}
                 isPersonalHoliday={isPersonalHoliday}
                 icalEvents={dayEvents}
+                legendColorSettings={legendColorSettings}
                 onClick={onDayClick}
               />
             );
@@ -99,6 +102,7 @@ const MonthView: React.FC<MonthViewProps> = ({
         events={monthEvents}
         month={month.monthNumber - 1}
         year={monthYear}
+        legendColorSettings={legendColorSettings}
       />
     </div>
   );

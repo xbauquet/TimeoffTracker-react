@@ -1,6 +1,7 @@
 import React from 'react';
 import { Day } from '../../../types/year';
 import { ICalEvent } from '../../../types/ical';
+import { LegendColorSettings } from '../../../services';
 import './DayView.scss';
 
 interface DayViewProps {
@@ -9,6 +10,7 @@ interface DayViewProps {
   isSelected?: boolean;
   isPersonalHoliday?: boolean;
   icalEvents?: ICalEvent[];
+  legendColorSettings?: LegendColorSettings;
   onClick?: (day: Day) => void;
   className?: string;
 }
@@ -19,6 +21,7 @@ const DayView: React.FC<DayViewProps> = ({
   isSelected = false, 
   isPersonalHoliday = false,
   icalEvents = [],
+  legendColorSettings,
   onClick,
   className = ''
 }) => {
@@ -54,6 +57,23 @@ const DayView: React.FC<DayViewProps> = ({
     return classes.join(' ');
   };
 
+  const getDayColor = (): string | undefined => {
+    if (!legendColorSettings) return undefined;
+    
+    // Personal holidays take precedence over other day types
+    if (isPersonalHoliday && !day.isBankHoliday && !day.isWeekend) {
+      return legendColorSettings.personalHoliday;
+    } else if (day.isBankHoliday && day.isWeekend) {
+      return legendColorSettings.holidayWeekend;
+    } else if (day.isBankHoliday) {
+      return legendColorSettings.holiday;
+    } else if (day.isWeekend) {
+      return legendColorSettings.weekend;
+    } else {
+      return legendColorSettings.normal;
+    }
+  };
+
   const getEventTooltip = (): string => {
     const tooltips = [];
     
@@ -83,11 +103,17 @@ const DayView: React.FC<DayViewProps> = ({
     }
   };
 
+  const dayColor = getDayColor();
+
   return (
     <div 
       className={`${getDayClassName()} ${className}`}
       onClick={handleClick}
       title={getEventTooltip()}
+      style={{
+        backgroundColor: dayColor,
+        borderColor: dayColor
+      }}
     >
       <div className="day-number">{day.dayOfMonth}</div>
     </div>

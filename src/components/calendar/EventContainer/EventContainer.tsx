@@ -1,5 +1,6 @@
 import React from 'react';
 import { ICalEvent } from '../../../types/ical';
+import { LegendColorSettings } from '../../../services';
 import EventRow from '../EventRow';
 import './EventContainer.scss';
 
@@ -7,6 +8,7 @@ interface EventContainerProps {
   events: ICalEvent[];
   month: number;
   year: number;
+  legendColorSettings?: LegendColorSettings;
   className?: string;
 }
 
@@ -14,6 +16,7 @@ const EventContainer: React.FC<EventContainerProps> = ({
   events,
   month,
   year,
+  legendColorSettings,
   className = ''
 }) => {
   // console.log('EventContainer - events:', events);
@@ -78,6 +81,7 @@ const EventContainer: React.FC<EventContainerProps> = ({
             startOffset={position.startOffset}
             span={position.span}
             endOffset={position.endOffset}
+            legendColorSettings={legendColorSettings}
           />
         );
       })}

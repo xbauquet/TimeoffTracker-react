@@ -73,6 +73,10 @@
       @include day-hover;
     }
   }
+
+  &.has-ical-events {
+    // Event indicator is now handled by the event lines below the calendar
+  }
   
   &.today {
     @include day-special;

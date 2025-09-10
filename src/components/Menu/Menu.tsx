@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { GitHubSettings } from '../GitHubSettings';
-import { GistService, GistSettings } from '../../services/gistService';
+import { ICalSettingsModal } from '../ICalSettingsModal';
+import { GistService, ICalService, ICalSettings as ICalSettingsType } from '../../services';
+import { GistSettings } from '../../services/gistService';
 import './Menu.scss';
 
 interface MenuProps {
@@ -17,6 +19,7 @@ interface MenuProps {
   onWorkDaysChange: (workDays: number) => void;
   onCarryoverChange: (carryover: number) => void;
   onGitHubSettingsChange?: (settings: GistSettings) => void;
+  onICalSettingsChange?: (settings: ICalSettingsType) => void;
 }
 
 export const Menu: React.FC<MenuProps> = ({ 
@@ -32,10 +35,13 @@ export const Menu: React.FC<MenuProps> = ({
   onStateChange,
   onWorkDaysChange,
   onCarryoverChange,
-  onGitHubSettingsChange
+  onGitHubSettingsChange,
+  onICalSettingsChange
 }) => {
   const [showGitHubSettings, setShowGitHubSettings] = useState(false);
+  const [showICalSettings, setShowICalSettings] = useState(false);
   const [gitHubSettings, setGitHubSettings] = useState<GistSettings>(() => GistService.loadSettings());
+  const [icalSettings, setICalSettings] = useState<ICalSettingsType>(() => ICalService.loadSettings());
   return (
     <nav className={`menu ${className}`}>
       <div className="menu-header">
@@ -115,6 +121,23 @@ export const Menu: React.FC<MenuProps> = ({
         </div>
       </div>
       
+      <div className="menu-integrations">
+        <div className="menu-integration-section">
+          <div className="menu-integration-status">
+            <span className={`integration-status ${icalSettings.enabled ? 'connected' : 'disconnected'}`}>
+              {icalSettings.enabled ? 'iCal Connected' : 'iCal Disconnected'}
+            </span>
+          </div>
+          <button 
+            className="menu-integration-btn"
+            onClick={() => setShowICalSettings(true)}
+            title="iCal Settings"
+          >
+            📅
+          </button>
+        </div>
+      </div>
+
       <div className="menu-footer">
         <div className="menu-github-section">
           <div className="menu-github-status">
@@ -140,6 +163,16 @@ export const Menu: React.FC<MenuProps> = ({
           onGitHubSettingsChange?.(settings);
         }}
         currentSettings={gitHubSettings}
+      />
+
+      <ICalSettingsModal
+        isOpen={showICalSettings}
+        onClose={() => setShowICalSettings(false)}
+        onSettingsChange={(settings) => {
+          setICalSettings(settings);
+          onICalSettingsChange?.(settings);
+        }}
+        currentSettings={icalSettings}
       />
     </nav>
   );

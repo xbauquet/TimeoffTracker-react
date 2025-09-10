@@ -44,7 +44,7 @@ export class GistService {
     try {
       const response = await fetch('https://api.github.com/user', {
         headers: {
-          'Authorization': `token ${token}`,
+          'Authorization': `Bearer ${token}`,
           'Accept': 'application/vnd.github.v3+json'
         }
       });
@@ -78,7 +78,7 @@ export class GistService {
         try {
           const response = await fetch(`https://api.github.com/gists/${gistId}`, {
             headers: {
-              'Authorization': `token ${token}`,
+              'Authorization': `Bearer ${token}`,
               'Accept': 'application/vnd.github.v3+json'
             }
           });
@@ -127,7 +127,7 @@ export class GistService {
           response = await fetch(`https://api.github.com/gists/${gistId}`, {
             method: 'PATCH',
             headers: {
-              'Authorization': `token ${token}`,
+              'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
               'Accept': 'application/vnd.github.v3+json'
             },
@@ -144,7 +144,7 @@ export class GistService {
         response = await fetch('https://api.github.com/gists', {
           method: 'POST',
           headers: {
-            'Authorization': `token ${token}`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
             'Accept': 'application/vnd.github.v3+json'
           },
@@ -176,30 +176,49 @@ export class GistService {
     gistId: string
   ): Promise<{ success: boolean; data?: GistData; error?: string }> {
     try {
+      
+      // Validate gist ID format
+      if (!gistId || gistId.length !== 32) {
+        console.error('Invalid gist ID format:', gistId);
+        return { success: false, error: 'Invalid gist ID format' };
+      }
+      
       const headers: Record<string, string> = {
         'Accept': 'application/vnd.github.v3+json'
       };
       
       if (token) {
-        headers['Authorization'] = `token ${token}`;
+        headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`https://api.github.com/gists/${gistId}`, { headers });
+      let response = await fetch(`https://api.github.com/gists/${gistId}`, { headers });
+      
+      // If Bearer token fails, try with the old token format
+      if (!response.ok && token && response.status === 401) {
+        headers['Authorization'] = `token ${token}`;
+        response = await fetch(`https://api.github.com/gists/${gistId}`, { headers });
+      }
       
       if (!response.ok) {
-        return { success: false, error: 'Gist not found or access denied' };
+        const errorText = await response.text();
+        console.error('GitHub API error response:', errorText);
+        return { success: false, error: `Gist not found or access denied (${response.status})` };
       }
 
       const gist = await response.json();
+      
       const fileName = Object.keys(gist.files)[0];
       if (!fileName) {
+        console.error('No files found in gist');
         return { success: false, error: 'Invalid backup file' };
       }
       
       const content = JSON.parse(gist.files[fileName].content);
+      
       return { success: true, data: content };
 
     } catch (error) {
+      console.error('Error in loadFromGist:', error);
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }

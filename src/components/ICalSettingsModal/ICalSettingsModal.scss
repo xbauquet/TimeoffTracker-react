@@ -1,0 +1,315 @@
+// === IMPORTS ===
+@import "../../styles/variables";
+
+// === MODAL OVERLAY ===
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+// === MODAL CONTENT ===
+.modal-content {
+  background: $background-light;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid $border-medium;
+}
+
+// === MODAL HEADER ===
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid $border-light;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: $text-primary;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: $text-muted;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: $text-primary;
+    background: $background-hover;
+  }
+}
+
+// === MODAL BODY ===
+.modal-body {
+  padding: 24px;
+}
+
+.setting-group {
+  margin-bottom: 24px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .setting-label {
+    display: block;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 8px;
+    font-size: 14px;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+  }
+
+  .setting-description {
+    font-size: 12px;
+    color: $text-muted;
+    margin: 4px 0 0 0;
+    line-height: 1.4;
+  }
+
+  .url-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid $border-medium;
+    border-radius: 8px;
+    font-size: 14px;
+    background: $background-light;
+    color: $text-primary;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+
+    &::placeholder {
+      color: $text-muted;
+    }
+  }
+
+  .refresh-select {
+    padding: 12px 16px;
+    border: 1px solid $border-medium;
+    border-radius: 8px;
+    font-size: 14px;
+    background: $background-light;
+    color: $text-primary;
+    cursor: pointer;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+  }
+
+  .button-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+
+    .test-button,
+    .clear-cache-button {
+      padding: 10px 16px;
+      border: 1px solid $border-medium;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    .test-button {
+      background: $success-color;
+      color: white;
+      border-color: $success-color;
+
+      &:hover:not(:disabled) {
+        background: darken($success-color, 10%);
+        border-color: darken($success-color, 10%);
+      }
+    }
+
+    .clear-cache-button {
+      background: $background-light;
+      color: $text-primary;
+      border-color: $border-medium;
+
+      &:hover {
+        background: $background-hover;
+        border-color: $border-strong;
+      }
+    }
+  }
+
+  .test-result {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+
+    &.success {
+      background: rgba($success-color, 0.1);
+      color: darken($success-color, 20%);
+      border: 1px solid rgba($success-color, 0.3);
+    }
+
+    &.error {
+      background: rgba($error-color, 0.1);
+      color: darken($error-color, 20%);
+      border: 1px solid rgba($error-color, 0.3);
+    }
+  }
+
+  .url-examples {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba($primary-color, 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba($primary-color, 0.1);
+
+    .example-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: $text-primary;
+      margin: 0 0 8px 0;
+    }
+
+    .example-list {
+      margin: 0;
+      padding-left: 16px;
+      font-size: 11px;
+      color: $text-muted;
+      line-height: 1.4;
+
+      li {
+        margin-bottom: 4px;
+
+        strong {
+          color: $text-primary;
+        }
+      }
+    }
+  }
+}
+
+// === MODAL FOOTER ===
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px 24px;
+  border-top: 1px solid $border-light;
+}
+
+.modal-button-group {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  border: 1px solid $border-medium;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.secondary {
+    background: $background-light;
+    color: $text-primary;
+    border-color: $border-medium;
+
+    &:hover {
+      background: $background-hover;
+      border-color: $border-strong;
+    }
+  }
+
+  &.primary {
+    background: $primary-color;
+    color: white;
+    border-color: $primary-color;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+      border-color: darken($primary-color, 10%);
+    }
+  }
+}
+
+// === RESPONSIVE ===
+@media (max-width: $mobile) {
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 16px 16px 12px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .modal-footer {
+    padding: 12px 16px 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .modal-button-group {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .modal-button {
+    flex: 1;
+  }
+
+  .setting-group .button-group {
+    flex-direction: column;
+  }
+}

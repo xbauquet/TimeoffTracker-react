@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { YearData, Day } from '../../types/year';
+import React from 'react';
+import { YearData, Day } from '../../../types/year';
+import { ICalEvent } from '../../../types/ical';
 import MonthView from '../MonthView';
 import DayHeader from '../DayHeader';
 import './YearView.scss';
@@ -9,6 +10,7 @@ interface YearViewProps {
   selectedDay?: Day;
   onDayClick?: (day: Day) => void;
   personalHolidays?: Set<string>;
+  icalEvents?: ICalEvent[];
   className?: string;
 }
 
@@ -17,9 +19,10 @@ const YearView: React.FC<YearViewProps> = ({
   selectedDay, 
   onDayClick,
   personalHolidays = new Set(),
+  icalEvents = [],
   className = ''
 }) => {
-  const [hoveredDay, setHoveredDay] = useState<Day | null>(null);
+  // const [hoveredDay, setHoveredDay] = useState<Day | null>(null);
 
   const handleDayClick = (day: Day) => {
     if (onDayClick) {
@@ -27,9 +30,9 @@ const YearView: React.FC<YearViewProps> = ({
     }
   };
 
-  const handleDayHover = (day: Day | null) => {
-    setHoveredDay(day);
-  };
+  // const handleDayHover = (day: Day | null) => {
+  //   setHoveredDay(day);
+  // };
 
   return (
     <div className={`year-view ${className}`}>
@@ -38,13 +41,14 @@ const YearView: React.FC<YearViewProps> = ({
         <DayHeader/>
 
         {/* Months */}
-        {yearData.months.map((month, index) => (
+        {yearData.months.map((month: any, index: number) => (
           <MonthView
             key={`${yearData.year}-${month.monthNumber}`}
             month={month}
             selectedDay={selectedDay}
             onDayClick={handleDayClick}
             personalHolidays={personalHolidays}
+            icalEvents={icalEvents}
             className={index >= 3 && index % 3 === 0 ? 'quarter-start' : ''}
           />
         ))}
@@ -72,10 +76,14 @@ const YearView: React.FC<YearViewProps> = ({
           <div className="legend-color personal-holiday"></div>
           <span>Congé personnel</span>
         </div>
+        <div className="legend-item">
+          <div className="legend-color has-ical-events"></div>
+          <span>Événements iCal</span>
+        </div>
       </div>
 
-      {/* Day info tooltip */}
-      {hoveredDay && (
+      {/* Day info tooltip - commented out for now */}
+      {/* {hoveredDay && (
         <div className="day-tooltip">
           <div className="tooltip-content">
             <div className="tooltip-date">{hoveredDay.date.toLocaleDateString()}</div>
@@ -90,7 +98,7 @@ const YearView: React.FC<YearViewProps> = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

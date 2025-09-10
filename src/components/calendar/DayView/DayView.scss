@@ -29,6 +29,7 @@
 // === DAY STYLES ===
 .linear-day {
   @include day-base;
+  position: relative;
   
   &.empty {
     background: transparent;
@@ -84,4 +85,12 @@
     border-color: $text-white;
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
   }
+
+}
+
+// === DAY CONTENT ===
+.day-number {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  line-height: 1;
 }

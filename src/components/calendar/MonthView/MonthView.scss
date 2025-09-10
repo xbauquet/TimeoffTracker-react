@@ -5,15 +5,13 @@
 // === MONTH ROWS ===
 .linear-month {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-bottom: 1px;
   background: $background-medium;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 1px 2px $shadow-light;
   border: 1px solid $primary-light;
-  align-items: center;
-  min-height: 32px;
   
   &.quarter-start {
     margin-top: 15px;
@@ -22,9 +20,11 @@
 
 .linear-month-row {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  width: 100%;
+  min-height: 32px;
 }
+
 
 .linear-month-label {
   background: $background-header;

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
-import { GistService, GistSettings } from './services/gistService';
+import { GistService, ICalService, ICalSettings, ICalEvent, EventColorService } from './services';
+import { GistSettings } from './services/gistService';
 import { HolidayCalculationService } from './services/holidayCalculationService';
 import './App.scss'
 
@@ -10,6 +11,8 @@ function App() {
   const [country, setCountry] = useState('US');
   const [state, setState] = useState<string>('');
   const [gitHubSettings, setGitHubSettings] = useState<GistSettings>(() => GistService.loadSettings());
+  const [icalSettings, setICalSettings] = useState<ICalSettings>(() => ICalService.loadSettings());
+  const [icalEvents, setICalEvents] = useState<ICalEvent[]>([]);
   const [personalHolidays, setPersonalHolidays] = useState<Set<string>>(new Set());
   const [workDaysPerYear, setWorkDaysPerYear] = useState(216);
   const [carryoverHolidays, setCarryoverHolidays] = useState(0);
@@ -41,7 +44,7 @@ function App() {
           );
           
           if (result.success && result.gistId && result.gistId !== gitHubSettings.gistId) {
-            setGitHubSettings(prev => ({ ...prev, gistId: result.gistId! }));
+            setGitHubSettings((prev: GistSettings) => ({ ...prev, gistId: result.gistId! }));
             GistService.saveSettings(gitHubSettings.token!, result.gistId);
           }
         } catch (error) {
@@ -53,20 +56,54 @@ function App() {
     }
   }, [personalHolidays, workDaysPerYear, carryoverHolidays, year, country, state, gitHubSettings]);
 
-  // Load data from GitHub when settings change
+  // Load data from GitHub when settings change or on initial load
   useEffect(() => {
     if (gitHubSettings.token && gitHubSettings.gistId) {
       loadFromGitHub();
     }
-  }, [gitHubSettings.gistId]);
+  }, [gitHubSettings.token, gitHubSettings.gistId]);
+
+  // Load iCal events when settings change
+  useEffect(() => {
+    if (icalSettings.enabled && icalSettings.url) {
+      loadICalEvents();
+    } else {
+      setICalEvents([]);
+    }
+  }, [icalSettings.enabled, icalSettings.url]);
+
+  // Set up periodic refresh for iCal events
+  useEffect(() => {
+    if (!icalSettings.enabled || !icalSettings.url) return;
+
+    const interval = setInterval(() => {
+      loadICalEvents();
+    }, icalSettings.refreshInterval * 60 * 1000); // Convert minutes to milliseconds
+
+    return () => clearInterval(interval);
+  }, [icalSettings.enabled, icalSettings.url, icalSettings.refreshInterval]);
 
   const loadFromGitHub = async () => {
-    if (!gitHubSettings.token || !gitHubSettings.gistId) return;
+    if (!gitHubSettings.token || !gitHubSettings.gistId) {
+      return;
+    }
 
     try {
       const result = await GistService.loadFromGist(gitHubSettings.token, gitHubSettings.gistId);
+      
       if (result.success && result.data) {
-        const yearData = result.data[year.toString()];
+        let yearData = result.data[year.toString()];
+        
+        // If no data for current year, try to find the most recent year's data
+        if (!yearData) {
+          const availableYears = Object.keys(result.data).sort((a, b) => parseInt(b) - parseInt(a));
+          if (availableYears.length > 0) {
+            const mostRecentYear = availableYears[0];
+            yearData = result.data[mostRecentYear];
+            setYear(parseInt(mostRecentYear));
+          }
+        }
+        
         if (yearData) {
           setPersonalHolidays(new Set(yearData.holidays));
           setWorkDaysPerYear(yearData.workDaysPerYear);
@@ -80,15 +117,49 @@ function App() {
             setState(yearData.state);
           }
         }
+      } else {
+        console.error('Failed to load gist data:', result.error);
       }
     } catch (error) {
       console.error('Failed to load from GitHub:', error);
     }
   };
 
+  const loadICalEvents = async () => {
+    if (!icalSettings.enabled || !icalSettings.url) {
+      return;
+    }
+
+    try {
+      const result = await ICalService.fetchEvents(icalSettings.url);
+      if (result.success && result.events) {
+        // Filter events for current year
+        const yearEvents = result.events.filter(event => {
+          const eventYear = new Date(event.startDate).getFullYear();
+          return eventYear === year;
+        });
+        setICalEvents(yearEvents);
+      } else {
+        console.error('Failed to load iCal events:', result.error);
+        setICalEvents([]);
+      }
+    } catch (error) {
+      console.error('Failed to load iCal events:', error);
+      setICalEvents([]);
+    }
+  };
+
   const handleGitHubSettingsChange = (settings: GistSettings) => {
     setGitHubSettings(settings);
   };
+
+  const handleICalSettingsChange = (settings: ICalSettings) => {
+    setICalSettings(settings);
+    ICalService.saveSettings(settings);
+  };
+
+  // Use actual iCal events with assigned colors
+  const eventsToDisplay = EventColorService.assignColorsToEvents(icalEvents);
 
   return (
     <div className="app">
@@ -105,6 +176,7 @@ function App() {
         onWorkDaysChange={setWorkDaysPerYear}
         onCarryoverChange={setCarryoverHolidays}
         onGitHubSettingsChange={handleGitHubSettingsChange}
+        onICalSettingsChange={handleICalSettingsChange}
       />
       
       <div className="app-content">
@@ -114,6 +186,7 @@ function App() {
             country={country}
             state={state}
             personalHolidays={personalHolidays}
+            icalEvents={eventsToDisplay}
             onPersonalHolidayToggle={(dateKey) => {
               setPersonalHolidays(prev => {
                 const newSet = new Set(prev);

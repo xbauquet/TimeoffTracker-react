@@ -1,5 +1,6 @@
 import React from 'react';
-import { Day } from '../../types/year';
+import { Day } from '../../../types/year';
+import { ICalEvent } from '../../../types/ical';
 import './DayView.scss';
 
 interface DayViewProps {
@@ -7,6 +8,7 @@ interface DayViewProps {
   isToday?: boolean;
   isSelected?: boolean;
   isPersonalHoliday?: boolean;
+  icalEvents?: ICalEvent[];
   onClick?: (day: Day) => void;
   className?: string;
 }
@@ -16,6 +18,7 @@ const DayView: React.FC<DayViewProps> = ({
   isToday = false, 
   isSelected = false, 
   isPersonalHoliday = false,
+  icalEvents = [],
   onClick,
   className = ''
 }) => {
@@ -35,6 +38,11 @@ const DayView: React.FC<DayViewProps> = ({
       classes.push('normal');
     }
     
+    // Add iCal events indicator
+    if (icalEvents && icalEvents.length > 0) {
+      classes.push('has-ical-events');
+    }
+    
     if (isToday) {
       classes.push('today');
     }
@@ -44,6 +52,29 @@ const DayView: React.FC<DayViewProps> = ({
     }
     
     return classes.join(' ');
+  };
+
+  const getEventTooltip = (): string => {
+    const tooltips = [];
+    
+    if (day.bankHolidayName) {
+      tooltips.push(day.bankHolidayName);
+    }
+    
+    if (icalEvents && icalEvents.length > 0) {
+      icalEvents.forEach(event => {
+        tooltips.push(`📅 ${event.summary}`);
+        if (event.location) {
+          tooltips.push(`📍 ${event.location}`);
+        }
+      });
+    }
+    
+    if (tooltips.length === 0) {
+      return day.date.toLocaleDateString();
+    }
+    
+    return tooltips.join('\n');
   };
 
   const handleClick = () => {
@@ -56,9 +87,9 @@ const DayView: React.FC<DayViewProps> = ({
     <div 
       className={`${getDayClassName()} ${className}`}
       onClick={handleClick}
-      title={day.bankHolidayName || `${day.date.toLocaleDateString()}`}
+      title={getEventTooltip()}
     >
-      {day.dayOfMonth}
+      <div className="day-number">{day.dayOfMonth}</div>
     </div>
   );
 };

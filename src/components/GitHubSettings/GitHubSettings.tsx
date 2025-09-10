@@ -62,7 +62,7 @@ export const GitHubSettings: React.FC<GitHubSettingsProps> = ({
       gistId: gistId.trim() || null
     };
 
-    GistService.saveSettings(newSettings.token, newSettings.gistId || undefined);
+    GistService.saveSettings(newSettings.token!, newSettings.gistId || undefined);
     onSettingsChange(newSettings);
     onClose();
   };

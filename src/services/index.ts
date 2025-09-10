@@ -1,4 +1,7 @@
 export { YearService } from './yearService';
 export { GistService } from './gistService';
 export { HolidayCalculationService } from './holidayCalculationService';
+export { ICalService } from './icalService';
+export { EventColorService } from './eventColorService';
 export type { Day, Month, YearData, BankHoliday, BankHolidayRule } from '../types/year';
+export type { ICalEvent, ICalSettings, ICalServiceResult } from '../types/ical';

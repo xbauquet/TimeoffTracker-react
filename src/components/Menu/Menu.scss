@@ -177,6 +177,59 @@
   justify-content: center;
 }
 
+// === MENU INTEGRATIONS ===
+.menu-integrations {
+  padding: $spacing-2xl;
+  border-bottom: 1px solid $border-light;
+}
+
+.menu-integration-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $overlay-light;
+  transition: background 0.2s ease;
+  
+  &:hover {
+    background: $overlay-medium;
+  }
+}
+
+.menu-integration-status {
+  flex: 1;
+}
+
+.integration-status {
+  font-size: $font-size-lg;
+  font-weight: 500;
+  
+  &.connected {
+    color: $success-color;
+  }
+  
+  &.disconnected {
+    color: $text-muted;
+  }
+}
+
+.menu-integration-btn {
+  background: none;
+  border: none;
+  color: $text-muted;
+  font-size: $font-size-xl;
+  cursor: pointer;
+  padding: $spacing-sm;
+  border-radius: $radius-lg;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: $primary-color;
+    background: $primary-light;
+  }
+}
+
 .holiday-counter-item {
   display: flex;
   flex-direction: column;

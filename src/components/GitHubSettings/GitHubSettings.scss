@@ -1,5 +1,5 @@
 // === IMPORTS ===
-@import "../../styles/variables";
+@use "../../styles/variables" as *;
 
 // === GITHUB SETTINGS MODAL ===
 .github-settings-overlay {

@@ -1,5 +1,5 @@
 // === IMPORTS ===
-@import "../../styles/variables";
+@use "../../styles/variables" as *;
 
 // === MIXINS ===
 @mixin menu-button-base {
@@ -177,59 +177,6 @@
   justify-content: center;
 }
 
-// === MENU INTEGRATIONS ===
-.menu-integrations {
-  padding: $spacing-2xl;
-  border-bottom: 1px solid $border-light;
-}
-
-.menu-integration-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $spacing-lg;
-  border-radius: $radius-lg;
-  background: $overlay-light;
-  transition: background 0.2s ease;
-  
-  &:hover {
-    background: $overlay-medium;
-  }
-}
-
-.menu-integration-status {
-  flex: 1;
-}
-
-.integration-status {
-  font-size: $font-size-lg;
-  font-weight: 500;
-  
-  &.connected {
-    color: $success-color;
-  }
-  
-  &.disconnected {
-    color: $text-muted;
-  }
-}
-
-.menu-integration-btn {
-  background: none;
-  border: none;
-  color: $text-muted;
-  font-size: $font-size-xl;
-  cursor: pointer;
-  padding: $spacing-sm;
-  border-radius: $radius-lg;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    color: $primary-color;
-    background: $primary-light;
-  }
-}
-
 .holiday-counter-item {
   display: flex;
   flex-direction: column;
@@ -260,66 +207,38 @@
 
 // === MENU FOOTER ===
 .menu-footer {
-  padding: $spacing-lg;
-  border-top: 1px solid $border-light;
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
-  margin-top: auto; // Push footer to bottom
+  margin-top: auto;
 }
 
-.menu-github-section {
+.menu-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: $spacing-lg;
-  border-radius: $radius-lg;
-  background: $overlay-light;
+  padding: 20px 10px;
+  background: transparent;
   transition: background 0.2s ease;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid $border-light;
+  cursor: pointer;
+  width: 100%;
   
   &:hover {
     background: $overlay-medium;
   }
+  
+  &:focus {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
 }
 
-.menu-github-status {
-  flex: 1;
-}
-
-.github-status {
+.menu-status {
   font-size: $font-size-lg;
   font-weight: 500;
-  
-  &.connected {
-    color: $success-color;
-  }
-  
-  &.warning {
-    color: $warning-color;
-  }
-  
-  &.disconnected {
-    color: $error-color;
-  }
 }
-
-.menu-github-btn {
-  background: none;
-  border: none;
-  color: $text-muted;
-  font-size: $font-size-xl;
-  cursor: pointer;
-  padding: $spacing-sm;
-  border-radius: $radius-lg;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    color: $primary-color;
-    background: $primary-light;
-  }
-}
-
-// Removed unused user section styles
 
 // === RESPONSIVE DESIGN ===
 @media (max-width: $mobile) {

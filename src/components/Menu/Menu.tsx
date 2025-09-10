@@ -120,39 +120,36 @@ export const Menu: React.FC<MenuProps> = ({
           <div className="holiday-counter-label">Congés restants</div>
         </div>
       </div>
-      
-      <div className="menu-integrations">
-        <div className="menu-integration-section">
-          <div className="menu-integration-status">
-            <span className={`integration-status ${icalSettings.enabled ? 'connected' : 'disconnected'}`}>
-              {icalSettings.enabled ? 'iCal Connected' : 'iCal Disconnected'}
-            </span>
-          </div>
-          <button 
-            className="menu-integration-btn"
-            onClick={() => setShowICalSettings(true)}
-            title="iCal Settings"
-          >
-            📅
-          </button>
-        </div>
-      </div>
 
       <div className="menu-footer">
-        <div className="menu-github-section">
-          <div className="menu-github-status">
+        <button 
+          className="menu-section"
+          onClick={() => setShowGitHubSettings(true)}
+          title="GitHub Settings"
+        >
+          <div className="menu-status">
             <span className={`github-status ${GistService.getStatus(gitHubSettings).status}`}>
               {GistService.getStatus(gitHubSettings).message}
             </span>
           </div>
-          <button 
-            className="menu-github-btn"
-            onClick={() => setShowGitHubSettings(true)}
-            title="GitHub Settings"
-          >
-            ⚙️
-          </button>
-        </div>
+          <div>
+            &gt;
+          </div>
+        </button>
+        <button 
+          className="menu-section"
+          onClick={() => setShowICalSettings(true)}
+          title="iCal Settings"
+        >
+          <div className="menu-status">
+            <span className={`integration-status ${icalSettings.enabled ? 'connected' : 'disconnected'}`}>
+              {icalSettings.enabled ? 'Calendar ✅' : 'Calendar ❌'}
+            </span>
+          </div>
+          <div>
+            &gt;
+          </div>
+        </button>
       </div>
 
       <GitHubSettings

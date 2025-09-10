@@ -1,0 +1,291 @@
+// === IMPORTS ===
+@import "../../styles/variables";
+
+// === MIXINS ===
+@mixin menu-button-base {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  width: 100%;
+  padding: $spacing-lg $spacing-2xl;
+  border: none;
+  background: transparent;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  border-radius: $radius-lg;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: $primary-light;
+    color: $primary-color;
+  }
+  
+  &:focus {
+    outline: 2px solid rgba($primary-color, 0.6);
+    outline-offset: 2px;
+  }
+  
+  &:active {
+    background: $primary-medium;
+  }
+}
+
+// === MENU COMPONENT ===
+.menu {
+  width: 250px;
+  height: 100vh;
+  background: linear-gradient(180deg, $background-light 0%, $background-medium 100%);
+  border-right: 1px solid $border-medium;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: $z-sticky;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+// === MENU HEADER ===
+.menu-header {
+  padding: $spacing-4xl $spacing-2xl;
+  border-bottom: 1px solid $border-light;
+  
+  .menu-title {
+    color: $primary-color;
+    font-size: $font-size-2xl;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+}
+
+// === MENU CONTROLS ===
+.menu-controls {
+  padding: $spacing-2xl;
+  border-bottom: 1px solid $border-light;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.menu-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  
+  .menu-control-label {
+    color: $text-white;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.menu-control-input,
+.menu-control-select {
+  background: $primary-light;
+  border: 1px solid $primary-strong;
+  border-radius: $radius-xl;
+  padding: $spacing-lg $spacing-2xl;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  width: 100%;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: rgba($primary-color, 0.6);
+    box-shadow: 0 0 8px rgba($primary-color, 0.2);
+  }
+  
+  &:hover {
+    border-color: rgba($primary-color, 0.5);
+  }
+}
+
+// === YEAR CONTROL ===
+.year-control {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.year-button {
+  background: $primary-light;
+  border: 1px solid $primary-strong;
+  color: $text-primary;
+  font-size: $font-size-2xl;
+  font-weight: bold;
+  padding: $spacing-lg $spacing-xl;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  border-radius: $radius-xl;
+  
+  &:hover {
+    background: $primary-medium;
+    color: $primary-color;
+    border-color: rgba($primary-color, 0.6);
+  }
+  
+  &:focus {
+    outline: 2px solid rgba($primary-color, 0.6);
+    outline-offset: 2px;
+  }
+  
+  &:active {
+    background: $primary-strong;
+  }
+}
+
+.year-display {
+  flex: 1;
+  text-align: center;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 500;
+  padding: $spacing-lg $spacing-xl;
+  background: transparent;
+  border: none;
+}
+
+// === MENU LIST ===
+.menu-list {
+  flex: 1;
+  list-style: none;
+  padding: $spacing-lg 0;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.menu-item {
+  margin: 0;
+  padding: 0 $spacing-lg;
+  
+  &:not(:last-child) {
+    margin-bottom: $spacing-xs;
+  }
+}
+
+.menu-button {
+  @include menu-button-base;
+}
+
+.menu-icon {
+  font-size: $font-size-xl;
+  width: 20px;
+  text-align: center;
+}
+
+.menu-label {
+  flex: 1;
+}
+
+// === MENU FOOTER ===
+.menu-footer {
+  padding: $spacing-lg;
+  border-top: 1px solid $border-light;
+}
+
+.menu-user {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  background: $overlay-light;
+  transition: background 0.2s ease;
+  
+  &:hover {
+    background: $overlay-medium;
+  }
+}
+
+.user-avatar {
+  font-size: $font-size-xl;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $primary-light;
+  border-radius: $radius-full;
+  border: 1px solid $primary-border;
+}
+
+.user-name {
+  font-size: $font-size-lg;
+  font-weight: 500;
+  color: $text-primary;
+}
+
+// === RESPONSIVE DESIGN ===
+@media (max-width: $mobile) {
+  .menu {
+    width: 200px;
+  }
+  
+  .menu-header {
+    padding: $spacing-2xl $spacing-lg;
+    
+    .menu-title {
+      font-size: $font-size-xl;
+    }
+  }
+  
+  .menu-controls {
+    padding: $spacing-lg;
+  }
+  
+  .menu-control-input,
+  .menu-control-select {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-md;
+  }
+  
+  .year-button {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-xl;
+    min-width: 32px;
+  }
+  
+  .year-display {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-md;
+  }
+  
+  .menu-button {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-md;
+  }
+  
+  .menu-icon {
+    font-size: $font-size-lg;
+    width: 16px;
+  }
+  
+  .menu-user {
+    padding: $spacing-md;
+  }
+  
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: $font-size-lg;
+  }
+  
+  .user-name {
+    font-size: $font-size-md;
+  }
+}

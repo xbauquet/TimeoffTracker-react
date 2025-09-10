@@ -50,7 +50,6 @@ export const Menu: React.FC<MenuProps> = ({
       
       <div className="menu-controls">
         <div className="menu-control-group">
-          <label className="menu-control-label">Year:</label>
           <div className="year-control">
             <button 
               className="year-button"
@@ -61,7 +60,7 @@ export const Menu: React.FC<MenuProps> = ({
               ‹
             </button>
             <span className="year-display">{year}</span>
-            <button 
+            <button
               className="year-button"
               onClick={() => onYearChange(year + 1)}
               type="button"
@@ -72,60 +71,57 @@ export const Menu: React.FC<MenuProps> = ({
           </div>
         </div>
         
-        <div className="menu-control-group">
-          <label className="menu-control-label">Country:</label>
-          <select 
-            value={country} 
-            onChange={(e) => onCountryChange(e.target.value)}
-            className="menu-control-select"
-          >
-            <option value="US">United States</option>
-            <option value="GB">United Kingdom</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
-            <option value="CA">Canada</option>
-          </select>
+        <div className="menu-holiday-counter">
+          <div className="holiday-counter-item">
+            <div className="holiday-counter-value">{remainingHolidays}</div>
+            <div className="holiday-counter-label">Congés restants</div>
+          </div>
         </div>
       </div>
       
-      <div className="menu-work-settings">
-        <div className="menu-control-group">
-          <label className="menu-control-label">Jours de travail:</label>
-          <input 
-            type="number" 
-            value={workDaysPerYear} 
-            onChange={(e) => onWorkDaysChange(parseInt(e.target.value) || 216)}
-            className="menu-control-input"
-            min="200"
-            max="260"
-          />
-        </div>
-        
-        <div className="menu-control-group">
-          <label className="menu-control-label">Congés N-1:</label>
-          <input 
-            type="number" 
-            value={carryoverHolidays} 
-            onChange={(e) => onCarryoverChange(parseInt(e.target.value) || 0)}
-            className="menu-control-input"
-            min="0"
-            max="50"
-          />
-        </div>
-      </div>
-      
-      <div className="menu-holiday-counter">
-        <div className="holiday-counter-item">
-          <div className="holiday-counter-value">{remainingHolidays}</div>
-          <div className="holiday-counter-label">Congés restants</div>
-        </div>
-      </div>
-
       <div className="menu-footer">
-        <button 
-          className="menu-section"
-          onClick={() => setShowGitHubSettings(true)}
-          title="GitHub Settings"
+          <div className="menu-section">
+            <label className="menu-status">Country</label>
+            <select
+                value={country}
+                onChange={(e) => onCountryChange(e.target.value)}
+                className="menu-control-select"
+            >
+              <option value="US">United States</option>
+              <option value="GB">United Kingdom</option>
+              <option value="FR">France</option>
+              <option value="DE">Germany</option>
+              <option value="CA">Canada</option>
+            </select>
+          </div>
+          <div className="menu-section">
+            <label className="menu-status">Jours de travail</label>
+            <input
+                type="number"
+                value={workDaysPerYear}
+                onChange={(e) => onWorkDaysChange(parseInt(e.target.value) || 216)}
+                className="menu-control-input"
+                min="200"
+                max="260"
+            />
+          </div>
+
+          <div className="menu-section">
+            <label className="menu-status">Congés N-1</label>
+            <input
+                type="number"
+                value={carryoverHolidays}
+                onChange={(e) => onCarryoverChange(parseInt(e.target.value) || 0)}
+                className="menu-control-input"
+                min="0"
+                max="50"
+            />
+          </div>
+
+        <button
+            className="menu-section"
+            onClick={() => setShowGitHubSettings(true)}
+            title="GitHub Settings"
         >
           <div className="menu-status">
             <span className={`github-status ${GistService.getStatus(gitHubSettings).status}`}>
@@ -136,9 +132,9 @@ export const Menu: React.FC<MenuProps> = ({
             &gt;
           </div>
         </button>
-        <button 
-          className="menu-section"
-          onClick={() => setShowICalSettings(true)}
+        <button
+            className="menu-section"
+            onClick={() => setShowICalSettings(true)}
           title="iCal Settings"
         >
           <div className="menu-status">

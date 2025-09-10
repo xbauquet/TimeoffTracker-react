@@ -2,40 +2,21 @@
 @use "../../styles/variables" as *;
 
 // === MIXINS ===
-@mixin menu-button-base {
-  display: flex;
-  align-items: center;
-  gap: $spacing-lg;
-  width: 100%;
-  padding: $spacing-lg $spacing-2xl;
+@mixin button-base {
   border: none;
   background: transparent;
-  color: $text-primary;
-  font-size: $font-size-lg;
-  font-weight: 500;
-  text-align: left;
   cursor: pointer;
-  border-radius: $radius-lg;
   transition: all 0.2s ease;
-  
-  &:hover {
-    background: $primary-light;
-    color: $primary-color;
-  }
   
   &:focus {
     outline: 2px solid rgba($primary-color, 0.6);
     outline-offset: 2px;
   }
-  
-  &:active {
-    background: $primary-medium;
-  }
 }
 
 // === MENU COMPONENT ===
 .menu {
-  width: 250px;
+  width: 200px;
   height: 100vh;
   background: linear-gradient(180deg, $background-light 0%, $background-medium 100%);
   border-right: 1px solid $border-medium;
@@ -65,7 +46,6 @@
 // === MENU CONTROLS ===
 .menu-controls {
   padding: $spacing-2xl;
-  border-bottom: 1px solid $border-light;
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
@@ -93,7 +73,7 @@
   padding: $spacing-lg $spacing-2xl;
   color: $text-primary;
   font-size: $font-size-lg;
-  width: 100%;
+  width: 100px;
   transition: all 0.2s ease;
   
   &:focus {
@@ -111,22 +91,16 @@
 .year-control {
   display: flex;
   align-items: center;
-  background: transparent;
-  border: none;
   border-radius: $radius-xl;
   overflow: hidden;
-  transition: all 0.2s ease;
 }
 
 .year-button {
-  background: $primary-light;
-  border: 1px solid $primary-strong;
+  @include button-base;
   color: $text-primary;
   font-size: $font-size-2xl;
   font-weight: bold;
   padding: $spacing-lg $spacing-xl;
-  cursor: pointer;
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,12 +110,6 @@
   &:hover {
     background: $primary-medium;
     color: $primary-color;
-    border-color: rgba($primary-color, 0.6);
-  }
-  
-  &:focus {
-    outline: 2px solid rgba($primary-color, 0.6);
-    outline-offset: 2px;
   }
   
   &:active {
@@ -153,26 +121,16 @@
   flex: 1;
   text-align: center;
   color: $text-primary;
-  font-size: $font-size-lg;
+  font-size: $font-size-2xl;
   font-weight: 500;
   padding: $spacing-lg $spacing-xl;
   background: transparent;
   border: none;
 }
 
-// === MENU WORK SETTINGS ===
-.menu-work-settings {
-  padding: $spacing-2xl;
-  border-bottom: 1px solid $border-light;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-lg;
-}
-
 // === MENU HOLIDAY COUNTER ===
 .menu-holiday-counter {
   padding: $spacing-2xl;
-  border-bottom: 1px solid $border-light;
   display: flex;
   justify-content: center;
 }
@@ -182,9 +140,6 @@
   flex-direction: column;
   align-items: center;
   padding: $spacing-lg;
-  border-radius: $radius-lg;
-  background: $primary-light;
-  border: 1px solid $primary-strong;
   min-width: 120px;
 }
 
@@ -213,31 +168,41 @@
 }
 
 .menu-section {
+  @include button-base;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px 10px;
-  background: transparent;
-  transition: background 0.2s ease;
-  border-radius: 0;
-  border: none;
-  border-top: 1px solid $border-light;
-  cursor: pointer;
   width: 100%;
+  gap: 10px;
+  border-top: 1px solid $border-light;
+  border-radius: 0;
   
   &:hover {
     background: $overlay-medium;
   }
-  
-  &:focus {
-    outline: 2px solid $primary-color;
-    outline-offset: 2px;
-  }
 }
 
 .menu-status {
+  flex: 1;
   font-size: $font-size-lg;
   font-weight: 500;
+}
+
+// Status colors
+.github-status,
+.integration-status {
+  &.connected {
+    color: $success-color;
+  }
+  
+  &.warning {
+    color: $warning-color;
+  }
+  
+  &.disconnected {
+    color: $text-muted;
+  }
 }
 
 // === RESPONSIVE DESIGN ===
@@ -295,6 +260,4 @@
     padding: $spacing-md $spacing-lg;
     font-size: $font-size-md;
   }
-  
-  // Removed unused menu button and user styles
 }

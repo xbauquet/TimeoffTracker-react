@@ -225,13 +225,13 @@ export class GistService {
 
   static getStatus(settings: GistSettings): { status: 'connected' | 'warning' | 'disconnected'; message: string } {
     if (!settings.token) {
-      return { status: 'disconnected', message: 'GitHub: ❌' };
+      return { status: 'disconnected', message: 'GitHub ❌' };
     }
     
     if (!settings.gistId) {
-      return { status: 'warning', message: 'GitHub: ⚠️' };
+      return { status: 'warning', message: 'GitHub ⚠️' };
     }
     
-    return { status: 'connected', message: 'GitHub: ✅' };
+    return { status: 'connected', message: 'GitHub ✅' };
   }
 }

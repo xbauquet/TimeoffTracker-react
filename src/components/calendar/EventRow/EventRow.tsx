@@ -1,6 +1,6 @@
 import React from 'react';
 import { ICalEvent } from '../../../types/ical';
-import { LegendColorSettings } from '../../../services';
+import { LegendColorSettings, LegendColorService } from '../../../services';
 import './EventRow.scss';
 
 interface EventRowProps {
@@ -40,7 +40,8 @@ const EventRow: React.FC<EventRowProps> = ({
             minWidth: `${span * 22}px`,
             maxWidth: `${span * 22}px`,
             backgroundColor: legendColorSettings?.icalEvents || event.color || '#c2185b',
-            borderColor: legendColorSettings?.icalEvents || event.color || '#c2185b'
+            borderColor: legendColorSettings?.icalEvents || event.color || '#c2185b',
+            color: legendColorSettings ? LegendColorService.getTextColor(legendColorSettings.icalEvents) : '#ffffff'
           }}
         >
           {event.summary}

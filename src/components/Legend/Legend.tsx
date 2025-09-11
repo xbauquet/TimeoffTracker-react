@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LegendColorSettings } from '../../services/legendColorService';
+import { LegendColorSettings, LegendColorService } from '../../services/legendColorService';
 import { LegendSettingsModal } from '../LegendSettingsModal';
 import './Legend.scss';
 
@@ -77,9 +77,12 @@ export const Legend: React.FC<LegendProps> = ({
                 className={`legend-color ${item.className}`}
                 style={{
                   backgroundColor: colorSettings[item.key],
-                  borderColor: colorSettings[item.key]
+                  borderColor: colorSettings[item.key],
+                  color: LegendColorService.getTextColor(colorSettings[item.key])
                 }}
-              />
+              >
+                <span className="legend-color-text">{item.label.charAt(0)}</span>
+              </div>
               <span>{item.label}</span>
             </div>
           ))}

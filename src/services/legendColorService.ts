@@ -12,42 +12,42 @@ export interface LegendColorSettings {
 export class LegendColorService {
   private static readonly STORAGE_KEY = 'legendColorSettings';
   
-  // Apple-style color palette
+  // Soft but vibrant color palette
   private static readonly DEFAULT_COLORS: ColorOption[] = [
-    { id: 'gray', name: 'Gray', color: '#8e8e93' },
-    { id: 'red', name: 'Red', color: '#ff3b30' },
-    { id: 'orange', name: 'Orange', color: '#ff9500' },
-    { id: 'yellow', name: 'Yellow', color: '#ffcc00' },
-    { id: 'green', name: 'Green', color: '#34c759' },
-    { id: 'mint', name: 'Mint', color: '#00c7be' },
-    { id: 'teal', name: 'Teal', color: '#30b0c7' },
-    { id: 'cyan', name: 'Cyan', color: '#32d74b' },
-    { id: 'blue', name: 'Blue', color: '#007aff' },
-    { id: 'indigo', name: 'Indigo', color: '#5856d6' },
-    { id: 'purple', name: 'Purple', color: '#af52de' },
-    { id: 'pink', name: 'Pink', color: '#ff2d92' },
-    { id: 'brown', name: 'Brown', color: '#a2845e' },
-    { id: 'dark-gray', name: 'Dark Gray', color: '#48484a' },
-    { id: 'light-gray', name: 'Light Gray', color: '#c7c7cc' },
-    { id: 'white', name: 'White', color: '#ffffff', borderColor: '#e5e5ea' },
-    { id: 'black', name: 'Black', color: '#000000' },
-    { id: 'dark-blue', name: 'Dark Blue', color: '#1e3a8a' },
-    { id: 'dark-green', name: 'Dark Green', color: '#166534' },
-    { id: 'dark-red', name: 'Dark Red', color: '#991b1b' },
-    { id: 'dark-orange', name: 'Dark Orange', color: '#ea580c' },
-    { id: 'dark-purple', name: 'Dark Purple', color: '#7c2d12' },
-    { id: 'dark-pink', name: 'Dark Pink', color: '#be185d' },
-    { id: 'dark-cyan', name: 'Dark Cyan', color: '#0f766e' }
+    { id: 'background-match', name: 'Background', color: '#1a1a1a' },
+    { id: 'dark-gray', name: 'Dark Gray', color: '#2a2a2a' },
+    { id: 'medium-gray', name: 'Medium Gray', color: '#404040' },
+    { id: 'warm-gray', name: 'Warm Gray', color: '#9e9e9e' },
+    { id: 'lavender', name: 'Lavender', color: '#b39ddb' },
+    { id: 'rose', name: 'Rose', color: '#f48fb1' },
+    { id: 'peach', name: 'Peach', color: '#ffab91' },
+    { id: 'mint', name: 'Mint', color: '#81c784' },
+    { id: 'sky-blue', name: 'Sky Blue', color: '#64b5f6' },
+    { id: 'powder-blue', name: 'Powder Blue', color: '#90caf9' },
+    { id: 'coral', name: 'Coral', color: '#ff8a65' },
+    { id: 'sage-green', name: 'Sage Green', color: '#aed581' },
+    { id: 'butter', name: 'Butter', color: '#fff176' },
+    { id: 'pink', name: 'Pink', color: '#f8bbd9' },
+    { id: 'purple', name: 'Purple', color: '#ce93d8' },
+    { id: 'forest-green', name: 'Forest Green', color: '#a5d6a7' },
+    { id: 'ocean-blue', name: 'Ocean Blue', color: '#4fc3f7' },
+    { id: 'beige', name: 'Beige', color: '#d7ccc8' },
+    { id: 'dusty-rose', name: 'Dusty Rose', color: '#f48fb1' },
+    { id: 'teal', name: 'Teal', color: '#4db6ac' },
+    { id: 'periwinkle', name: 'Periwinkle', color: '#9fa8da' },
+    { id: 'cream', name: 'Cream', color: '#ffecb3' },
+    { id: 'lime', name: 'Lime', color: '#dce775' },
+    { id: 'blush', name: 'Blush', color: '#f8bbd9' }
   ];
 
   // Default color settings
   private static readonly DEFAULT_SETTINGS: LegendColorSettings = {
-    normal: '#8e8e93',
-    weekend: '#007aff',
-    holiday: '#34c759',
-    holidayWeekend: '#00c7be',
-    personalHoliday: '#ff9500',
-    icalEvents: '#af52de'
+    normal: '#9e9e9e',
+    weekend: '#64b5f6',
+    holiday: '#81c784',
+    holidayWeekend: '#4db6ac',
+    personalHoliday: '#ff8a65',
+    icalEvents: '#b39ddb'
   };
 
   /**
@@ -108,6 +108,36 @@ export class LegendColorService {
   }
 
   /**
+   * Calculate the luminance of a color to determine if text should be black or white
+   */
+  private static getLuminance(hex: string): number {
+    // Remove # if present
+    const color = hex.replace('#', '');
+    
+    // Convert to RGB
+    const r = parseInt(color.substr(0, 2), 16) / 255;
+    const g = parseInt(color.substr(2, 2), 16) / 255;
+    const b = parseInt(color.substr(4, 2), 16) / 255;
+    
+    // Apply gamma correction
+    const sR = r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
+    const sG = g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4);
+    const sB = b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4);
+    
+    // Calculate relative luminance
+    return 0.2126 * sR + 0.7152 * sG + 0.0722 * sB;
+  }
+
+  /**
+   * Get the appropriate text color (black or white) for a given background color
+   */
+  static getTextColor(backgroundColor: string): string {
+    const luminance = this.getLuminance(backgroundColor);
+    // Use white text for dark backgrounds, black text for light backgrounds
+    return luminance > 0.5 ? '#000000' : '#ffffff';
+  }
+
+  /**
    * Get CSS custom properties for the color settings
    */
   static getCSSVariables(settings: LegendColorSettings): Record<string, string> {
@@ -117,7 +147,13 @@ export class LegendColorService {
       '--legend-holiday-color': settings.holiday,
       '--legend-holiday-weekend-color': settings.holidayWeekend,
       '--legend-personal-holiday-color': settings.personalHoliday,
-      '--legend-ical-events-color': settings.icalEvents
+      '--legend-ical-events-color': settings.icalEvents,
+      '--legend-normal-text-color': this.getTextColor(settings.normal),
+      '--legend-weekend-text-color': this.getTextColor(settings.weekend),
+      '--legend-holiday-text-color': this.getTextColor(settings.holiday),
+      '--legend-holiday-weekend-text-color': this.getTextColor(settings.holidayWeekend),
+      '--legend-personal-holiday-text-color': this.getTextColor(settings.personalHoliday),
+      '--legend-ical-events-text-color': this.getTextColor(settings.icalEvents)
     };
   }
 }

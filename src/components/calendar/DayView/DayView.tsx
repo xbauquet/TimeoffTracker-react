@@ -1,7 +1,7 @@
 import React from 'react';
 import { Day } from '../../../types/year';
 import { ICalEvent } from '../../../types/ical';
-import { LegendColorSettings } from '../../../services';
+import { LegendColorSettings, LegendColorService } from '../../../services';
 import './DayView.scss';
 
 interface DayViewProps {
@@ -74,6 +74,15 @@ const DayView: React.FC<DayViewProps> = ({
     }
   };
 
+  const getTextColor = (): string | undefined => {
+    if (!legendColorSettings) return undefined;
+    
+    const backgroundColor = getDayColor();
+    if (!backgroundColor) return undefined;
+    
+    return LegendColorService.getTextColor(backgroundColor);
+  };
+
   const getEventTooltip = (): string => {
     const tooltips = [];
     
@@ -104,6 +113,7 @@ const DayView: React.FC<DayViewProps> = ({
   };
 
   const dayColor = getDayColor();
+  const textColor = getTextColor();
 
   return (
     <div 
@@ -112,7 +122,8 @@ const DayView: React.FC<DayViewProps> = ({
       title={getEventTooltip()}
       style={{
         backgroundColor: dayColor,
-        borderColor: dayColor
+        borderColor: dayColor,
+        color: textColor
       }}
     >
       <div className="day-number">{day.dayOfMonth}</div>

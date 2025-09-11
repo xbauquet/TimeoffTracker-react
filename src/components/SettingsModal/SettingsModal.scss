@@ -1,0 +1,446 @@
+// === MODAL OVERLAY ===
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+// === MODAL CONTENT ===
+.modal-content {
+  background: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+
+// === MODAL HEADER ===
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #333;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// === MODAL BODY ===
+.modal-body {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0; // Allows flex child to shrink below content size
+}
+
+// === MODAL FOOTER ===
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 24px;
+  border-top: 1px solid #333;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.primary {
+    background: #64b5f6;
+    color: white;
+
+    &:hover {
+      background: #42a5f5;
+    }
+  }
+
+  &.secondary {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+
+    &:hover {
+      background: #444;
+    }
+  }
+}
+
+.settings-modal {
+  width: 60vw;
+  height: 80vh;
+  min-width: 400px;
+  max-width: 800px;
+  min-height: 400px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  .settings-tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+    background: #2a2a2a;
+    margin: 0 -20px;
+    padding: 0 20px;
+
+    .settings-tab {
+      background: none;
+      border: none;
+      color: #ccc;
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      font-weight: 500;
+
+      &:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      &.active {
+        color: #64b5f6;
+        border-bottom-color: #64b5f6;
+        background: rgba(100, 181, 246, 0.1);
+      }
+    }
+  }
+
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+
+  .settings-section {
+    .setting-group {
+      margin-bottom: 24px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .setting-label {
+      display: block;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .setting-description {
+      font-size: 12px;
+      color: #999;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .setting-input,
+    .setting-select {
+      width: 100%;
+      padding: 10px 12px;
+      background: #333;
+      border: 1px solid #555;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #64b5f6;
+        box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
+      }
+
+      &::placeholder {
+        color: #666;
+      }
+    }
+
+    .button-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+
+      .test-button,
+      .clear-button,
+      .clear-cache-button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+
+      .test-button {
+        background: #4caf50;
+        color: white;
+
+        &:hover:not(:disabled) {
+          background: #45a049;
+        }
+      }
+
+      .clear-button {
+        background: #f44336;
+        color: white;
+
+        &:hover {
+          background: #da190b;
+        }
+      }
+
+      .clear-cache-button {
+        background: #ff9800;
+        color: white;
+
+        &:hover {
+          background: #f57c00;
+        }
+      }
+    }
+
+    .github-help {
+      margin-top: 20px;
+      padding: 16px;
+      background: #2a2a2a;
+      border-radius: 4px;
+      border-left: 3px solid #64b5f6;
+
+      h4 {
+        margin: 0 0 12px 0;
+        color: #fff;
+        font-size: 14px;
+      }
+
+      ol {
+        margin: 0;
+        padding-left: 20px;
+        color: #ccc;
+        font-size: 12px;
+        line-height: 1.5;
+
+        li {
+          margin-bottom: 4px;
+
+          a {
+            color: #64b5f6;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .url-examples {
+      margin-top: 20px;
+      padding: 16px;
+      background: #2a2a2a;
+      border-radius: 4px;
+      border-left: 3px solid #4caf50;
+
+      h4 {
+        margin: 0 0 12px 0;
+        color: #fff;
+        font-size: 14px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        color: #ccc;
+        font-size: 12px;
+        line-height: 1.5;
+
+        li {
+          margin-bottom: 4px;
+
+          strong {
+            color: #fff;
+          }
+        }
+      }
+    }
+
+    .color-settings {
+      .color-setting {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #333;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .color-label {
+          font-weight: 500;
+          color: #fff;
+          font-size: 14px;
+          min-width: 120px;
+        }
+
+        .color-picker-inline {
+          flex: 1;
+          max-width: 300px;
+
+          .color-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
+            gap: 6px;
+            max-width: 300px;
+
+            .color-option {
+              width: 24px;
+              height: 24px;
+              border-radius: 4px;
+              border: 2px solid transparent;
+              cursor: pointer;
+              transition: all 0.2s ease;
+
+              &:hover {
+                transform: scale(1.1);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+              }
+
+              &.selected {
+                border-color: #64b5f6;
+                box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.3);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .test-result {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+
+    &.success {
+      background: rgba(76, 175, 80, 0.1);
+      border: 1px solid #4caf50;
+      color: #4caf50;
+    }
+
+    &.error {
+      background: rgba(244, 67, 54, 0.1);
+      border: 1px solid #f44336;
+      color: #f44336;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+  
+  .settings-modal {
+    width: 95vw;
+    height: 85vh;
+    margin: 0;
+
+    .settings-tabs {
+      .settings-tab {
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+    }
+
+    .modal-body {
+      padding: 16px;
+    }
+
+    .settings-section {
+      .color-settings {
+        .color-setting {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+
+          .color-label {
+            min-width: auto;
+          }
+
+          .color-picker-inline {
+            max-width: 100%;
+            width: 100%;
+
+            .color-picker-grid {
+              max-width: 100%;
+            }
+          }
+        }
+      }
+
+      .button-group {
+        flex-direction: column;
+
+        .test-button,
+        .clear-button,
+        .clear-cache-button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

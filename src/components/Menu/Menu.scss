@@ -189,6 +189,52 @@
   font-weight: 500;
 }
 
+.menu-control-input {
+  width: 80px;
+  padding: 8px 12px;
+  background: $background-medium;
+  border: 1px solid $border-medium;
+  border-radius: 4px;
+  color: $text-primary;
+  font-size: $font-size-md;
+  text-align: center;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+  }
+
+  &:hover {
+    border-color: $primary-medium;
+  }
+}
+
+
+.settings-status {
+  color: $primary-color;
+  font-weight: 500;
+}
+
+.settings-button {
+  background: transparent;
+  border: none;
+  border-top: 1px solid $border-light;
+  margin-top: $spacing-md;
+  
+  &:hover {
+    background: rgba($primary-color, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($primary-color, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba($primary-color, 0.2);
+  }
+}
+
 // Status colors
 .github-status,
 .integration-status {

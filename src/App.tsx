@@ -2,29 +2,34 @@ import { useState, useEffect } from 'react';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
 import { Legend } from './components/Legend';
-import { GistService, ICalService, ICalSettings, ICalEvent, EventColorService } from './services';
-import { LegendColorService, LegendColorSettings } from './services/legendColorService';
-import { GistSettings } from './services/gistService';
+import { SettingsService, ICalEvent, EventColorService, GistService, ICalService } from './services';
+import { AllSettings } from './components/SettingsModal';
 import { HolidayCalculationService } from './services/holidayCalculationService';
 import './App.scss'
 
 function App() {
   const [year, setYear] = useState(new Date().getFullYear());
-  const [country, setCountry] = useState('US');
-  const [state, setState] = useState<string>('');
-  const [gitHubSettings, setGitHubSettings] = useState<GistSettings>(() => GistService.loadSettings());
-  const [icalSettings, setICalSettings] = useState<ICalSettings>(() => ICalService.loadSettings());
+  const [settings, setSettings] = useState<AllSettings>(() => SettingsService.loadSettings());
   const [icalEvents, setICalEvents] = useState<ICalEvent[]>([]);
   const [personalHolidays, setPersonalHolidays] = useState<Set<string>>(new Set());
   const [workDaysPerYear, setWorkDaysPerYear] = useState(216);
   const [carryoverHolidays, setCarryoverHolidays] = useState(0);
-  const [legendColorSettings, setLegendColorSettings] = useState<LegendColorSettings>(() => LegendColorService.loadSettings());
+
+  // Load settings with gist configuration on mount
+  useEffect(() => {
+    const loadSettingsWithGist = async () => {
+      const settingsWithGist = await SettingsService.loadSettingsWithGist();
+      setSettings(settingsWithGist);
+    };
+    
+    loadSettingsWithGist();
+  }, []);
 
   // Calculate remaining holidays using the service
   const remainingHolidays = HolidayCalculationService.calculateRemainingHolidays({
     year,
-    country,
-    state,
+    country: settings.country,
+    state: '',
     workDaysPerYear,
     carryoverHolidays,
     personalHolidays
@@ -32,12 +37,12 @@ function App() {
 
   // Auto-save to GitHub when data changes
   useEffect(() => {
-    if (gitHubSettings.token && gitHubSettings.gistId) {
+    if (settings.gitHub.token && settings.gitHub.gistId) {
       const timeoutId = setTimeout(async () => {
         try {
           const result = await GistService.saveToGist(
-            gitHubSettings.token!,
-            gitHubSettings.gistId!,
+            settings.gitHub.token!,
+            settings.gitHub.gistId!,
             year,
             Array.from(personalHolidays),
             workDaysPerYear,
@@ -54,34 +59,33 @@ function App() {
 
       return () => clearTimeout(timeoutId);
     }
-  }, [personalHolidays, workDaysPerYear, carryoverHolidays, year, gitHubSettings.token, gitHubSettings.gistId]);
+  }, [personalHolidays, workDaysPerYear, carryoverHolidays, year, settings.gitHub.token, settings.gitHub.gistId]);
 
 
   // Load data from GitHub when settings change or on initial load
   useEffect(() => {
-    if (gitHubSettings.token && gitHubSettings.gistId) {
+    if (settings.gitHub.token && settings.gitHub.gistId) {
       loadFromGitHub();
-      loadConfigurationFromGitHub();
     }
-  }, [gitHubSettings.token, gitHubSettings.gistId]);
+  }, [settings.gitHub.token, settings.gitHub.gistId]);
 
   // Load iCal events when settings change
   useEffect(() => {
-    if (icalSettings.url && icalSettings.url.trim()) {
+    if (settings.ical.url && settings.ical.url.trim()) {
       loadICalEvents();
     } else {
       setICalEvents([]);
     }
-  }, [icalSettings.url]);
+  }, [settings.ical.url]);
 
 
   const loadFromGitHub = async () => {
-    if (!gitHubSettings.token || !gitHubSettings.gistId) {
+    if (!settings.gitHub.token || !settings.gitHub.gistId) {
       return;
     }
 
     try {
-      const result = await GistService.loadFromGist(gitHubSettings.token, gitHubSettings.gistId);
+      const result = await GistService.loadFromGist(settings.gitHub.token, settings.gitHub.gistId);
       
       if (result.success && result.data) {
         let yearData = result.data[year.toString()];
@@ -109,44 +113,18 @@ function App() {
     }
   };
 
-  const loadConfigurationFromGitHub = async () => {
-    if (!gitHubSettings.token || !gitHubSettings.gistId) {
-      return;
-    }
-
-    try {
-      const result = await GistService.loadConfigurationFromGist(gitHubSettings.token, gitHubSettings.gistId);
-      
-      if (result.success && result.configuration) {
-        // Load country from configuration
-        if (result.configuration.country) {
-          setCountry(result.configuration.country);
-        }
-        
-        // Load legend colors from configuration
-        if (result.configuration.legendColors) {
-          setLegendColorSettings(result.configuration.legendColors);
-        }
-      } else {
-        // If no configuration exists, just log it
-        console.log('No configuration found in gist');
-      }
-    } catch (error) {
-      console.error('Failed to load configuration from GitHub:', error);
-    }
-  };
 
 
   const loadICalEvents = async () => {
-    if (!icalSettings.url || !icalSettings.url.trim()) {
+    if (!settings.ical.url || !settings.ical.url.trim()) {
       return;
     }
 
     try {
-      const result = await ICalService.fetchEvents(icalSettings.url);
+      const result = await ICalService.fetchEvents(settings.ical.url);
       if (result.success && result.events) {
         // Filter events for current year
-        const yearEvents = result.events.filter(event => {
+        const yearEvents = result.events.filter((event: ICalEvent) => {
           const eventYear = new Date(event.startDate).getFullYear();
           return eventYear === year;
         });
@@ -161,18 +139,9 @@ function App() {
     }
   };
 
-  const handleGitHubSettingsChange = (settings: GistSettings) => {
-    setGitHubSettings(settings);
-  };
-
-  const handleICalSettingsChange = (settings: ICalSettings) => {
-    setICalSettings(settings);
-    ICalService.saveSettings(settings);
-  };
-
-  const handleLegendColorSettingsChange = (settings: LegendColorSettings) => {
-    setLegendColorSettings(settings);
-    LegendColorService.saveSettings(settings);
+  const handleSettingsChange = async (newSettings: AllSettings) => {
+    setSettings(newSettings);
+    await SettingsService.saveSettings(newSettings);
   };
 
   // Use actual iCal events with assigned colors
@@ -182,29 +151,24 @@ function App() {
     <div className="app">
       <Menu 
         year={year}
-        country={country}
-        state={state}
         workDaysPerYear={workDaysPerYear}
         carryoverHolidays={carryoverHolidays}
         remainingHolidays={remainingHolidays}
         onYearChange={setYear}
-        onCountryChange={setCountry}
-        onStateChange={setState}
         onWorkDaysChange={setWorkDaysPerYear}
         onCarryoverChange={setCarryoverHolidays}
-        onGitHubSettingsChange={handleGitHubSettingsChange}
-        onICalSettingsChange={handleICalSettingsChange}
+        onSettingsChange={handleSettingsChange}
       />
       
       <div className="app-content">
         <main className="app-main">
           <Calendar 
             year={year}
-            country={country}
-            state={state}
+            country={settings.country}
+            state=""
             personalHolidays={personalHolidays}
             icalEvents={eventsToDisplay}
-            legendColorSettings={legendColorSettings}
+            legendColorSettings={settings.colors}
             onPersonalHolidayToggle={(dateKey) => {
               setPersonalHolidays(prev => {
                 const newSet = new Set(prev);
@@ -221,8 +185,12 @@ function App() {
         
         {/* Legend */}
         <Legend
-          colorSettings={legendColorSettings}
-          onColorSettingsChange={handleLegendColorSettingsChange}
+          colorSettings={settings.colors}
+          onColorSettingsChange={async (newColors) => {
+            const updatedSettings = { ...settings, colors: newColors };
+            setSettings(updatedSettings);
+            await SettingsService.saveSettings(updatedSettings);
+          }}
         />
       </div>
     </div>

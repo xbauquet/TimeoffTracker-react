@@ -1,47 +1,44 @@
-import React, { useState } from 'react';
-import { GitHubSettings } from '../GitHubSettings';
-import { ICalSettingsModal } from '../ICalSettingsModal';
-import { GistService, ICalService, ICalSettings as ICalSettingsType } from '../../services';
-import { GistSettings } from '../../services/gistService';
+import React, { useState, useEffect } from 'react';
+import { SettingsModal, AllSettings } from '../SettingsModal';
+import { SettingsService } from '../../services';
 import './Menu.scss';
 
 interface MenuProps {
   className?: string;
   year: number;
-  country: string;
-  state: string;
   workDaysPerYear: number;
   carryoverHolidays: number;
   remainingHolidays: number;
   onYearChange: (year: number) => void;
-  onCountryChange: (country: string) => void;
-  onStateChange: (state: string) => void;
   onWorkDaysChange: (workDays: number) => void;
   onCarryoverChange: (carryover: number) => void;
-  onGitHubSettingsChange?: (settings: GistSettings) => void;
-  onICalSettingsChange?: (settings: ICalSettingsType) => void;
+  onSettingsChange: (settings: AllSettings) => void;
 }
 
 export const Menu: React.FC<MenuProps> = ({ 
   className = '',
   year,
-  country,
-  state,
   workDaysPerYear,
   carryoverHolidays,
   remainingHolidays,
   onYearChange,
-  onCountryChange,
-  onStateChange,
   onWorkDaysChange,
   onCarryoverChange,
-  onGitHubSettingsChange,
-  onICalSettingsChange
+  onSettingsChange
 }) => {
-  const [showGitHubSettings, setShowGitHubSettings] = useState(false);
-  const [showICalSettings, setShowICalSettings] = useState(false);
-  const [gitHubSettings, setGitHubSettings] = useState<GistSettings>(() => GistService.loadSettings());
-  const [icalSettings, setICalSettings] = useState<ICalSettingsType>(() => ICalService.loadSettings());
+  const [showSettings, setShowSettings] = useState(false);
+  const [settings, setSettings] = useState<AllSettings>(() => SettingsService.loadSettings());
+
+  // Reload settings from gist when modal opens
+  useEffect(() => {
+    if (showSettings) {
+      const reloadSettings = async () => {
+        const freshSettings = await SettingsService.loadSettingsWithGist();
+        setSettings(freshSettings);
+      };
+      reloadSettings();
+    }
+  }, [showSettings]);
   return (
     <nav className={`menu ${className}`}>
       <div className="menu-header">
@@ -81,20 +78,6 @@ export const Menu: React.FC<MenuProps> = ({
       
       <div className="menu-footer">
           <div className="menu-section">
-            <label className="menu-status">Country</label>
-            <select
-                value={country}
-                onChange={(e) => onCountryChange(e.target.value)}
-                className="menu-control-select"
-            >
-              <option value="US">United States</option>
-              <option value="GB">United Kingdom</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-              <option value="CA">Canada</option>
-            </select>
-          </div>
-          <div className="menu-section">
             <label className="menu-status">Jours de travail</label>
             <input
                 type="number"
@@ -119,28 +102,12 @@ export const Menu: React.FC<MenuProps> = ({
           </div>
 
         <button
-            className="menu-section"
-            onClick={() => setShowGitHubSettings(true)}
-            title="GitHub Settings"
+            className="menu-section settings-button"
+            onClick={() => setShowSettings(true)}
+            title="Settings"
         >
           <div className="menu-status">
-            <span className={`github-status ${GistService.getStatus(gitHubSettings).status}`}>
-              {GistService.getStatus(gitHubSettings).message}
-            </span>
-          </div>
-          <div>
-            &gt;
-          </div>
-        </button>
-        <button
-            className="menu-section"
-            onClick={() => setShowICalSettings(true)}
-          title="iCal Settings"
-        >
-          <div className="menu-status">
-            <span className={`integration-status ${icalSettings.url && icalSettings.url.trim() ? 'connected' : 'disconnected'}`}>
-              {icalSettings.url && icalSettings.url.trim() ? 'Calendar ✅' : 'Calendar ❌'}
-            </span>
+            <span className="settings-status">Settings ⚙️</span>
           </div>
           <div>
             &gt;
@@ -148,24 +115,14 @@ export const Menu: React.FC<MenuProps> = ({
         </button>
       </div>
 
-      <GitHubSettings
-        isOpen={showGitHubSettings}
-        onClose={() => setShowGitHubSettings(false)}
-        onSettingsChange={(settings) => {
-          setGitHubSettings(settings);
-          onGitHubSettingsChange?.(settings);
+      <SettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        onSettingsChange={(newSettings) => {
+          setSettings(newSettings);
+          onSettingsChange(newSettings);
         }}
-        currentSettings={gitHubSettings}
-      />
-
-      <ICalSettingsModal
-        isOpen={showICalSettings}
-        onClose={() => setShowICalSettings(false)}
-        onSettingsChange={(settings) => {
-          setICalSettings(settings);
-          onICalSettingsChange?.(settings);
-        }}
-        currentSettings={icalSettings}
+        currentSettings={settings}
       />
     </nav>
   );

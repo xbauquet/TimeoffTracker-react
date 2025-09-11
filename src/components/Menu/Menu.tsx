@@ -138,8 +138,8 @@ export const Menu: React.FC<MenuProps> = ({
           title="iCal Settings"
         >
           <div className="menu-status">
-            <span className={`integration-status ${icalSettings.enabled ? 'connected' : 'disconnected'}`}>
-              {icalSettings.enabled ? 'Calendar ✅' : 'Calendar ❌'}
+            <span className={`integration-status ${icalSettings.url && icalSettings.url.trim() ? 'connected' : 'disconnected'}`}>
+              {icalSettings.url && icalSettings.url.trim() ? 'Calendar ✅' : 'Calendar ❌'}
             </span>
           </div>
           <div>

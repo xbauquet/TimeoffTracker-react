@@ -21,30 +21,19 @@ const ICalSettingsModal: React.FC<ICalSettingsModalProps> = ({
   currentSettings
 }) => {
   const [url, setUrl] = useState('');
-  const [enabled, setEnabled] = useState(false);
-  const [refreshInterval, setRefreshInterval] = useState(30);
   const [isTesting, setIsTesting] = useState(false);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
 
   useEffect(() => {
     if (isOpen) {
       setUrl(currentSettings.url);
-      setEnabled(currentSettings.enabled);
-      setRefreshInterval(currentSettings.refreshInterval);
       setTestResult(null);
     }
   }, [isOpen, currentSettings]);
 
   const handleSave = () => {
-    if (enabled && !url.trim()) {
-      setTestResult({ success: false, message: 'iCal URL is required when enabled' });
-      return;
-    }
-
     const newSettings: ICalSettings = {
-      url: url.trim(),
-      enabled,
-      refreshInterval
+      url: url.trim()
     };
 
     ICalService.saveSettings(newSettings);
@@ -92,8 +81,6 @@ const ICalSettingsModal: React.FC<ICalSettingsModalProps> = ({
 
   const handleClear = () => {
     setUrl('');
-    setEnabled(false);
-    setRefreshInterval(30);
     setTestResult(null);
   };
 
@@ -112,89 +99,51 @@ const ICalSettingsModal: React.FC<ICalSettingsModalProps> = ({
         <div className="modal-body">
           <div className="setting-group">
             <label className="setting-label">
-              <input
-                type="checkbox"
-                checked={enabled}
-                onChange={(e) => setEnabled(e.target.checked)}
-              />
-              Enable iCal integration
+              iCal URL
             </label>
+            <input
+              type="url"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://calendar.google.com/calendar/ical/... or webcal://..."
+              className="url-input"
+            />
             <p className="setting-description">
-              Display events from your iCal calendar alongside holidays
+              Enter the public iCal URL of your calendar. Events will be automatically loaded when a URL is provided. Supports both https:// and webcal:// URLs. This is stored locally and not synced.
             </p>
+            <div className="url-examples">
+              <p className="example-title">Popular calendar URLs:</p>
+              <ul className="example-list">
+                <li><strong>Google Calendar:</strong> https://calendar.google.com/calendar/ical/...</li>
+                <li><strong>Outlook:</strong> https://outlook.live.com/calendar/0/...</li>
+                <li><strong>iCloud:</strong> webcal://p126-caldav.icloud.com/...</li>
+              </ul>
+            </div>
           </div>
 
-          {enabled && (
-            <>
-              <div className="setting-group">
-                <label className="setting-label">
-                  iCal URL
-                </label>
-                <input
-                  type="url"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://calendar.google.com/calendar/ical/... or webcal://..."
-                  className="url-input"
-                />
-                <p className="setting-description">
-                  Enter the public iCal URL of your calendar. Supports both https:// and webcal:// URLs. This is stored locally and not synced.
-                </p>
-                <div className="url-examples">
-                  <p className="example-title">Popular calendar URLs:</p>
-                  <ul className="example-list">
-                    <li><strong>Google Calendar:</strong> https://calendar.google.com/calendar/ical/...</li>
-                    <li><strong>Outlook:</strong> https://outlook.live.com/calendar/0/...</li>
-                    <li><strong>iCloud:</strong> webcal://p126-caldav.icloud.com/...</li>
-                  </ul>
-                </div>
+          <div className="setting-group">
+            <div className="button-group">
+              <button
+                onClick={handleTest}
+                disabled={isTesting || !url.trim()}
+                className="test-button"
+              >
+                {isTesting ? 'Testing...' : 'Test Connection'}
+              </button>
+              <button
+                onClick={handleClearCache}
+                className="clear-cache-button"
+              >
+                Clear Cache
+              </button>
+            </div>
+            
+            {testResult && (
+              <div className={`test-result ${testResult.success ? 'success' : 'error'}`}>
+                {testResult.message}
               </div>
-
-              <div className="setting-group">
-                <label className="setting-label">
-                  Refresh Interval
-                </label>
-                <select
-                  value={refreshInterval}
-                  onChange={(e) => setRefreshInterval(parseInt(e.target.value))}
-                  className="refresh-select"
-                >
-                  <option value={15}>15 minutes</option>
-                  <option value={30}>30 minutes</option>
-                  <option value={60}>1 hour</option>
-                  <option value={120}>2 hours</option>
-                  <option value={240}>4 hours</option>
-                </select>
-                <p className="setting-description">
-                  How often to refresh events from the iCal URL
-                </p>
-              </div>
-
-              <div className="setting-group">
-                <div className="button-group">
-                  <button
-                    onClick={handleTest}
-                    disabled={isTesting || !url.trim()}
-                    className="test-button"
-                  >
-                    {isTesting ? 'Testing...' : 'Test Connection'}
-                  </button>
-                  <button
-                    onClick={handleClearCache}
-                    className="clear-cache-button"
-                  >
-                    Clear Cache
-                  </button>
-                </div>
-                
-                {testResult && (
-                  <div className={`test-result ${testResult.success ? 'success' : 'error'}`}>
-                    {testResult.message}
-                  </div>
-                )}
-              </div>
-            </>
-          )}
+            )}
+          </div>
         </div>
 
         <div className="modal-footer">

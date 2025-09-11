@@ -57,12 +57,17 @@ export const GitHubSettings: React.FC<GitHubSettingsProps> = ({
       return;
     }
 
+    if (!gistId.trim()) {
+      setTestResult({ success: false, message: 'Gist ID is required' });
+      return;
+    }
+
     const newSettings: GistSettings = {
       token: token.trim(),
-      gistId: gistId.trim() || null
+      gistId: gistId.trim()
     };
 
-    GistService.saveSettings(newSettings.token!, newSettings.gistId || undefined);
+    GistService.saveSettings(newSettings.token!, newSettings.gistId!);
     onSettingsChange(newSettings);
     onClose();
   };
@@ -95,6 +100,8 @@ export const GitHubSettings: React.FC<GitHubSettingsProps> = ({
             <li>Click "Generate new token (classic)"</li>
             <li>Check only "gist" in the permissions</li>
             <li>Copy the generated token</li>
+            <li>Create a new gist on <a href="https://gist.github.com" target="_blank" rel="noopener noreferrer">gist.github.com</a> with any content</li>
+            <li>Copy the gist ID from the URL (the long string after /gist/)</li>
           </ol>
           
           <div className="github-settings-form">
@@ -110,13 +117,14 @@ export const GitHubSettings: React.FC<GitHubSettingsProps> = ({
             </div>
             
             <div className="github-settings-field">
-              <label>Gist ID (optional, leave empty to create a new gist):</label>
+              <label>Gist ID (required):</label>
               <input
                 type="text"
                 value={gistId}
                 onChange={(e) => setGistId(e.target.value)}
                 placeholder="1234567890abcdef"
                 className="github-settings-input"
+                required
               />
             </div>
 

@@ -37,18 +37,15 @@ function App() {
         try {
           const result = await GistService.saveToGist(
             gitHubSettings.token!,
-            gitHubSettings.gistId,
+            gitHubSettings.gistId!,
             year,
             Array.from(personalHolidays),
             workDaysPerYear,
-            carryoverHolidays,
-            country,
-            state
+            carryoverHolidays
           );
           
-          if (result.success && result.gistId && result.gistId !== gitHubSettings.gistId) {
-            setGitHubSettings((prev: GistSettings) => ({ ...prev, gistId: result.gistId! }));
-            GistService.saveSettings(gitHubSettings.token!, result.gistId);
+          if (!result.success) {
+            console.error('Auto-save failed:', result.error);
           }
         } catch (error) {
           console.error('Auto-save failed:', error);
@@ -57,34 +54,26 @@ function App() {
 
       return () => clearTimeout(timeoutId);
     }
-  }, [personalHolidays, workDaysPerYear, carryoverHolidays, year, country, state, gitHubSettings]);
+  }, [personalHolidays, workDaysPerYear, carryoverHolidays, year, gitHubSettings.token, gitHubSettings.gistId]);
+
 
   // Load data from GitHub when settings change or on initial load
   useEffect(() => {
     if (gitHubSettings.token && gitHubSettings.gistId) {
       loadFromGitHub();
+      loadConfigurationFromGitHub();
     }
   }, [gitHubSettings.token, gitHubSettings.gistId]);
 
   // Load iCal events when settings change
   useEffect(() => {
-    if (icalSettings.enabled && icalSettings.url) {
+    if (icalSettings.url && icalSettings.url.trim()) {
       loadICalEvents();
     } else {
       setICalEvents([]);
     }
-  }, [icalSettings.enabled, icalSettings.url]);
+  }, [icalSettings.url]);
 
-  // Set up periodic refresh for iCal events
-  useEffect(() => {
-    if (!icalSettings.enabled || !icalSettings.url) return;
-
-    const interval = setInterval(() => {
-      loadICalEvents();
-    }, icalSettings.refreshInterval * 60 * 1000); // Convert minutes to milliseconds
-
-    return () => clearInterval(interval);
-  }, [icalSettings.enabled, icalSettings.url, icalSettings.refreshInterval]);
 
   const loadFromGitHub = async () => {
     if (!gitHubSettings.token || !gitHubSettings.gistId) {
@@ -107,18 +96,10 @@ function App() {
           }
         }
         
-        if (yearData) {
+        if (yearData && 'holidays' in yearData) {
           setPersonalHolidays(new Set(yearData.holidays));
           setWorkDaysPerYear(yearData.workDaysPerYear);
           setCarryoverHolidays(yearData.carryoverHolidays);
-          
-          // Load country and state if available
-          if (yearData.country) {
-            setCountry(yearData.country);
-          }
-          if (yearData.state) {
-            setState(yearData.state);
-          }
         }
       } else {
         console.error('Failed to load gist data:', result.error);
@@ -128,8 +109,36 @@ function App() {
     }
   };
 
+  const loadConfigurationFromGitHub = async () => {
+    if (!gitHubSettings.token || !gitHubSettings.gistId) {
+      return;
+    }
+
+    try {
+      const result = await GistService.loadConfigurationFromGist(gitHubSettings.token, gitHubSettings.gistId);
+      
+      if (result.success && result.configuration) {
+        // Load country from configuration
+        if (result.configuration.country) {
+          setCountry(result.configuration.country);
+        }
+        
+        // Load legend colors from configuration
+        if (result.configuration.legendColors) {
+          setLegendColorSettings(result.configuration.legendColors);
+        }
+      } else {
+        // If no configuration exists, just log it
+        console.log('No configuration found in gist');
+      }
+    } catch (error) {
+      console.error('Failed to load configuration from GitHub:', error);
+    }
+  };
+
+
   const loadICalEvents = async () => {
-    if (!icalSettings.enabled || !icalSettings.url) {
+    if (!icalSettings.url || !icalSettings.url.trim()) {
       return;
     }
 
@@ -163,6 +172,7 @@ function App() {
 
   const handleLegendColorSettingsChange = (settings: LegendColorSettings) => {
     setLegendColorSettings(settings);
+    LegendColorService.saveSettings(settings);
   };
 
   // Use actual iCal events with assigned colors

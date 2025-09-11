@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { YearData, Day } from '../../../types/year';
 import { ICalEvent } from '../../../types/ical';
 import { LegendColorSettings } from '../../../services';
@@ -16,7 +16,7 @@ interface YearViewProps {
   className?: string;
 }
 
-const YearView: React.FC<YearViewProps> = ({ 
+const YearView: React.FC<YearViewProps> = memo(({ 
   yearData, 
   selectedDay, 
   onDayClick,
@@ -50,7 +50,7 @@ const YearView: React.FC<YearViewProps> = ({
             month={month}
             selectedDay={selectedDay}
             onDayClick={handleDayClick}
-            personalHolidays={personalHolidays}
+            personalHolidays={personalHolidays as Set<string>}
             icalEvents={icalEvents}
             legendColorSettings={legendColorSettings}
             className={index >= 3 && index % 3 === 0 ? 'quarter-start' : ''}
@@ -78,6 +78,8 @@ const YearView: React.FC<YearViewProps> = ({
       )} */}
     </div>
   );
-};
+});
+
+YearView.displayName = 'YearView';
 
 export default YearView;

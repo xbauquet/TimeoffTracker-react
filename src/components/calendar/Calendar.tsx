@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { YearService, YearData, Day, ICalEvent, LegendColorSettings } from '../../services';
+import React, { useState, memo, useMemo } from 'react';
+import { YearService, Day, ICalEvent, LegendColorSettings } from '../../services';
 import YearView from './YearView';
 import './Calendar.scss';
 
@@ -14,7 +14,7 @@ interface CalendarProps {
   legendColorSettings?: LegendColorSettings;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ 
+const Calendar: React.FC<CalendarProps> = memo(({ 
   year = new Date().getFullYear(),
   country = 'US',
   state,
@@ -24,24 +24,16 @@ const Calendar: React.FC<CalendarProps> = ({
   onPersonalHolidayToggle,
   legendColorSettings
 }) => {
-  const [yearData, setYearData] = useState<YearData | null>(null);
   const [selectedDay, setSelectedDay] = useState<Day | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadYearData = async () => {
-      setLoading(true);
-      try {
-        const data = YearService.generateYearData(year, country, state);
-        setYearData(data);
-      } catch (error) {
-        console.error('Failed to load year data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadYearData();
+  // Use useMemo to generate year data only when dependencies change
+  const yearData = useMemo(() => {
+    try {
+      return YearService.generateYearData(year, country, state);
+    } catch (error) {
+      console.error('Failed to generate year data:', error);
+      return null;
+    }
   }, [year, country, state]);
 
   const handleDayClick = (day: Day) => {
@@ -53,15 +45,6 @@ const Calendar: React.FC<CalendarProps> = ({
       setSelectedDay(day);
     }
   };
-
-  if (loading) {
-    return (
-      <div className={`calendar-loading ${className}`}>
-        <div className="loading-spinner"></div>
-        <div>Loading calendar...</div>
-      </div>
-    );
-  }
 
   if (!yearData) {
     return (
@@ -77,12 +60,14 @@ const Calendar: React.FC<CalendarProps> = ({
         yearData={yearData}
         selectedDay={selectedDay || undefined}
         onDayClick={handleDayClick}
-        personalHolidays={personalHolidays}
+        personalHolidays={personalHolidays as Set<string>}
         icalEvents={icalEvents}
         legendColorSettings={legendColorSettings}
       />
     </div>
   );
-};
+});
+
+Calendar.displayName = 'Calendar';
 
 export default Calendar;

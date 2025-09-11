@@ -17,24 +17,39 @@ export class YearService {
   // Default country for bank holidays
   private static readonly DEFAULT_COUNTRY = 'US';
 
+  // Cache for year data to avoid recalculation
+  private static yearDataCache = new Map<string, YearData>();
+
   /**
    * Generate complete year data for a given year
    */
   static generateYearData(year: number, country?: string, state?: string): YearData {
+    const countryCode = country || this.DEFAULT_COUNTRY;
+    const cacheKey = `${year}-${countryCode}-${state || ''}`;
+    
+    // Check cache first
+    if (this.yearDataCache.has(cacheKey)) {
+      return this.yearDataCache.get(cacheKey)!;
+    }
+
     const isLeapYear = this.isLeapYear(year);
     const totalDays = isLeapYear ? 366 : 365;
-    const countryCode = country || this.DEFAULT_COUNTRY;
     
     const bankHolidays = this.getBankHolidaysFromLibrary(year, countryCode, state);
     const months = this.generateMonths(year, isLeapYear, bankHolidays);
 
-    return {
+    const yearData = {
       year,
       isLeapYear,
       totalDays,
       months,
       bankHolidays
     };
+
+    // Cache the result
+    this.yearDataCache.set(cacheKey, yearData);
+    
+    return yearData;
   }
 
   /**
@@ -198,5 +213,21 @@ export class YearService {
     }
     
     return workingDays;
+  }
+
+  /**
+   * Clear the year data cache
+   */
+  static clearCache(): void {
+    this.yearDataCache.clear();
+  }
+
+  /**
+   * Clear cache for a specific year/country/state combination
+   */
+  static clearCacheFor(year: number, country?: string, state?: string): void {
+    const countryCode = country || this.DEFAULT_COUNTRY;
+    const cacheKey = `${year}-${countryCode}-${state || ''}`;
+    this.yearDataCache.delete(cacheKey);
   }
 }

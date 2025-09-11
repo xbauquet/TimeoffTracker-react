@@ -1,13 +1,24 @@
-export interface GistData {
-  [year: string]: {
-    holidays: string[];
-    workDaysPerYear: number;
-    carryoverHolidays: number;
-    country: string;
-    state?: string;
-    savedAt: string;
-    note: string;
+export interface YearData {
+  holidays: string[];
+  workDaysPerYear: number;
+  carryoverHolidays: number;
+}
+
+export interface ConfigurationData {
+  country: string;
+  legendColors: {
+    normal: string;
+    weekend: string;
+    holiday: string;
+    holidayWeekend: string;
+    personalHoliday: string;
+    icalEvents: string;
   };
+}
+
+export interface GistData {
+  configuration?: ConfigurationData;
+  [year: string]: YearData | ConfigurationData | undefined;
 }
 
 export interface GistSettings {
@@ -61,50 +72,166 @@ export class GistService {
     }
   }
 
+  static async saveConfigurationToGist(
+    token: string,
+    gistId: string,
+    country: string,
+    legendColors: {
+      normal: string;
+      weekend: string;
+      holiday: string;
+      holidayWeekend: string;
+      personalHoliday: string;
+      icalEvents: string;
+    }
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      // Get existing data from gist
+      let existingData: GistData = {};
+      try {
+        const response = await fetch(`https://api.github.com/gists/${gistId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        
+        if (!response.ok) {
+          return { success: false, error: `Gist not found or access denied (${response.status})` };
+        }
+        
+        const gist = await response.json();
+        const fileName = Object.keys(gist.files)[0];
+        if (fileName) {
+          existingData = JSON.parse(gist.files[fileName].content);
+        }
+      } catch (e) {
+        return { success: false, error: 'Failed to load existing gist data' };
+      }
+
+      // Clean up any legacy global fields that shouldn't be there
+      const cleanedExistingData = { ...existingData };
+      delete (cleanedExistingData as any).workDaysPerYear;
+      delete (cleanedExistingData as any).savedAt;
+      delete (cleanedExistingData as any).note;
+      
+      // Clean up legacy fields from year data
+      Object.keys(cleanedExistingData).forEach(key => {
+        if (key !== 'configuration' && typeof cleanedExistingData[key] === 'object' && cleanedExistingData[key] !== null) {
+          const yearData = cleanedExistingData[key] as any;
+          delete yearData.country;
+          delete yearData.state;
+          delete yearData.savedAt;
+          delete yearData.note;
+        }
+      });
+
+      // Update configuration data
+      const data: GistData = {
+        ...cleanedExistingData,
+        configuration: {
+          country,
+          legendColors
+        }
+      };
+
+      console.log('Saving configuration to gist:', {
+        country,
+        legendColors,
+        gistId
+      });
+
+      const gistData = {
+        description: `Calendrier de congés - ${new Date().toLocaleDateString('fr-FR')}`,
+        public: false, // Private gist
+        files: {
+          'holidays.json': {
+            content: JSON.stringify(data, null, 2)
+          }
+        }
+      };
+
+      console.log('Final gist data being saved:', JSON.stringify(data, null, 2));
+
+      // Update existing gist
+      const response = await fetch(`https://api.github.com/gists/${gistId}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify(gistData)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        return { success: false, error: error.message || 'GitHub API error' };
+      }
+
+      return { success: true };
+
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
   static async saveToGist(
     token: string,
-    gistId: string | null,
+    gistId: string,
     year: number,
     holidays: string[],
     workDaysPerYear: number,
-    carryoverHolidays: number,
-    country: string,
-    state?: string
-  ): Promise<{ success: boolean; gistId?: string; error?: string }> {
+    carryoverHolidays: number
+  ): Promise<{ success: boolean; error?: string }> {
     try {
-      // Get existing data from gist to preserve other years
+      // Get existing data from gist
       let existingData: GistData = {};
-      if (gistId) {
-        try {
-          const response = await fetch(`https://api.github.com/gists/${gistId}`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Accept': 'application/vnd.github.v3+json'
-            }
-          });
-          if (response.ok) {
-            const gist = await response.json();
-            const fileName = Object.keys(gist.files)[0];
-            if (fileName) {
-              existingData = JSON.parse(gist.files[fileName].content);
-            }
+      try {
+        const response = await fetch(`https://api.github.com/gists/${gistId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
           }
-        } catch (e) {
-          // Ignore errors when loading existing data
+        });
+        
+        if (!response.ok) {
+          return { success: false, error: `Gist not found or access denied (${response.status})` };
         }
+        
+        const gist = await response.json();
+        const fileName = Object.keys(gist.files)[0];
+        if (fileName) {
+          existingData = JSON.parse(gist.files[fileName].content);
+        }
+      } catch (e) {
+        return { success: false, error: 'Failed to load existing gist data' };
       }
+
+      // Clean up any legacy global fields that shouldn't be there
+      const cleanedExistingData = { ...existingData };
+      delete (cleanedExistingData as any).workDaysPerYear;
+      delete (cleanedExistingData as any).savedAt;
+      delete (cleanedExistingData as any).note;
+      
+      // Clean up legacy fields from year data
+      Object.keys(cleanedExistingData).forEach(key => {
+        if (key !== 'configuration' && typeof cleanedExistingData[key] === 'object' && cleanedExistingData[key] !== null) {
+          const yearData = cleanedExistingData[key] as any;
+          delete yearData.country;
+          delete yearData.state;
+          delete yearData.savedAt;
+          delete yearData.note;
+        }
+      });
 
       // Update with current year data
       const data: GistData = {
-        ...existingData,
+        ...cleanedExistingData,
         [year]: {
           holidays,
           workDaysPerYear,
-          carryoverHolidays,
-          country,
-          state,
-          savedAt: new Date().toISOString(),
-          note: 'Calendrier de congés personnels'
+          carryoverHolidays
         }
       };
 
@@ -118,54 +245,39 @@ export class GistService {
         }
       };
 
-      let response;
-      let isUpdate = false;
-
-      // Try to update existing gist if we have an ID
-      if (gistId) {
-        try {
-          response = await fetch(`https://api.github.com/gists/${gistId}`, {
-            method: 'PATCH',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-              'Accept': 'application/vnd.github.v3+json'
-            },
-            body: JSON.stringify(gistData)
-          });
-          isUpdate = true;
-        } catch (e) {
-          // If update fails, we'll create a new gist
-        }
-      }
-
-      // Create new gist if update failed or no gist ID
-      if (!response || !response.ok) {
-        response = await fetch('https://api.github.com/gists', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json'
-          },
-          body: JSON.stringify(gistData)
-        });
-        isUpdate = false;
-      }
+      // Update existing gist
+      const response = await fetch(`https://api.github.com/gists/${gistId}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify(gistData)
+      });
 
       if (!response.ok) {
         const error = await response.json();
         return { success: false, error: error.message || 'GitHub API error' };
       }
 
-      const result = await response.json();
-      
-      if (!isUpdate) {
-        return { success: true, gistId: result.id };
-      } else {
-        return { success: true, gistId: gistId! };
-      }
+      return { success: true };
 
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+  }
+
+  static async loadConfigurationFromGist(
+    token: string | null,
+    gistId: string
+  ): Promise<{ success: boolean; configuration?: GistData['configuration']; error?: string }> {
+    try {
+      const result = await this.loadFromGist(token, gistId);
+      if (result.success && result.data) {
+        return { success: true, configuration: result.data.configuration };
+      }
+      return { success: false, error: result.error };
     } catch (error) {
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }

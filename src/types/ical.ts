@@ -12,8 +12,6 @@ export interface ICalEvent {
 
 export interface ICalSettings {
   url: string;
-  enabled: boolean;
-  refreshInterval: number; // in minutes
 }
 
 export interface ICalServiceResult {

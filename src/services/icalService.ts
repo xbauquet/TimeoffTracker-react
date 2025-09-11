@@ -15,9 +15,7 @@ export class ICalService {
       if (stored) {
         const parsed = JSON.parse(stored);
         return {
-          url: parsed.url || '',
-          enabled: parsed.enabled || false,
-          refreshInterval: parsed.refreshInterval || 30
+          url: parsed.url || ''
         };
       }
     } catch (error) {
@@ -25,9 +23,7 @@ export class ICalService {
     }
     
     return {
-      url: '',
-      enabled: false,
-      refreshInterval: 30
+      url: ''
     };
   }
 

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
 import { Legend } from './components/Legend';
-import { SettingsService, ICalEvent, EventColorService, GistService, ICalService } from './services';
+import { SettingsService, ICalEvent, EventColorService, GistService } from './services';
+import { ICalService } from './services/icalService';
 import { AllSettings } from './components/SettingsModal';
 import { HolidayCalculationService } from './services/holidayCalculationService';
 import './App.scss'
@@ -186,11 +187,6 @@ function App() {
         {/* Legend */}
         <Legend
           colorSettings={settings.colors}
-          onColorSettingsChange={async (newColors) => {
-            const updatedSettings = { ...settings, colors: newColors };
-            setSettings(updatedSettings);
-            await SettingsService.saveSettings(updatedSettings);
-          }}
         />
       </div>
     </div>

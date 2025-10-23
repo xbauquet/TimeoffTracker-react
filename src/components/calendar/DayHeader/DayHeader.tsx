@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Month } from '../../../types/year';
 import './DayHeader.scss';
 
@@ -7,14 +8,16 @@ interface DayHeaderProps {
 }
 
 const DayHeader: React.FC<DayHeaderProps> = ({ months }) => {
+  const { t } = useTranslation();
+  
   // Find the maximum number of columns needed across all months
   const maxColumns = Math.max(...months.map(month => {
     const mondayFirstOffset = month.firstDayOfWeek === 0 ? 6 : month.firstDayOfWeek - 1;
     return mondayFirstOffset + month.days.length;
   }));
   
-  // Generate a repeating pattern of day letters that covers the maximum columns
-  const dayLetters = ['L', 'M', 'M', 'J', 'V', 'S', 'D']; // Monday to Sunday
+  // Get day letters from translations (Monday to Sunday)
+  const dayLetters = t('dayLetters', { returnObjects: true }) as string[];
   const dayNames = Array.from({ length: maxColumns }, (_, index) => {
     return dayLetters[index % 7];
   });

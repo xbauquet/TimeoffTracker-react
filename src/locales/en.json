@@ -84,5 +84,7 @@
   
   "close": "Close",
   
-  "clearGitHubConfirm": "Are you sure you want to clear all GitHub data? This action is irreversible."
+  "clearGitHubConfirm": "Are you sure you want to clear all GitHub data? This action is irreversible.",
+  
+  "dayLetters": ["M", "T", "W", "T", "F", "S", "S"]
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
-import { Legend } from './components/Legend';
 import { SettingsService, ICalEvent, EventColorService, GistService } from './services';
 import { ICalService } from './services/icalService';
 import { AllSettings } from './components/SettingsModal';
@@ -155,6 +154,7 @@ function App() {
         workDaysPerYear={workDaysPerYear}
         carryoverHolidays={carryoverHolidays}
         remainingHolidays={remainingHolidays}
+        legendColorSettings={settings.colors}
         onYearChange={setYear}
         onWorkDaysChange={setWorkDaysPerYear}
         onCarryoverChange={setCarryoverHolidays}
@@ -183,11 +183,6 @@ function App() {
             }}
           />
         </main>
-        
-        {/* Legend */}
-        <Legend
-          colorSettings={settings.colors}
-        />
       </div>
     </div>
   )

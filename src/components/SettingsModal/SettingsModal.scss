@@ -154,10 +154,15 @@
       font-size: 14px;
       font-weight: 500;
       border-radius: 0;
+      outline: none;
 
       &:hover {
         color: $text-primary;
         background: $background-hover;
+      }
+
+      &:focus {
+        outline: none;
       }
 
       &.active {

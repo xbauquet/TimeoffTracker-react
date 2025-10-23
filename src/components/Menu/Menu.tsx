@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SettingsModal, AllSettings } from '../SettingsModal';
+import { Legend } from '../Legend';
 import { SettingsService } from '../../services';
 import './Menu.scss';
 
@@ -9,6 +10,7 @@ interface MenuProps {
   workDaysPerYear: number;
   carryoverHolidays: number;
   remainingHolidays: number;
+  legendColorSettings?: any;
   onYearChange: (year: number) => void;
   onWorkDaysChange: (workDays: number) => void;
   onCarryoverChange: (carryover: number) => void;
@@ -21,6 +23,7 @@ export const Menu: React.FC<MenuProps> = ({
   workDaysPerYear,
   carryoverHolidays,
   remainingHolidays,
+  legendColorSettings,
   onYearChange,
   onWorkDaysChange,
   onCarryoverChange,
@@ -75,6 +78,13 @@ export const Menu: React.FC<MenuProps> = ({
               <div className="holiday-counter-label">Congés restants</div>
             </div>
           </div>
+          
+          {/* Legend */}
+          {legendColorSettings && (
+            <div className="menu-legend">
+              <Legend colorSettings={legendColorSettings} />
+            </div>
+          )}
         </div>
         
         <div className="menu-footer">
@@ -108,7 +118,7 @@ export const Menu: React.FC<MenuProps> = ({
               title="Settings"
           >
             <div className="menu-status">
-              <span className="settings-status">Settings ⚙️</span>
+              <span className="settings-status">Settings</span>
             </div>
             <div>
               &gt;

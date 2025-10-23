@@ -156,6 +156,41 @@
   justify-content: center;
 }
 
+// === MENU LEGEND ===
+.menu-legend {
+  padding: $spacing-lg;
+  border-top: 1px solid $border-separator;
+  
+  .legend {
+    background: transparent;
+    border-top: none;
+    margin-top: 0;
+    padding: 0;
+    
+    .legend-items {
+      flex-direction: column;
+      gap: $spacing-sm;
+      align-items: flex-start;
+    }
+    
+    .legend-item {
+      width: 100%;
+      justify-content: flex-start;
+      
+      span {
+        font-size: $font-size-sm;
+        color: $text-secondary;
+      }
+    }
+    
+    .legend-color {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+  }
+}
+
 .holiday-counter-item {
   display: flex;
   flex-direction: column;
@@ -262,7 +297,7 @@
 
 
 .settings-status {
-  color: $primary-color;
+  color: $text-primary;
   font-weight: $font-weight-medium;
 }
 
@@ -339,6 +374,27 @@
   
   .holiday-counter-label {
     font-size: $font-size-xs;
+  }
+  
+  .menu-legend {
+    padding: $spacing-md;
+    
+    .legend {
+      .legend-items {
+        gap: $spacing-xs;
+      }
+      
+      .legend-item {
+        span {
+          font-size: $font-size-xs;
+        }
+      }
+      
+      .legend-color {
+        width: 12px;
+        height: 12px;
+      }
+    }
   }
   
   .menu-control-input {

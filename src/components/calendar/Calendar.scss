@@ -4,23 +4,14 @@
 
 // === CALENDAR LAYOUT ===
 .calendar-linear {
-  padding: $spacing-lg;
   font-family: $font-family;
   flex: 0 0 auto;
   overflow-x: auto;
   overflow-y: visible;
   min-width: 0;
   width: 100%;
-  background: $background-elevated;
-  border-radius: $radius-2xl;
-  box-shadow: $shadow-elevated;
-  border: 1px solid $border-separator;
   animation: slideInUp 0.8s ease-out;
   transition: all 0.3s ease;
-  
-  &:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  }
 }
 
 @keyframes slideInUp {

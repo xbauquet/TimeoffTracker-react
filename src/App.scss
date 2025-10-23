@@ -43,9 +43,11 @@
 // === BODY ===
 body {
   font-family: $font-family;
-  background: linear-gradient(135deg, $background-dark 0%, $background-light 100%);
+  background: $background-grouped;
   min-height: 100vh;
   color: $text-primary;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
 }
 
 // === APP LAYOUT ===
@@ -53,34 +55,63 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: row;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // === APP CONTENT ===
 .app-content {
   flex: 1;
-  margin-left: 200px; // Account for fixed menu width
+  margin-left: 240px; // Account for Apple-style menu
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: $background-grouped;
+  padding: $spacing-lg;
+}
+
+// === RESPONSIVE DESIGN ===
+@include responsive-mobile {
+  .app {
+    flex-direction: column;
+  }
+  
+  .app-content {
+    margin-left: 0;
+    padding: $spacing-md;
+  }
+  
+  .app-main {
+    padding: $spacing-sm;
+  }
+}
+
+@media (max-width: $tablet) and (min-width: $mobile) {
+  .app-content {
+    margin-left: 200px;
+    padding: $spacing-md;
+  }
 }
 
 // === MAIN CONTENT ===
 .app-main {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  overflow-x: auto;
 }
 
 // === LEGEND ===
 // Legend styles are now in the Legend component
-
-// === RESPONSIVE DESIGN ===
-@include responsive-mobile {
-  .app-content {
-    margin-left: 200px; // Account for smaller menu width on mobile
-  }
-  
-  .app-main {
-    padding: 10px;
-  }
-}

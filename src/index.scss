@@ -32,12 +32,12 @@
 // === ROOT STYLES ===
 :root {
   font-family: $font-family;
-  line-height: 1.5;
-  font-weight: 400;
+  line-height: $line-height-normal;
+  font-weight: $font-weight-regular;
 
-  color-scheme: dark;
+  color-scheme: light;
   color: $text-primary;
-  background: linear-gradient(135deg, $background-dark 0%, $background-light 100%);
+  background: $background-grouped;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -61,7 +61,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(135deg, $background-dark 0%, $background-light 100%);
+  background: $background-grouped;
 }
 
 // === HEADINGS ===
@@ -91,6 +91,6 @@ input, select, textarea {
   color: $text-primary;
   
   &::placeholder {
-    color: $text-light;
+    color: $text-placeholder;
   }
 }

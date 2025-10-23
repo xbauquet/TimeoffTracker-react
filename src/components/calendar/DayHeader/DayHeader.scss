@@ -5,30 +5,40 @@
 .dh-day-hearder {
   display: flex;
   flex: 1;
+  margin-bottom: $spacing-sm;
+  align-items: center;
+  min-height: 32px;
 }
 
 .dh-day-hearder-days {
   display: flex;
   align-items: center;
   flex: 1;
+  padding: $spacing-xs;
 }
 
 .dh-day-hearder-label {
-  width: 50px;
+  width: $month-label-width;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid transparent;
+  padding: $spacing-xs $spacing-sm;
 }
 
 .dh-day-hearder-day-name {
-  width: 24px;
-  height: 18px;
+  width: $day-cell-size;
+  height: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: $font-size-xs;
-  font-weight: 600;
-  margin: 1px;
-  color: $primary-color;
+  font-weight: $font-weight-semibold;
+  margin: $day-cell-margin !important;
+  color: $text-secondary;
   text-transform: uppercase;
-  letter-spacing: 0px;
+  letter-spacing: 0.5px;
   box-sizing: border-box;
   
   &.empty {

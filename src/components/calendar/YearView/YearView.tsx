@@ -40,9 +40,9 @@ const YearView: React.FC<YearViewProps> = memo(({
   return (
     <div className={`year-view ${className}`}>
       <div className="calendar-linear">
-        {/* Day names header component */}
-        <DayHeader/>
-
+        {/* Global day header */}
+        <DayHeader months={yearData.months} />
+        
         {/* Months */}
         {yearData.months.map((month: any, index: number) => (
           <MonthView

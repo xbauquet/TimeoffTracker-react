@@ -1,3 +1,6 @@
+// === IMPORTS ===
+@use "../../styles/variables" as *;
+
 // === MODAL OVERLAY ===
 .modal-overlay {
   position: fixed;
@@ -9,21 +12,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9999;
   padding: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 // === MODAL CONTENT ===
 .modal-content {
-  background: #1a1a1a;
-  border-radius: 12px;
+  background: $background-elevated;
+  border-radius: $radius-3xl;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   width: 100%;
-  height: 100%;
+  max-width: 800px;
+  max-height: 90vh;
   overflow: hidden;
-  border: 1px solid #333;
+  border: 1px solid $border-separator;
   display: flex;
   flex-direction: column;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 // === MODAL HEADER ===
@@ -31,36 +49,36 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 24px 16px;
-  border-bottom: 1px solid #333;
+  padding: $spacing-2xl;
+  border-bottom: 1px solid $border-separator;
 }
 
 .modal-title {
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #fff;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
 }
 
 .modal-close {
   background: none;
   border: none;
-  font-size: 24px;
-  color: #999;
+  font-size: $font-size-2xl;
+  color: $text-tertiary;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
+  padding: $spacing-sm;
+  border-radius: $radius-lg;
   transition: all 0.2s ease;
-
+  
   &:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
+    background: $background-hover;
+    color: $text-primary;
   }
 }
 
 // === MODAL BODY ===
 .modal-body {
-  padding: 20px;
+  padding: $spacing-2xl;
   flex: 1;
   overflow-y: auto;
   min-height: 0; // Allows flex child to shrink below content size
@@ -70,36 +88,41 @@
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  padding: 16px 24px 24px;
-  border-top: 1px solid #333;
+  gap: $spacing-md;
+  padding: $spacing-lg $spacing-2xl $spacing-2xl;
+  border-top: 1px solid $border-separator;
 }
 
 .modal-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
+  padding: $spacing-sm $spacing-lg;
+  border: 1px solid $border-medium;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all 0.2s ease;
+  background: $background-secondary;
+  color: $text-primary;
 
   &.primary {
-    background: #64b5f6;
-    color: white;
+    background: $primary-color;
+    color: $text-white;
+    border-color: $primary-color;
 
     &:hover {
-      background: #42a5f5;
+      background: $primary-hover;
+      border-color: $primary-hover;
     }
   }
 
   &.secondary {
-    background: #333;
-    color: #fff;
-    border: 1px solid #555;
+    background: $background-secondary;
+    color: $text-primary;
+    border-color: $border-medium;
 
     &:hover {
-      background: #444;
+      background: $background-hover;
+      border-color: $border-strong;
     }
   }
 }
@@ -117,31 +140,30 @@
 
   .settings-tabs {
     display: flex;
-    border-bottom: 1px solid #333;
-    background: #2a2a2a;
-    margin: 0 -20px;
-    padding: 0 20px;
+    border-bottom: 1px solid $border-separator;
+    background: $background-secondary;
 
     .settings-tab {
       background: none;
       border: none;
-      color: #ccc;
+      color: $text-secondary;
       padding: 12px 16px;
       cursor: pointer;
       border-bottom: 2px solid transparent;
       transition: all 0.2s ease;
       font-size: 14px;
       font-weight: 500;
+      border-radius: 0;
 
       &:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.05);
+        color: $text-primary;
+        background: $background-hover;
       }
 
       &.active {
-        color: #64b5f6;
-        border-bottom-color: #64b5f6;
-        background: rgba(100, 181, 246, 0.1);
+        color: $primary-color;
+        border-bottom-color: $primary-color;
+        background: $primary-light;
       }
     }
   }
@@ -164,14 +186,14 @@
     .setting-label {
       display: block;
       font-weight: 500;
-      color: #fff;
+      color: $text-primary;
       margin-bottom: 8px;
       font-size: 14px;
     }
 
     .setting-description {
       font-size: 12px;
-      color: #999;
+      color: $text-secondary;
       margin-top: 6px;
       line-height: 1.4;
     }
@@ -180,21 +202,21 @@
     .setting-select {
       width: 100%;
       padding: 10px 12px;
-      background: #333;
-      border: 1px solid #555;
+      background: $background-secondary;
+      border: 1px solid $border-medium;
       border-radius: 4px;
-      color: #fff;
+      color: $text-primary;
       font-size: 14px;
       transition: border-color 0.2s ease;
 
       &:focus {
         outline: none;
-        border-color: #64b5f6;
-        box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
+        border-color: $primary-color;
+        box-shadow: 0 0 0 2px $primary-light;
       }
 
       &::placeholder {
-        color: #666;
+        color: $text-placeholder;
       }
     }
 
@@ -252,20 +274,20 @@
     .github-help {
       margin-top: 20px;
       padding: 16px;
-      background: #2a2a2a;
+      background: $background-secondary;
       border-radius: 4px;
-      border-left: 3px solid #64b5f6;
+      border-left: 3px solid $primary-color;
 
       h4 {
         margin: 0 0 12px 0;
-        color: #fff;
+        color: $text-primary;
         font-size: 14px;
       }
 
       ol {
         margin: 0;
         padding-left: 20px;
-        color: #ccc;
+        color: $text-secondary;
         font-size: 12px;
         line-height: 1.5;
 
@@ -273,7 +295,7 @@
           margin-bottom: 4px;
 
           a {
-            color: #64b5f6;
+            color: $primary-color;
             text-decoration: none;
 
             &:hover {
@@ -287,20 +309,20 @@
     .url-examples {
       margin-top: 20px;
       padding: 16px;
-      background: #2a2a2a;
+      background: $background-secondary;
       border-radius: 4px;
-      border-left: 3px solid #4caf50;
+      border-left: 3px solid $success-color;
 
       h4 {
         margin: 0 0 12px 0;
-        color: #fff;
+        color: $text-primary;
         font-size: 14px;
       }
 
       ul {
         margin: 0;
         padding-left: 20px;
-        color: #ccc;
+        color: $text-secondary;
         font-size: 12px;
         line-height: 1.5;
 
@@ -308,7 +330,7 @@
           margin-bottom: 4px;
 
           strong {
-            color: #fff;
+            color: $text-primary;
           }
         }
       }
@@ -320,7 +342,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 12px 0;
-        border-bottom: 1px solid #333;
+        border-bottom: 1px solid $border-light;
 
         &:last-child {
           border-bottom: none;
@@ -328,20 +350,21 @@
 
         .color-label {
           font-weight: 500;
-          color: #fff;
+          color: $text-primary;
           font-size: 14px;
           min-width: 120px;
         }
 
         .color-picker-inline {
           flex: 1;
-          max-width: 300px;
+          max-width: 100%;
+          margin-left: 20px;
 
           .color-picker-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
             gap: 6px;
-            max-width: 300px;
+            max-width: 100%;
 
             .color-option {
               width: 24px;
@@ -357,8 +380,8 @@
               }
 
               &.selected {
-                border-color: #64b5f6;
-                box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.3);
+                border-color: $primary-color;
+                box-shadow: 0 0 0 2px $primary-light;
               }
             }
           }

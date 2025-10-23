@@ -49,7 +49,7 @@
   align-items: center;
   justify-content: center;
   padding: 40px;
-  background: $background-medium;
+  background: $background-elevated;
   border-radius: 12px;
   color: $text-primary;
 }
@@ -74,7 +74,7 @@
   align-items: center;
   justify-content: center;
   padding: 40px;
-  background: $background-medium;
+  background: $background-elevated;
   border-radius: 12px;
   color: $error-color;
   font-weight: 500;
@@ -95,45 +95,74 @@
 
 @include responsive-mobile {
   .calendar-linear {
-    padding: 5px;
+    padding: $spacing-sm;
+    border-radius: $radius-xl;
   }
   
   .linear-day {
-    width: 18px;
-    min-height: 18px;
+    width: 20px;
+    min-height: 20px;
     font-size: $font-size-xs;
+    margin: 1px;
   }
   
   .linear-day-name {
-    width: 18px;
+    width: 20px;
     font-size: $font-size-xs;
   }
   
   .linear-month-label {
     min-width: 40px;
-    font-size: $font-size-sm;
-    padding: 4px 6px;
-    height: 50px;
+    font-size: $font-size-xs;
+    padding: $spacing-xs $spacing-sm;
+    height: 28px;
   }
   
   .linear-month-total {
     min-width: 25px;
-    font-size: $font-size-sm;
-    padding: 4px 6px;
-    height: 50px;
+    font-size: $font-size-xs;
+    padding: $spacing-xs $spacing-sm;
+    height: 28px;
   }
   
   .linear-day-names {
     margin-left: 40px;
     margin-right: 25px;
   }
+}
+
+@media (max-width: $tablet) and (min-width: $mobile) {
+  .calendar-linear {
+    padding: $spacing-lg;
+  }
   
-  .legend {
-    gap: 10px;
-    padding: 10px;
-    
-    .legend-item span {
-      font-size: 0.8em;
-    }
+  .linear-day {
+    width: 24px;
+    min-height: 24px;
+    font-size: $font-size-xs;
+  }
+  
+  .linear-day-name {
+    width: 24px;
+    font-size: $font-size-xs;
+  }
+  
+  .linear-month-label {
+    min-width: 55px;
+    font-size: $font-size-sm;
+    padding: $spacing-sm $spacing-md;
+    height: 36px;
+  }
+  
+  .linear-month-total {
+    min-width: 35px;
+    font-size: $font-size-sm;
+    padding: $spacing-sm $spacing-md;
+    height: 36px;
+  }
+  
+  .linear-day-names {
+    margin-left: 55px;
+    margin-right: 35px;
   }
 }

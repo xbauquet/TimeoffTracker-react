@@ -19,7 +19,7 @@
 }
 
 .event-more-label {
-  width: 50px;
+  width: $month-label-width;
   height: 16px;
   background: transparent;
   border-right: 1px solid rgba($primary-color, 0.2);
@@ -28,14 +28,14 @@
 .event-more-content {
   flex: 1;
   font-size: 8px;
-  color: $text-muted;
+  color: $text-tertiary;
   font-style: italic;
   padding: 0 6px;
   margin: 0 2px;
 }
 
 .event-more-total {
-  width: 40px;
+  width: $month-total-width;
   height: 16px;
   background: transparent;
   border-left: 1px solid rgba($primary-color, 0.2);

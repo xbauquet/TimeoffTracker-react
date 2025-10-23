@@ -1,98 +1,126 @@
 // === COLOR PALETTE ===
-// Primary colors
-$primary-color: #ffa500;
-$primary-hover: #ff8c00;
-$primary-light: rgba(255, 165, 0, 0.1);
-$primary-medium: rgba(255, 165, 0, 0.2);
-$primary-strong: rgba(255, 165, 0, 0.3);
-$primary-border: rgba(255, 165, 0, 0.2);
+// Apple-inspired primary colors
+$primary-color: #007AFF;
+$primary-hover: #0056CC;
+$primary-light: rgba(0, 122, 255, 0.1);
+$primary-medium: rgba(0, 122, 255, 0.15);
+$primary-strong: rgba(0, 122, 255, 0.2);
+$primary-border: rgba(0, 122, 255, 0.2);
 
-// Background colors
-$background-dark: #000000;
-$background-light: #1a1a1a;
-$background-medium: #2a2a2a;
-$background-header: #404040;
-$background-hover: #4a4a4a;
+// Apple-inspired background colors
+$background-primary: #FFFFFF;
+$background-secondary: #F2F2F7;
+$background-tertiary: #FFFFFF;
+$background-grouped: #F2F2F7;
+$background-elevated: #FFFFFF;
+$background-hover: rgba(0, 0, 0, 0.04);
+$background-selected: rgba(0, 122, 255, 0.1);
 
-// Text colors
-$text-primary: #e0e6ed;
-$text-white: #ffffff;
-$text-black: #000000;
-$text-muted: #888888;
-$text-light: rgba(255, 255, 255, 0.6);
+// Text colors (Apple system colors)
+$text-primary: #000000;
+$text-secondary: #3C3C43;
+$text-tertiary: #3C3C43;
+$text-quaternary: #3C3C43;
+$text-placeholder: #3C3C43;
+$text-white: #FFFFFF;
+$text-accent: #007AFF;
 
-// Calendar day colors
-$day-normal: #404040;
-$day-weekend: #4a90e2;
-$day-holiday: #28a745;
-$day-holiday-weekend: #20c997;
-$day-personal-holiday: #ffa500;
-$day-personal-holiday-hover: #ff8c00;
+// Calendar day colors (Apple-inspired)
+$day-normal: #FFFFFF;
+$day-weekend: #F2F2F7;
+$day-holiday: #34C759;
+$day-holiday-weekend: #30D158;
+$day-personal-holiday: #007AFF;
+$day-personal-holiday-hover: #0056CC;
 
-// Event colors
-$event-background: linear-gradient(135deg, #4a90e2, #357abd);
-$event-background-hover: linear-gradient(135deg, #357abd, #2c5aa0);
-$event-accent: #ffa500;
-$event-color: #c2185b; // Dark pink for iCal events
+// Event colors (Apple-inspired)
+$event-background: #007AFF;
+$event-background-hover: #0056CC;
+$event-accent: #FF9500;
+$event-color: #FF3B30; // Red for iCal events
 
-// Status colors
-$success-color: #28a745;
-$error-color: #e74c3c;
-$warning-color: #ffa500;
-$info-color: #4a90e2;
+// Status colors (Apple system colors)
+$success-color: #34C759;
+$error-color: #FF3B30;
+$warning-color: #FF9500;
+$info-color: #007AFF;
 
-// Border colors
-$border-light: rgba(255, 255, 255, 0.1);
-$border-medium: rgba(255, 255, 255, 0.15);
-$border-strong: rgba(255, 165, 0, 0.3);
+// Border colors (Apple-inspired)
+$border-light: rgba(0, 0, 0, 0.1);
+$border-medium: rgba(0, 0, 0, 0.15);
+$border-strong: rgba(0, 0, 0, 0.2);
+$border-separator: rgba(0, 0, 0, 0.1);
 
-// Shadow colors
-$shadow-light: rgba(0, 0, 0, 0.2);
-$shadow-medium: rgba(0, 0, 0, 0.3);
-$shadow-strong: rgba(0, 0, 0, 0.5);
-$shadow-primary: rgba(255, 165, 0, 0.3);
-$shadow-primary-strong: rgba(255, 165, 0, 0.4);
+// Shadow colors (Apple-inspired)
+$shadow-light: rgba(0, 0, 0, 0.1);
+$shadow-medium: rgba(0, 0, 0, 0.15);
+$shadow-strong: rgba(0, 0, 0, 0.25);
+$shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.15);
 
 // Overlay colors
-$overlay-light: rgba(255, 255, 255, 0.05);
-$overlay-medium: rgba(255, 255, 255, 0.08);
-$overlay-strong: rgba(0, 0, 0, 0.9);
+$overlay-light: rgba(0, 0, 0, 0.02);
+$overlay-medium: rgba(0, 0, 0, 0.04);
+$overlay-strong: rgba(0, 0, 0, 0.8);
 
 // === TYPOGRAPHY ===
-$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$font-size-xs: 8px;
-$font-size-sm: 9px;
-$font-size-base: 10px;
-$font-size-md: 11px;
-$font-size-lg: 12px;
-$font-size-xl: 14px;
-$font-size-2xl: 16px;
-$font-size-3xl: 20px;
+$font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+$font-size-xs: 11px;
+$font-size-sm: 12px;
+$font-size-base: 13px;
+$font-size-md: 14px;
+$font-size-lg: 15px;
+$font-size-xl: 16px;
+$font-size-2xl: 18px;
+$font-size-3xl: 22px;
+$font-size-4xl: 28px;
+$font-size-5xl: 34px;
 
-// === SPACING ===
-$spacing-xs: 2px;
-$spacing-sm: 4px;
-$spacing-md: 6px;
-$spacing-lg: 8px;
-$spacing-xl: 10px;
-$spacing-2xl: 12px;
-$spacing-3xl: 15px;
-$spacing-4xl: 20px;
-$spacing-5xl: 30px;
+// Font weights (Apple system)
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
 
-// === BORDER RADIUS ===
-$radius-sm: 2px;
-$radius-md: 3px;
-$radius-lg: 4px;
-$radius-xl: 6px;
-$radius-2xl: 8px;
-$radius-3xl: 12px;
+// Line heights (Apple system)
+$line-height-tight: 1.2;
+$line-height-normal: 1.4;
+$line-height-relaxed: 1.6;
+
+// === SPACING === (Apple system spacing)
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-2xl: 24px;
+$spacing-3xl: 32px;
+$spacing-4xl: 40px;
+$spacing-5xl: 48px;
+$spacing-6xl: 64px;
+
+// === BORDER RADIUS === (Apple system radius)
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 8px;
+$radius-xl: 10px;
+$radius-2xl: 12px;
+$radius-3xl: 16px;
+$radius-4xl: 20px;
 $radius-full: 50%;
 
 // === BREAKPOINTS ===
-$mobile: 768px;
-$tablet: 900px;
-$desktop: 1200px;
+$mobile: 640px;
+$tablet: 768px;
+$desktop: 1024px;
+$wide: 1280px;
+
+// === CALENDAR DIMENSIONS ===
+$day-cell-size: 24px;
+$day-cell-margin: 1px;
+$day-cell-total-size: $day-cell-size + ($day-cell-margin * 2);
+$month-label-width: 50px;
+$month-total-width: 30px;
 
 // === Z-INDEX ===
 $z-dropdown: 100;

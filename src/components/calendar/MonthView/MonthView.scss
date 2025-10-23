@@ -6,15 +6,21 @@
 .linear-month {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1px;
-  background: $background-medium;
-  border-radius: 4px;
+  margin-bottom: $spacing-sm;
+  background: $background-elevated;
+  border-radius: $radius-xl;
   overflow: hidden;
-  box-shadow: 0 1px 2px $shadow-light;
-  border: 1px solid $primary-light;
+  box-shadow: $shadow-card;
+  border: 1px solid $border-separator;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    box-shadow: $shadow-elevated;
+    transform: translateY(-1px);
+  }
   
   &.quarter-start {
-    margin-top: 15px;
+    margin-top: $spacing-2xl;
   }
 }
 
@@ -25,41 +31,44 @@
   min-height: 32px;
 }
 
-
 .linear-month-label {
-  background: $background-header;
-  color: $primary-color;
-  padding: 6px 10px;
-  min-width: 50px;
-  font-size: $font-size-base;
-  font-weight: 600;
+  background: $background-secondary;
+  color: $text-primary;
+  padding: $spacing-xs $spacing-sm;
+  min-width: $month-label-width;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
   text-align: center;
-  border-right: 1px solid $primary-border;
+  border-right: 1px solid $border-separator;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  letter-spacing: 0.3px;
 }
 
 .linear-days {
   display: flex;
   flex: 1;
-  padding: 2px;
-  background: $background-medium;
+  padding: $spacing-xs;
+  background: $background-elevated;
   align-items: center;
   margin-right: 0;
   padding-right: 0;
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow-x: visible;
 }
 
 .linear-month-total {
-  background: $background-light;
-  padding: 6px 8px;
-  min-width: 30px;
+  background: $background-secondary;
+  padding: $spacing-xs $spacing-sm;
+  min-width: $month-total-width;
   text-align: center;
-  font-size: $font-size-base;
-  font-weight: 600;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
   color: $primary-color;
-  border-left: 1px solid $primary-border;
+  border-left: 1px solid $border-separator;
   height: 32px;
   display: flex;
   align-items: center;

@@ -14,8 +14,8 @@
   justify-content: space-between;
   gap: $spacing-4xl;
   padding: $spacing-3xl $spacing-4xl;
-  background: $background-light;
-  border-top: 1px solid $primary-border;
+  background: $background-elevated;
+  border-top: 1px solid $border-separator;
   margin-top: auto;
   position: relative;
 }
@@ -66,8 +66,8 @@
 }
 
 .legend-settings-button {
-  background: $background-medium;
-  border: 1px solid $primary-border;
+  background: $background-secondary;
+  border: 1px solid $border-separator;
   border-radius: $radius-xl;
   padding: $spacing-lg;
   color: $text-primary;

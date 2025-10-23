@@ -16,36 +16,51 @@
 
 // === MENU COMPONENT ===
 .menu {
-  width: 200px;
+  width: 240px;
   height: 100vh;
-  background: linear-gradient(180deg, $background-light 0%, $background-medium 100%);
-  border-right: 1px solid $border-medium;
+  background: $background-elevated;
+  border-right: 1px solid $border-separator;
   display: flex;
   flex-direction: column;
   position: fixed;
   left: 0;
   top: 0;
   z-index: $z-sticky;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: $shadow-card;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 // === MENU HEADER ===
 .menu-header {
-  padding: $spacing-4xl $spacing-2xl;
-  border-bottom: 1px solid $border-light;
+  padding: $spacing-2xl $spacing-lg;
+  border-bottom: 1px solid $border-separator;
   
   .menu-title {
-    color: $primary-color;
+    color: $text-primary;
     font-size: $font-size-2xl;
-    font-weight: 300;
-    letter-spacing: 1px;
+    font-weight: $font-weight-semibold;
+    letter-spacing: -0.5px;
     margin: 0;
+    line-height: $line-height-tight;
   }
 }
 
 // === MENU CONTROLS ===
 .menu-controls {
-  padding: $spacing-2xl;
+  padding: $spacing-lg;
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
@@ -57,7 +72,7 @@
   gap: $spacing-sm;
   
   .menu-control-label {
-    color: $text-white;
+    color: $text-primary;
     font-size: $font-size-sm;
     font-weight: 600;
     text-transform: uppercase;
@@ -91,29 +106,34 @@
 .year-control {
   display: flex;
   align-items: center;
-  border-radius: $radius-xl;
-  overflow: hidden;
+  background: $background-secondary;
+  border-radius: $radius-2xl;
+  padding: $spacing-xs;
+  border: 1px solid $border-light;
 }
 
 .year-button {
   @include button-base;
-  color: $text-primary;
-  font-size: $font-size-2xl;
-  font-weight: bold;
-  padding: $spacing-lg $spacing-xl;
+  color: $text-secondary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  padding: $spacing-sm $spacing-md;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 40px;
-  border-radius: $radius-xl;
+  min-width: 36px;
+  height: 36px;
+  border-radius: $radius-lg;
+  transition: all 0.2s ease;
   
   &:hover {
-    background: $primary-medium;
-    color: $primary-color;
+    background: $background-hover;
+    color: $text-primary;
   }
   
   &:active {
-    background: $primary-strong;
+    background: $background-selected;
+    color: $primary-color;
   }
 }
 
@@ -121,16 +141,17 @@
   flex: 1;
   text-align: center;
   color: $text-primary;
-  font-size: $font-size-2xl;
-  font-weight: 500;
-  padding: $spacing-lg $spacing-xl;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  padding: $spacing-sm $spacing-md;
   background: transparent;
   border: none;
+  min-width: 60px;
 }
 
 // === MENU HOLIDAY COUNTER ===
 .menu-holiday-counter {
-  padding: $spacing-2xl;
+  padding: $spacing-lg;
   display: flex;
   justify-content: center;
 }
@@ -140,24 +161,45 @@
   flex-direction: column;
   align-items: center;
   padding: $spacing-lg;
+  background: $background-secondary;
+  border-radius: $radius-xl;
+  border: 1px solid $border-light;
   min-width: 120px;
+  box-shadow: $shadow-card;
+  transition: all 0.3s ease;
+  animation: scaleIn 0.8s ease-out 0.2s both;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-elevated;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .holiday-counter-value {
   font-size: $font-size-3xl;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
   color: $primary-color;
-  line-height: 1;
-  margin-bottom: $spacing-sm;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-xs;
 }
 
 .holiday-counter-label {
   font-size: $font-size-sm;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: $text-white;
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
   text-align: center;
+  letter-spacing: 0.3px;
 }
 
 // === MENU FOOTER ===
@@ -172,66 +214,70 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 10px;
+  padding: $spacing-md $spacing-lg;
   width: 100%;
-  gap: 10px;
-  border-top: 1px solid $border-light;
+  gap: $spacing-sm;
+  border-top: 1px solid $border-separator;
   border-radius: 0;
+  transition: all 0.2s ease;
   
   &:hover {
-    background: $overlay-medium;
+    background: $background-hover;
+  }
+  
+  &:active {
+    background: $background-selected;
   }
 }
 
 .menu-status {
   flex: 1;
-  font-size: $font-size-lg;
-  font-weight: 500;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
 }
 
 .menu-control-input {
   width: 80px;
-  padding: 8px 12px;
-  background: $background-medium;
-  border: 1px solid $border-medium;
-  border-radius: 4px;
+  padding: $spacing-sm $spacing-md;
+  background: $background-secondary;
+  border: 1px solid $border-light;
+  border-radius: $radius-lg;
   color: $text-primary;
-  font-size: $font-size-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
   text-align: center;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
 
   &:focus {
     outline: none;
     border-color: $primary-color;
-    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
   }
 
   &:hover {
-    border-color: $primary-medium;
+    border-color: $border-medium;
   }
 }
 
 
 .settings-status {
   color: $primary-color;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
 }
 
 .settings-button {
   background: transparent;
   border: none;
-  border-top: 1px solid $border-light;
-  margin-top: $spacing-md;
+  border-top: 1px solid $border-separator;
+  margin-top: $spacing-sm;
   
   &:hover {
-    background: rgba($primary-color, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba($primary-color, 0.3);
+    background: $background-hover;
   }
   
   &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba($primary-color, 0.2);
+    background: $background-selected;
   }
 }
 
@@ -247,30 +293,35 @@
   }
   
   &.disconnected {
-    color: $text-muted;
+    color: $text-tertiary;
   }
 }
 
 // === RESPONSIVE DESIGN ===
 @media (max-width: $mobile) {
   .menu {
-    width: 200px;
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid $border-separator;
+    box-shadow: none;
   }
   
   .menu-header {
-    padding: $spacing-2xl $spacing-lg;
+    padding: $spacing-lg;
+    text-align: center;
     
     .menu-title {
-      font-size: $font-size-xl;
+      font-size: $font-size-2xl;
     }
   }
   
   .menu-controls {
     padding: $spacing-lg;
-  }
-  
-  .menu-work-settings {
-    padding: $spacing-lg;
+    flex-direction: row;
+    gap: $spacing-md;
+    justify-content: space-between;
   }
   
   .menu-holiday-counter {
@@ -290,20 +341,93 @@
     font-size: $font-size-xs;
   }
   
-  .menu-control-input,
-  .menu-control-select {
-    padding: $spacing-md $spacing-lg;
-    font-size: $font-size-md;
+  .menu-control-input {
+    width: 60px;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-xs;
   }
   
   .year-button {
-    padding: $spacing-md $spacing-lg;
-    font-size: $font-size-xl;
-    min-width: 32px;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+    min-width: 24px;
+    height: 24px;
   }
   
   .year-display {
-    padding: $spacing-md $spacing-lg;
-    font-size: $font-size-md;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+    min-width: 40px;
+  }
+  
+  .menu-footer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+  
+  .menu-section {
+    flex: 1;
+    min-width: 120px;
+    border-top: none;
+    border-right: 1px solid $border-separator;
+    
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+@media (max-width: $tablet) and (min-width: $mobile) {
+  .menu {
+    width: 200px;
+  }
+  
+  .menu-header {
+    padding: $spacing-2xl $spacing-lg;
+    
+    .menu-title {
+      font-size: $font-size-2xl;
+    }
+  }
+  
+  .menu-controls {
+    padding: $spacing-lg;
+  }
+  
+  .menu-holiday-counter {
+    padding: $spacing-lg;
+  }
+  
+  .holiday-counter-item {
+    min-width: 120px;
+    padding: $spacing-lg;
+  }
+  
+  .holiday-counter-value {
+    font-size: $font-size-3xl;
+  }
+  
+  .holiday-counter-label {
+    font-size: $font-size-xs;
+  }
+  
+  .menu-control-input {
+    width: 70px;
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-xs;
+  }
+  
+  .year-button {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-base;
+    min-width: 28px;
+    height: 28px;
+  }
+  
+  .year-display {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-base;
+    min-width: 50px;
   }
 }

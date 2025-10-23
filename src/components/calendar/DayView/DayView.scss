@@ -4,26 +4,28 @@
 
 // === MIXINS ===
 @mixin day-base {
-  width: 24px;
-  height: 24px;
+  width: $day-cell-size;
+  height: $day-cell-size;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: $font-size-sm;
-  font-weight: 600;
-  margin: 1px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  margin: $day-cell-margin;
   border-radius: $radius-md;
   cursor: pointer;
-  transition: all 0.1s ease;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
 
 @mixin day-hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  box-shadow: $shadow-card;
 }
 
 @mixin day-special {
   border: 2px solid;
-  box-shadow: 0 0 8px;
+  box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
 }
 
 // === DAY STYLES ===
@@ -34,17 +36,19 @@
   &.empty {
     background: transparent;
     cursor: default;
-    width: 24px;
-    height: 24px;
-    margin: 1px;
+    width: $day-cell-size;
+    height: $day-cell-size;
+    margin: $day-cell-margin;
   }
   
   &.normal {
-    background: $background-header;
+    background: $background-secondary;
     color: $text-primary;
+    border-color: $border-light;
     
     &:hover {
       background: $background-hover;
+      border-color: $border-medium;
       @include day-hover;
     }
   }
@@ -52,21 +56,25 @@
   &.weekend {
     background: $day-weekend;
     color: $text-white;
+    border-color: rgba(255, 255, 255, 0.2);
   }
   
   &.holiday {
     background: $day-holiday;
     color: $text-white;
+    border-color: rgba(255, 255, 255, 0.2);
   }
   
   &.holiday-weekend {
     background: $day-holiday-weekend;
     color: $text-white;
+    border-color: rgba(255, 255, 255, 0.2);
   }
   
   &.personal-holiday {
     background: $day-personal-holiday;
-    color: $text-black;
+    color: $text-white;
+    border-color: rgba(255, 255, 255, 0.2);
     
     &:hover {
       background: $day-personal-holiday-hover;
@@ -81,20 +89,24 @@
   &.today {
     @include day-special;
     border-color: $primary-color;
-    box-shadow: 0 0 8px rgba($primary-color, 0.4);
+    background: $primary-color;
+    color: $text-white;
+    font-weight: $font-weight-semibold;
   }
   
   &.selected {
     @include day-special;
-    border-color: $text-white;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    border-color: $primary-color;
+    background: $background-selected;
+    color: $primary-color;
+    font-weight: $font-weight-semibold;
   }
 
 }
 
 // === DAY CONTENT ===
 .day-number {
-  font-size: $font-size-sm;
-  font-weight: 600;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
   line-height: 1;
 }

@@ -12,7 +12,7 @@
 }
 
 .event-label-space {
-  width: 50px;
+  width: $month-label-width;
   height: 18px;
   background: transparent;
   border-right: 1px solid rgba($primary-color, 0.2);
@@ -26,9 +26,9 @@
 }
 
 .event-empty-day {
-  width: 24px;
+  width: $day-cell-size;
   height: 18px;
-  margin: 1px;
+  margin: $day-cell-margin;
   background: transparent;
   flex-shrink: 0;
 }
@@ -123,7 +123,7 @@
 }
 
 .event-total-space {
-  width: 40px;
+  width: $month-total-width;
   height: 18px;
   background: transparent;
   border-left: 1px solid rgba($primary-color, 0.2);

@@ -4,12 +4,34 @@
 
 // === CALENDAR LAYOUT ===
 .calendar-linear {
-  padding: 20px;
+  padding: $spacing-lg;
   font-family: $font-family;
   flex: 0 0 auto;
   overflow-x: auto;
   overflow-y: visible;
   min-width: 0;
+  width: 100%;
+  background: $background-elevated;
+  border-radius: $radius-2xl;
+  box-shadow: $shadow-elevated;
+  border: 1px solid $border-separator;
+  animation: slideInUp 0.8s ease-out;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // === LOADING AND ERROR STATES ===
@@ -18,20 +40,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
-  background: $background-medium;
-  border-radius: 12px;
+  padding: $spacing-4xl;
+  background: $background-elevated;
+  border-radius: $radius-2xl;
   color: $text-primary;
+  box-shadow: $shadow-card;
+  border: 1px solid $border-separator;
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid $primary-strong;
-  border-top: 3px solid $primary-color;
+  width: 32px;
+  height: 32px;
+  border: 2px solid $border-light;
+  border-top: 2px solid $primary-color;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-bottom: 16px;
+  margin-bottom: $spacing-lg;
 }
 
 @keyframes spin {
@@ -43,15 +67,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
-  background: $background-medium;
-  border-radius: 12px;
+  padding: $spacing-4xl;
+  background: $background-elevated;
+  border-radius: $radius-2xl;
   color: $error-color;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
+  box-shadow: $shadow-card;
+  border: 1px solid $border-separator;
 }
 
 .calendar-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  min-width: 1200px;
+  margin: 0;
 }

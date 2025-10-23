@@ -2,6 +2,16 @@
 @use "sass:color";
 @use "../../../styles/variables" as *;
 
+// === ANIMATIONS ===
+@keyframes todayPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.3), 0 0 12px rgba($primary-color, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.5), 0 0 16px rgba($primary-color, 0.6);
+  }
+}
+
 // === MIXINS ===
 @mixin day-base {
   width: $day-cell-size;
@@ -87,11 +97,16 @@
   }
   
   &.today {
-    @include day-special;
     border-color: $primary-color;
-    background: $primary-color;
-    color: $text-white;
-    font-weight: $font-weight-semibold;
+    border-width: 3px;
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.3), 0 0 12px rgba($primary-color, 0.4);
+    font-weight: $font-weight-bold;
+    transform: scale(1.1);
+    z-index: 10;
+    position: relative;
+    
+    // Add a pulsing animation to make it more noticeable
+    animation: todayPulse 2s ease-in-out infinite;
   }
   
   &.selected {

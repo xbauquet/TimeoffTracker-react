@@ -1,7 +1,6 @@
 import { GistService } from './gistService';
 import { ICalService } from './icalService';
 import { LegendColorService } from './legendColorService';
-import { ThemeService, Theme } from './themeService';
 import { AllSettings } from '../components/SettingsModal';
 
 export class SettingsService {
@@ -11,6 +10,7 @@ export class SettingsService {
   private static readonly DEFAULT_SETTINGS: AllSettings = {
     country: 'US',
     theme: 'light',
+    language: 'en',
     gitHub: { token: null, gistId: null },
     ical: { url: '' },
     colors: {
@@ -41,7 +41,8 @@ export class SettingsService {
         const parsed = JSON.parse(stored);
         generalSettings = {
           country: parsed.country || this.DEFAULT_SETTINGS.country,
-          theme: parsed.theme || this.DEFAULT_SETTINGS.theme
+          theme: parsed.theme || this.DEFAULT_SETTINGS.theme,
+          language: parsed.language || this.DEFAULT_SETTINGS.language
         };
       }
 
@@ -109,7 +110,8 @@ export class SettingsService {
       // Save general settings to unified storage
       const generalSettings = {
         country: settings.country,
-        theme: settings.theme
+        theme: settings.theme,
+        language: settings.language
       };
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(generalSettings));
@@ -201,6 +203,8 @@ export class SettingsService {
       typeof settings.country === 'string' &&
       typeof settings.theme === 'string' &&
       (settings.theme === 'light' || settings.theme === 'dark') &&
+      typeof settings.language === 'string' &&
+      (settings.language === 'en' || settings.language === 'fr') &&
       settings.gitHub &&
       settings.ical &&
       settings.colors &&

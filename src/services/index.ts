@@ -9,3 +9,4 @@ export { ThemeService } from './themeService';
 export type { Day, Month, YearData, BankHoliday, BankHolidayRule } from '../types/year';
 export type { ICalEvent, ICalSettings, ICalServiceResult } from '../types/ical';
 export type { LegendColorSettings } from './legendColorService';
+export type { Language } from '../types/language';

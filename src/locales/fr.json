@@ -1,0 +1,88 @@
+{
+  "appTitle": "Timeoff Tracker",
+  
+  "remainingHolidays": "Congés restants",
+  "workDays": "Jours de travail",
+  "carryoverHolidays": "Congés N-1",
+  "settings": "Paramètres",
+  
+  "normalDay": "Jour normal",
+  "weekend": "Week-end",
+  "holiday": "Jour férié",
+  "holidayWeekend": "Jour férié (week-end)",
+  "personalHoliday": "Congé personnel",
+  "icalEvents": "Événements iCal",
+  
+  "settingsTitle": "Paramètres",
+  "general": "Général",
+  "github": "GitHub",
+  "calendar": "Calendrier",
+  "colors": "Couleurs",
+  "language": "Langue",
+  "country": "Pays",
+  "theme": "Thème",
+  "light": "Clair",
+  "dark": "Sombre",
+  "cancel": "Annuler",
+  "saveSettings": "Enregistrer",
+  
+  "githubToken": "Token GitHub (requis)",
+  "gistId": "ID Gist (requis)",
+  "testConnection": "Tester la connexion",
+  "clearAll": "Tout effacer",
+  "testing": "Test en cours...",
+  
+  "icalUrl": "URL iCal",
+  "testICalConnection": "Tester la connexion",
+  "clearCache": "Vider le cache",
+  "clearUrl": "Effacer l'URL",
+  
+  "normalDayColor": "Jour normal",
+  "weekendColor": "Week-end",
+  "holidayColor": "Jour férié",
+  "holidayWeekendColor": "Jour férié (week-end)",
+  "personalHolidayColor": "Congé personnel",
+  "icalEventsColor": "Événements iCal",
+  
+  "countryDescription": "Sélectionnez votre pays pour charger automatiquement les jours fériés nationaux.",
+  "themeDescription": "Choisissez entre le thème clair et sombre pour l'application.",
+  "languageDescription": "Choisissez votre langue préférée pour l'interface de l'application.",
+  "githubTokenDescription": "Votre token d'accès personnel GitHub avec les permissions gist.",
+  "gistIdDescription": "L'ID du gist où vos données seront stockées.",
+  "icalUrlDescription": "Entrez l'URL publique iCal de votre calendrier. Les événements seront automatiquement chargés quand une URL est fournie.",
+  
+  "githubHelpTitle": "Comment configurer l'intégration GitHub :",
+  "githubHelpSteps": [
+    "Allez dans <a href=\"https://github.com/settings/tokens\" target=\"_blank\" rel=\"noopener noreferrer\">Paramètres GitHub > Personal Access Tokens</a>",
+    "Cliquez sur \"Generate new token (classic)\"",
+    "Cochez seulement \"gist\" dans les permissions",
+    "Copiez le token généré",
+    "Créez un nouveau gist sur <a href=\"https://gist.github.com\" target=\"_blank\" rel=\"noopener noreferrer\">gist.github.com</a> avec n'importe quel contenu",
+    "Copiez l'ID du gist depuis l'URL (la longue chaîne après /gist/)"
+  ],
+  "icalExamplesTitle": "URLs de calendrier populaires :",
+  "icalExamples": [
+    "Google Calendar : https://calendar.google.com/calendar/ical/...",
+    "Outlook : https://outlook.live.com/calendar/0/...",
+    "iCloud : webcal://p126-caldav.icloud.com/..."
+  ],
+  
+  "validToken": "Token valide ! Connecté en tant que",
+  "connectionError": "Erreur de connexion",
+  "connectionSuccess": "Connexion réussie ! Trouvé",
+  "cacheCleared": "Cache vidé avec succès",
+  "events": "événements",
+  
+  "pleaseEnterGitHubToken": "Veuillez entrer un token GitHub",
+  "pleaseEnterICalUrl": "Veuillez entrer une URL iCal",
+  "unknownError": "Erreur inconnue",
+  "connectionFailed": "Échec de la connexion",
+  
+  "googleCalendar": "Google Calendar",
+  "outlook": "Outlook",
+  "iCloud": "iCloud",
+  
+  "close": "Fermer",
+  
+  "clearGitHubConfirm": "Êtes-vous sûr de vouloir effacer toutes les données GitHub ? Cette action est irréversible."
+}

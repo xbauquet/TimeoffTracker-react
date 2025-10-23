@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
 import { SettingsService, ICalEvent, EventColorService, GistService, ThemeService } from './services';
@@ -8,6 +9,7 @@ import { HolidayCalculationService } from './services/holidayCalculationService'
 import './App.scss'
 
 function App() {
+  const { i18n } = useTranslation();
   const [year, setYear] = useState(new Date().getFullYear());
   const [settings, setSettings] = useState<AllSettings>(() => SettingsService.loadSettings());
   const [icalEvents, setICalEvents] = useState<ICalEvent[]>([]);
@@ -22,10 +24,12 @@ function App() {
       setSettings(settingsWithGist);
       // Apply the theme immediately after loading settings
       ThemeService.applyTheme(settingsWithGist.theme);
+      // Initialize i18n language
+      i18n.changeLanguage(settingsWithGist.language);
     };
     
     loadSettingsWithGist();
-  }, []);
+  }, [i18n]);
 
   // Initialize theme on app start
   useEffect(() => {
@@ -149,6 +153,12 @@ function App() {
   const handleSettingsChange = async (newSettings: AllSettings) => {
     setSettings(newSettings);
     await SettingsService.saveSettings(newSettings);
+    
+    // Apply theme if it changed
+    ThemeService.applyTheme(newSettings.theme);
+    
+    // Apply language if it changed
+    i18n.changeLanguage(newSettings.language);
   };
 
   // Use actual iCal events with assigned colors
@@ -162,6 +172,7 @@ function App() {
         carryoverHolidays={carryoverHolidays}
         remainingHolidays={remainingHolidays}
         legendColorSettings={settings.colors}
+        language={settings.language}
         onYearChange={setYear}
         onWorkDaysChange={setWorkDaysPerYear}
         onCarryoverChange={setCarryoverHolidays}

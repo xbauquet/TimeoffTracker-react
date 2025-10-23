@@ -1,60 +1,74 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { LegendColorSettings, LegendColorService } from '../../services/legendColorService';
+import { Language } from '../../services';
 import './Legend.scss';
 
 interface LegendProps {
   colorSettings: LegendColorSettings;
+  language: Language;
   className?: string;
 }
 
 interface LegendItem {
   key: keyof LegendColorSettings;
-  label: string;
+  labelKey: string;
   className: string;
 }
 
-const LEGEND_ITEMS: LegendItem[] = [
-  {
-    key: 'normal',
-    label: 'Jour normal',
-    className: 'normal'
-  },
-  {
-    key: 'weekend',
-    label: 'Week-end',
-    className: 'weekend'
-  },
-  {
-    key: 'holiday',
-    label: 'Jour férié',
-    className: 'holiday'
-  },
-  {
-    key: 'holidayWeekend',
-    label: 'Jour férié (week-end)',
-    className: 'holiday-weekend'
-  },
-  {
-    key: 'personalHoliday',
-    label: 'Congé personnel',
-    className: 'personal-holiday'
-  },
-  {
-    key: 'icalEvents',
-    label: 'Événements iCal',
-    className: 'has-ical-events'
-  }
-];
+const getLegendItems = (): LegendItem[] => {
+  return [
+    {
+      key: 'normal',
+      labelKey: 'normalDay',
+      className: 'normal'
+    },
+    {
+      key: 'weekend',
+      labelKey: 'weekend',
+      className: 'weekend'
+    },
+    {
+      key: 'holiday',
+      labelKey: 'holiday',
+      className: 'holiday'
+    },
+    {
+      key: 'holidayWeekend',
+      labelKey: 'holidayWeekend',
+      className: 'holiday-weekend'
+    },
+    {
+      key: 'personalHoliday',
+      labelKey: 'personalHoliday',
+      className: 'personal-holiday'
+    },
+    {
+      key: 'icalEvents',
+      labelKey: 'icalEvents',
+      className: 'has-ical-events'
+    }
+  ];
+};
 
 export const Legend: React.FC<LegendProps> = ({
   colorSettings,
+  language,
   className = ''
 }) => {
+  const { t, i18n } = useTranslation();
+
+  // Update i18n language when language prop changes
+  React.useEffect(() => {
+    if (language !== i18n.language) {
+      i18n.changeLanguage(language);
+    }
+  }, [language, i18n]);
 
   return (
     <div className={`legend ${className}`}>
       <div className="legend-items">
-        {LEGEND_ITEMS.map((item) => (
+        {getLegendItems().map((item) => (
           <div key={item.key} className="legend-item">
             <div
               className={`legend-color ${item.className}`}
@@ -70,10 +84,10 @@ export const Legend: React.FC<LegendProps> = ({
                   color: LegendColorService.getTextColor(colorSettings[item.key])
                 }}
               >
-                {item.label.charAt(0)}
+                {t(item.labelKey).charAt(0)}
               </span>
             </div>
-            <span>{item.label}</span>
+            <span>{t(item.labelKey)}</span>
           </div>
         ))}
       </div>

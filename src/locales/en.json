@@ -1,0 +1,88 @@
+{
+  "appTitle": "Timeoff Tracker",
+  
+  "remainingHolidays": "Remaining holidays",
+  "workDays": "Work days",
+  "carryoverHolidays": "Carryover holidays",
+  "settings": "Settings",
+  
+  "normalDay": "Normal Day",
+  "weekend": "Weekend",
+  "holiday": "Holiday",
+  "holidayWeekend": "Holiday (Weekend)",
+  "personalHoliday": "Personal Holiday",
+  "icalEvents": "iCal Events",
+  
+  "settingsTitle": "Settings",
+  "general": "General",
+  "github": "GitHub",
+  "calendar": "Calendar",
+  "colors": "Colors",
+  "language": "Language",
+  "country": "Country",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "cancel": "Cancel",
+  "saveSettings": "Save Settings",
+  
+  "githubToken": "GitHub Token (required)",
+  "gistId": "Gist ID (required)",
+  "testConnection": "Test Connection",
+  "clearAll": "Clear All",
+  "testing": "Testing...",
+  
+  "icalUrl": "iCal URL",
+  "testICalConnection": "Test Connection",
+  "clearCache": "Clear Cache",
+  "clearUrl": "Clear URL",
+  
+  "normalDayColor": "Normal Day",
+  "weekendColor": "Weekend",
+  "holidayColor": "Holiday",
+  "holidayWeekendColor": "Holiday (Weekend)",
+  "personalHolidayColor": "Personal Holiday",
+  "icalEventsColor": "iCal Events",
+  
+  "countryDescription": "Select your country to automatically load national holidays.",
+  "themeDescription": "Choose between light and dark theme for the application.",
+  "languageDescription": "Choose your preferred language for the application interface.",
+  "githubTokenDescription": "Your GitHub personal access token with gist permissions.",
+  "gistIdDescription": "The ID of the gist where your data will be stored.",
+  "icalUrlDescription": "Enter the public iCal URL of your calendar. Events will be automatically loaded when a URL is provided.",
+  
+  "githubHelpTitle": "How to set up GitHub integration:",
+  "githubHelpSteps": [
+    "Go to <a href=\"https://github.com/settings/tokens\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub Settings > Personal Access Tokens</a>",
+    "Click \"Generate new token (classic)\"",
+    "Check only \"gist\" in the permissions",
+    "Copy the generated token",
+    "Create a new gist on <a href=\"https://gist.github.com\" target=\"_blank\" rel=\"noopener noreferrer\">gist.github.com</a> with any content",
+    "Copy the gist ID from the URL (the long string after /gist/)"
+  ],
+  "icalExamplesTitle": "Popular calendar URLs:",
+  "icalExamples": [
+    "Google Calendar: https://calendar.google.com/calendar/ical/...",
+    "Outlook: https://outlook.live.com/calendar/0/...",
+    "iCloud: webcal://p126-caldav.icloud.com/..."
+  ],
+  
+  "validToken": "Valid token! Connected as",
+  "connectionError": "Connection error",
+  "connectionSuccess": "Successfully connected! Found",
+  "cacheCleared": "Cache cleared successfully",
+  "events": "events",
+  
+  "pleaseEnterGitHubToken": "Please enter a GitHub token",
+  "pleaseEnterICalUrl": "Please enter an iCal URL",
+  "unknownError": "Unknown error",
+  "connectionFailed": "Connection failed",
+  
+  "googleCalendar": "Google Calendar",
+  "outlook": "Outlook",
+  "iCloud": "iCloud",
+  
+  "close": "Close",
+  
+  "clearGitHubConfirm": "Are you sure you want to clear all GitHub data? This action is irreversible."
+}

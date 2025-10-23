@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ColorPicker } from '../ColorPicker';
-import { GistService, ICalService, ICalSettings, ThemeService, Theme } from '../../services';
+import { GistService, ICalService, ICalSettings, ThemeService, Language } from '../../services';
+import { Theme } from '../../services/themeService';
 import { LegendColorService, LegendColorSettings } from '../../services/legendColorService';
 import { GistSettings } from '../../services/gistService';
 import './SettingsModal.scss';
@@ -15,6 +17,7 @@ interface SettingsModalProps {
 export interface AllSettings {
   country: string;
   theme: Theme;
+  language: Language;
   gitHub: GistSettings;
   ical: ICalSettings;
   colors: LegendColorSettings;
@@ -44,6 +47,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   onSettingsChange,
   currentSettings
 }) => {
+  const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState<'general' | 'github' | 'ical' | 'colors'>('general');
   const [settings, setSettings] = useState<AllSettings>(currentSettings);
   const [isTesting, setIsTesting] = useState(false);
@@ -55,6 +59,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
       setTestResult(null);
     }
   }, [isOpen, currentSettings]);
+
+  // Update i18n language when settings change
+  useEffect(() => {
+    if (settings.language !== i18n.language) {
+      i18n.changeLanguage(settings.language);
+    }
+  }, [settings.language, i18n]);
 
   const handleSave = () => {
     // Save all settings
@@ -69,7 +80,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
   const handleTestGitHub = async () => {
     if (!settings.gitHub.token?.trim()) {
-      setTestResult({ success: false, message: 'Please enter a GitHub token' });
+      setTestResult({ success: false, message: t('pleaseEnterGitHubToken') });
       return;
     }
 
@@ -92,7 +103,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
   const handleTestICal = async () => {
     if (!settings.ical.url?.trim()) {
-      setTestResult({ success: false, message: 'Please enter an iCal URL' });
+      setTestResult({ success: false, message: t('pleaseEnterICalUrl') });
       return;
     }
 
@@ -105,18 +116,18 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         const eventCount = result.events?.length || 0;
         setTestResult({ 
           success: true, 
-          message: `✅ Successfully connected! Found ${eventCount} events.` 
+          message: `✅ ${t('connectionSuccess')} ${eventCount} ${t('events')}.` 
         });
       } else {
         setTestResult({ 
           success: false, 
-          message: `❌ Connection failed: ${result.error || 'Unknown error'}` 
+          message: `❌ ${t('connectionFailed')}: ${result.error || t('unknownError')}` 
         });
       }
     } catch (error) {
       setTestResult({ 
         success: false, 
-        message: `❌ Connection failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
+        message: `❌ ${t('connectionFailed')}: ${error instanceof Error ? error.message : t('unknownError')}` 
       });
     } finally {
       setIsTesting(false);
@@ -124,7 +135,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   const handleClearGitHub = () => {
-    if (window.confirm('Are you sure you want to clear all GitHub data? This action is irreversible.')) {
+    if (window.confirm(t('clearGitHubConfirm'))) {
       GistService.clearSettings();
       setSettings(prev => ({
         ...prev,
@@ -143,7 +154,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
   const handleClearCache = () => {
     ICalService.clearCache();
-    setTestResult({ success: true, message: 'Cache cleared successfully' });
+    setTestResult({ success: true, message: t('cacheCleared') });
   };
 
   const updateSetting = <K extends keyof AllSettings>(key: K, value: AllSettings[K]) => {
@@ -169,8 +180,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     <div className={`modal-overlay theme-${settings.theme}`} onClick={onClose}>
       <div className="modal-content settings-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2 className="modal-title">Settings</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">
+          <h2 className="modal-title">{t('settingsTitle')}</h2>
+          <button className="modal-close" onClick={onClose} aria-label={t('close')}>
             ×
           </button>
         </div>
@@ -180,25 +191,25 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
             className={`settings-tab ${activeTab === 'general' ? 'active' : ''}`}
             onClick={() => setActiveTab('general')}
           >
-            General
+            {t('general')}
           </button>
           <button
             className={`settings-tab ${activeTab === 'github' ? 'active' : ''}`}
             onClick={() => setActiveTab('github')}
           >
-            GitHub
+            {t('github')}
           </button>
           <button
             className={`settings-tab ${activeTab === 'ical' ? 'active' : ''}`}
             onClick={() => setActiveTab('ical')}
           >
-            Calendar
+            {t('calendar')}
           </button>
           <button
             className={`settings-tab ${activeTab === 'colors' ? 'active' : ''}`}
             onClick={() => setActiveTab('colors')}
           >
-            Colors
+            {t('colors')}
           </button>
         </div>
 
@@ -206,7 +217,22 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           {activeTab === 'general' && (
             <div className="settings-section">
               <div className="setting-group">
-                <label className="setting-label">Country</label>
+                <label className="setting-label">{t('language')}</label>
+                <select
+                  value={settings.language}
+                  onChange={(e) => updateSetting('language', e.target.value as Language)}
+                  className="setting-select"
+                >
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                </select>
+                <p className="setting-description">
+                  {t('languageDescription')}
+                </p>
+              </div>
+
+              <div className="setting-group">
+                <label className="setting-label">{t('country')}</label>
                 <select
                   value={settings.country}
                   onChange={(e) => updateSetting('country', e.target.value)}
@@ -219,30 +245,30 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                   ))}
                 </select>
                 <p className="setting-description">
-                  Select your country to automatically load national holidays.
+                  {t('countryDescription')}
                 </p>
               </div>
 
               <div className="setting-group">
-                <label className="setting-label">Theme</label>
+                <label className="setting-label">{t('theme')}</label>
                 <div className="theme-toggle">
                   <button
                     className={`theme-option ${settings.theme === 'light' ? 'active' : ''}`}
                     onClick={() => handleThemeChange('light')}
                   >
                     <span className="theme-icon">☀️</span>
-                    Light
+                    {t('light')}
                   </button>
                   <button
                     className={`theme-option ${settings.theme === 'dark' ? 'active' : ''}`}
                     onClick={() => handleThemeChange('dark')}
                   >
                     <span className="theme-icon">🌙</span>
-                    Dark
+                    {t('dark')}
                   </button>
                 </div>
                 <p className="setting-description">
-                  Choose between light and dark theme for the application.
+                  {t('themeDescription')}
                 </p>
               </div>
             </div>
@@ -251,7 +277,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           {activeTab === 'github' && (
             <div className="settings-section">
               <div className="setting-group">
-                <label className="setting-label">GitHub Token (required)</label>
+                <label className="setting-label">{t('githubToken')}</label>
                 <input
                   type="password"
                   value={settings.gitHub.token || ''}
@@ -260,12 +286,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                   className="setting-input"
                 />
                 <p className="setting-description">
-                  Your GitHub personal access token with gist permissions.
+                  {t('githubTokenDescription')}
                 </p>
               </div>
 
               <div className="setting-group">
-                <label className="setting-label">Gist ID (required)</label>
+                <label className="setting-label">{t('gistId')}</label>
                 <input
                   type="text"
                   value={settings.gitHub.gistId || ''}
@@ -274,7 +300,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                   className="setting-input"
                 />
                 <p className="setting-description">
-                  The ID of the gist where your data will be stored.
+                  {t('gistIdDescription')}
                 </p>
               </div>
 
@@ -285,26 +311,23 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                     disabled={isTesting || !settings.gitHub.token?.trim()}
                     className="test-button"
                   >
-                    {isTesting ? 'Testing...' : 'Test Connection'}
+                    {isTesting ? t('testing') : t('testConnection')}
                   </button>
                   <button
                     onClick={handleClearGitHub}
                     className="clear-button"
                   >
-                    Clear All
+                    {t('clearAll')}
                   </button>
                 </div>
               </div>
 
               <div className="github-help">
-                <h4>How to set up GitHub integration:</h4>
+                <h4>{t('githubHelpTitle')}</h4>
                 <ol>
-                  <li>Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">GitHub Settings &gt; Personal Access Tokens</a></li>
-                  <li>Click "Generate new token (classic)"</li>
-                  <li>Check only "gist" in the permissions</li>
-                  <li>Copy the generated token</li>
-                  <li>Create a new gist on <a href="https://gist.github.com" target="_blank" rel="noopener noreferrer">gist.github.com</a> with any content</li>
-                  <li>Copy the gist ID from the URL (the long string after /gist/)</li>
+                  {(t('githubHelpSteps', { returnObjects: true }) as string[]).map((step: string, index: number) => (
+                    <li key={index} dangerouslySetInnerHTML={{ __html: step }} />
+                  ))}
                 </ol>
               </div>
             </div>
@@ -313,7 +336,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           {activeTab === 'ical' && (
             <div className="settings-section">
               <div className="setting-group">
-                <label className="setting-label">iCal URL</label>
+                <label className="setting-label">{t('icalUrl')}</label>
                 <input
                   type="url"
                   value={settings.ical.url || ''}
@@ -322,7 +345,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                   className="setting-input"
                 />
                 <p className="setting-description">
-                  Enter the public iCal URL of your calendar. Events will be automatically loaded when a URL is provided.
+                  {t('icalUrlDescription')}
                 </p>
               </div>
 
@@ -333,29 +356,29 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                     disabled={isTesting || !settings.ical.url?.trim()}
                     className="test-button"
                   >
-                    {isTesting ? 'Testing...' : 'Test Connection'}
+                    {isTesting ? t('testing') : t('testICalConnection')}
                   </button>
                   <button
                     onClick={handleClearCache}
                     className="clear-cache-button"
                   >
-                    Clear Cache
+                    {t('clearCache')}
                   </button>
                   <button
                     onClick={handleClearICal}
                     className="clear-button"
                   >
-                    Clear URL
+                    {t('clearUrl')}
                   </button>
                 </div>
               </div>
 
               <div className="url-examples">
-                <h4>Popular calendar URLs:</h4>
+                <h4>{t('icalExamplesTitle')}</h4>
                 <ul>
-                  <li><strong>Google Calendar:</strong> https://calendar.google.com/calendar/ical/...</li>
-                  <li><strong>Outlook:</strong> https://outlook.live.com/calendar/0/...</li>
-                  <li><strong>iCloud:</strong> webcal://p126-caldav.icloud.com/...</li>
+                  <li><strong>{t('googleCalendar')}:</strong> https://calendar.google.com/calendar/ical/...</li>
+                  <li><strong>{t('outlook')}:</strong> https://outlook.live.com/calendar/0/...</li>
+                  <li><strong>{t('iCloud')}:</strong> webcal://p126-caldav.icloud.com/...</li>
                 </ul>
               </div>
             </div>
@@ -367,12 +390,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 {Object.entries(settings.colors).map(([key, color]) => (
                   <div key={key} className="color-setting">
                     <label className="color-label">
-                      {key === 'normal' && 'Normal Day'}
-                      {key === 'weekend' && 'Weekend'}
-                      {key === 'holiday' && 'Holiday'}
-                      {key === 'holidayWeekend' && 'Holiday (Weekend)'}
-                      {key === 'personalHoliday' && 'Personal Holiday'}
-                      {key === 'icalEvents' && 'iCal Events'}
+                      {key === 'normal' && t('normalDayColor')}
+                      {key === 'weekend' && t('weekendColor')}
+                      {key === 'holiday' && t('holidayColor')}
+                      {key === 'holidayWeekend' && t('holidayWeekendColor')}
+                      {key === 'personalHoliday' && t('personalHolidayColor')}
+                      {key === 'icalEvents' && t('icalEventsColor')}
                     </label>
                     <ColorPicker
                       selectedColor={color}
@@ -395,10 +418,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
         <div className="modal-footer">
           <button className="modal-button secondary" onClick={onClose}>
-            Cancel
+            {t('cancel')}
           </button>
           <button className="modal-button primary" onClick={handleSave}>
-            Save Settings
+            {t('saveSettings')}
           </button>
         </div>
       </div>

@@ -31,7 +31,6 @@
 }
 
 .linear-month-label {
-  background: $background-secondary;
   color: $text-primary;
   padding: $spacing-xs $spacing-sm;
   min-width: $month-label-width;
@@ -60,7 +59,6 @@
 }
 
 .linear-month-total {
-  background: $background-secondary;
   padding: $spacing-xs $spacing-sm;
   min-width: $month-total-width;
   text-align: center;

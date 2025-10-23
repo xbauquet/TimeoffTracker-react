@@ -43,6 +43,54 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  // CSS Custom Properties for theming
+  --background-primary: #{$background-primary-light};
+  --background-secondary: #{$background-secondary-light};
+  --background-tertiary: #{$background-tertiary-light};
+  --background-grouped: #{$background-grouped-light};
+  --background-elevated: #{$background-elevated-light};
+  --background-hover: #{$background-hover-light};
+  --background-selected: #{$background-selected-light};
+
+  --text-primary: #{$text-primary-light};
+  --text-secondary: #{$text-secondary-light};
+  --text-tertiary: #{$text-tertiary-light};
+  --text-quaternary: #{$text-quaternary-light};
+  --text-placeholder: #{$text-placeholder-light};
+  --text-white: #{$text-white-light};
+  --text-accent: #{$text-accent-light};
+
+  --border-light: #{$border-light-light};
+  --border-medium: #{$border-medium-light};
+  --border-strong: #{$border-strong-light};
+  --border-separator: #{$border-separator-light};
+}
+
+// Dark theme
+.theme-dark {
+  color-scheme: dark;
+
+  --background-primary: #{$background-primary-dark};
+  --background-secondary: #{$background-secondary-dark};
+  --background-tertiary: #{$background-tertiary-dark};
+  --background-grouped: #{$background-grouped-dark};
+  --background-elevated: #{$background-elevated-dark};
+  --background-hover: #{$background-hover-dark};
+  --background-selected: #{$background-selected-dark};
+
+  --text-primary: #{$text-primary-dark};
+  --text-secondary: #{$text-secondary-dark};
+  --text-tertiary: #{$text-tertiary-dark};
+  --text-quaternary: #{$text-quaternary-dark};
+  --text-placeholder: #{$text-placeholder-dark};
+  --text-white: #{$text-white-dark};
+  --text-accent: #{$text-accent-dark};
+
+  --border-light: #{$border-light-dark};
+  --border-medium: #{$border-medium-dark};
+  --border-strong: #{$border-strong-dark};
+  --border-separator: #{$border-separator-dark};
 }
 
 // === LINKS ===
@@ -61,7 +109,9 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: $background-grouped;
+  background: var(--background-grouped);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 // === HEADINGS ===
@@ -88,9 +138,9 @@ button {
 // === FORM ELEMENTS ===
 input, select, textarea {
   font-family: inherit;
-  color: $text-primary;
+  color: var(--text-primary);
   
   &::placeholder {
-    color: $text-placeholder;
+    color: var(--text-placeholder);
   }
 }

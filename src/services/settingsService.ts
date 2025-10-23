@@ -1,6 +1,7 @@
 import { GistService } from './gistService';
 import { ICalService } from './icalService';
 import { LegendColorService } from './legendColorService';
+import { ThemeService, Theme } from './themeService';
 import { AllSettings } from '../components/SettingsModal';
 
 export class SettingsService {
@@ -9,6 +10,7 @@ export class SettingsService {
   // Default settings
   private static readonly DEFAULT_SETTINGS: AllSettings = {
     country: 'US',
+    theme: 'light',
     gitHub: { token: null, gistId: null },
     ical: { url: '' },
     colors: {
@@ -38,7 +40,8 @@ export class SettingsService {
       if (stored) {
         const parsed = JSON.parse(stored);
         generalSettings = {
-          country: parsed.country || this.DEFAULT_SETTINGS.country
+          country: parsed.country || this.DEFAULT_SETTINGS.country,
+          theme: parsed.theme || this.DEFAULT_SETTINGS.theme
         };
       }
 
@@ -105,7 +108,8 @@ export class SettingsService {
 
       // Save general settings to unified storage
       const generalSettings = {
-        country: settings.country
+        country: settings.country,
+        theme: settings.theme
       };
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(generalSettings));
@@ -195,9 +199,8 @@ export class SettingsService {
     return (
       settings &&
       typeof settings.country === 'string' &&
-      typeof settings.state === 'string' &&
-      typeof settings.workDaysPerYear === 'number' &&
-      typeof settings.carryoverHolidays === 'number' &&
+      typeof settings.theme === 'string' &&
+      (settings.theme === 'light' || settings.theme === 'dark') &&
       settings.gitHub &&
       settings.ical &&
       settings.colors &&

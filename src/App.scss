@@ -43,11 +43,12 @@
 // === BODY ===
 body {
   font-family: $font-family;
-  background: $background-grouped;
+  background: var(--background-grouped);
   min-height: 100vh;
-  color: $text-primary;
+  color: var(--text-primary);
   font-weight: $font-weight-regular;
   line-height: $line-height-normal;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 // === APP LAYOUT ===
@@ -76,8 +77,9 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: $background-grouped;
+  background: var(--background-grouped);
   padding: $spacing-lg;
+  transition: background-color 0.2s ease;
 }
 
 // === RESPONSIVE DESIGN ===

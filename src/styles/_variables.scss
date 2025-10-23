@@ -7,25 +7,58 @@ $primary-medium: rgba(0, 122, 255, 0.15);
 $primary-strong: rgba(0, 122, 255, 0.2);
 $primary-border: rgba(0, 122, 255, 0.2);
 
-// Apple-inspired background colors
-$background-primary: #FFFFFF;
-$background-secondary: #F2F2F7;
-$background-tertiary: #FFFFFF;
-$background-grouped: #F2F2F7;
-$background-elevated: #FFFFFF;
-$background-hover: rgba(0, 0, 0, 0.04);
-$background-selected: rgba(0, 122, 255, 0.1);
+// Light theme colors
+$background-primary-light: #FFFFFF;
+$background-secondary-light: #F2F2F7;
+$background-tertiary-light: #FFFFFF;
+$background-grouped-light: #F2F2F7;
+$background-elevated-light: #FFFFFF;
+$background-hover-light: rgba(0, 0, 0, 0.04);
+$background-selected-light: rgba(0, 122, 255, 0.1);
 
-// Text colors (Apple system colors)
-$text-primary: #000000;
-$text-secondary: #3C3C43;
-$text-tertiary: #3C3C43;
-$text-quaternary: #3C3C43;
-$text-placeholder: #3C3C43;
-$text-white: #FFFFFF;
-$text-accent: #007AFF;
+$text-primary-light: #000000;
+$text-secondary-light: #3C3C43;
+$text-tertiary-light: #3C3C43;
+$text-quaternary-light: #3C3C43;
+$text-placeholder-light: #3C3C43;
+$text-white-light: #FFFFFF;
+$text-accent-light: #007AFF;
 
-// Calendar day colors (Apple-inspired)
+// Dark theme colors
+$background-primary-dark: #1C1C1E;
+$background-secondary-dark: #2C2C2E;
+$background-tertiary-dark: #3A3A3C;
+$background-grouped-dark: #1C1C1E;
+$background-elevated-dark: #2C2C2E;
+$background-hover-dark: rgba(255, 255, 255, 0.04);
+$background-selected-dark: rgba(0, 122, 255, 0.2);
+
+$text-primary-dark: #FFFFFF;
+$text-secondary-dark: #EBEBF5;
+$text-tertiary-dark: #EBEBF5;
+$text-quaternary-dark: #EBEBF5;
+$text-placeholder-dark: #8E8E93;
+$text-white-dark: #FFFFFF;
+$text-accent-dark: #0A84FF;
+
+// Current theme colors (will be overridden by CSS custom properties)
+$background-primary: $background-primary-light;
+$background-secondary: $background-secondary-light;
+$background-tertiary: $background-tertiary-light;
+$background-grouped: $background-grouped-light;
+$background-elevated: $background-elevated-light;
+$background-hover: $background-hover-light;
+$background-selected: $background-selected-light;
+
+$text-primary: $text-primary-light;
+$text-secondary: $text-secondary-light;
+$text-tertiary: $text-tertiary-light;
+$text-quaternary: $text-quaternary-light;
+$text-placeholder: $text-placeholder-light;
+$text-white: $text-white-light;
+$text-accent: $text-accent-light;
+
+// Calendar day colors (semantic colors that don't change with theme)
 $day-normal: #FFFFFF;
 $day-weekend: #F2F2F7;
 $day-holiday: #34C759;
@@ -33,11 +66,11 @@ $day-holiday-weekend: #30D158;
 $day-personal-holiday: #007AFF;
 $day-personal-holiday-hover: #0056CC;
 
-// Event colors (Apple-inspired)
+// Event colors
 $event-background: #007AFF;
 $event-background-hover: #0056CC;
 $event-accent: #FF9500;
-$event-color: #FF3B30; // Red for iCal events
+$event-color: #FF3B30;
 
 // Status colors (Apple system colors)
 $success-color: #34C759;
@@ -45,13 +78,23 @@ $error-color: #FF3B30;
 $warning-color: #FF9500;
 $info-color: #007AFF;
 
-// Border colors (Apple-inspired)
-$border-light: rgba(0, 0, 0, 0.1);
-$border-medium: rgba(0, 0, 0, 0.15);
-$border-strong: rgba(0, 0, 0, 0.2);
-$border-separator: rgba(0, 0, 0, 0.1);
+// Border colors
+$border-light-light: rgba(0, 0, 0, 0.1);
+$border-medium-light: rgba(0, 0, 0, 0.15);
+$border-strong-light: rgba(0, 0, 0, 0.2);
+$border-separator-light: rgba(0, 0, 0, 0.1);
 
-// Shadow colors (Apple-inspired)
+$border-light-dark: rgba(255, 255, 255, 0.1);
+$border-medium-dark: rgba(255, 255, 255, 0.15);
+$border-strong-dark: rgba(255, 255, 255, 0.2);
+$border-separator-dark: rgba(255, 255, 255, 0.1);
+
+$border-light: $border-light-light;
+$border-medium: $border-medium-light;
+$border-strong: $border-strong-light;
+$border-separator: $border-separator-light;
+
+// Shadow colors
 $shadow-light: rgba(0, 0, 0, 0.1);
 $shadow-medium: rgba(0, 0, 0, 0.15);
 $shadow-strong: rgba(0, 0, 0, 0.25);
@@ -76,18 +119,18 @@ $font-size-3xl: 22px;
 $font-size-4xl: 28px;
 $font-size-5xl: 34px;
 
-// Font weights (Apple system)
+// Font weights
 $font-weight-regular: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
 
-// Line heights (Apple system)
+// Line heights
 $line-height-tight: 1.2;
 $line-height-normal: 1.4;
 $line-height-relaxed: 1.6;
 
-// === SPACING === (Apple system spacing)
+// === SPACING ===
 $spacing-xs: 4px;
 $spacing-sm: 8px;
 $spacing-md: 12px;
@@ -99,7 +142,7 @@ $spacing-4xl: 40px;
 $spacing-5xl: 48px;
 $spacing-6xl: 64px;
 
-// === BORDER RADIUS === (Apple system radius)
+// === BORDER RADIUS ===
 $radius-sm: 4px;
 $radius-md: 6px;
 $radius-lg: 8px;

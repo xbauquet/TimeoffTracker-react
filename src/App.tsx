@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
-import { SettingsService, ICalEvent, EventColorService, GistService } from './services';
+import { SettingsService, ICalEvent, EventColorService, GistService, ThemeService } from './services';
 import { ICalService } from './services/icalService';
 import { AllSettings } from './components/SettingsModal';
 import { HolidayCalculationService } from './services/holidayCalculationService';
@@ -20,9 +20,16 @@ function App() {
     const loadSettingsWithGist = async () => {
       const settingsWithGist = await SettingsService.loadSettingsWithGist();
       setSettings(settingsWithGist);
+      // Apply the theme immediately after loading settings
+      ThemeService.applyTheme(settingsWithGist.theme);
     };
     
     loadSettingsWithGist();
+  }, []);
+
+  // Initialize theme on app start
+  useEffect(() => {
+    ThemeService.initializeTheme();
   }, []);
 
   // Calculate remaining holidays using the service

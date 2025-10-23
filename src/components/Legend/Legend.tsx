@@ -64,7 +64,14 @@ export const Legend: React.FC<LegendProps> = ({
                 color: LegendColorService.getTextColor(colorSettings[item.key])
               }}
             >
-              <span className="legend-color-text">{item.label.charAt(0)}</span>
+              <span 
+                className="legend-color-text"
+                style={{
+                  color: LegendColorService.getTextColor(colorSettings[item.key])
+                }}
+              >
+                {item.label.charAt(0)}
+              </span>
             </div>
             <span>{item.label}</span>
           </div>

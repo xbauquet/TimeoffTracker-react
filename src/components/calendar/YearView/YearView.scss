@@ -17,7 +17,7 @@
 
 .tooltip-content {
   background: $overlay-strong;
-  color: $text-primary;
+  color: $text-white;
   padding: $spacing-lg $spacing-2xl;
   border-radius: $radius-xl;
   font-size: $font-size-lg;
@@ -38,7 +38,7 @@
 }
 
 .tooltip-type {
-  color: $text-primary;
+  color: $text-white;
   font-size: $font-size-md;
 }
 
@@ -49,9 +49,9 @@
   align-items: center;
   justify-content: center;
   padding: 40px;
-  background: $background-elevated;
+  background: var(--background-elevated);
   border-radius: 12px;
-  color: $text-primary;
+  color: var(--text-primary);
 }
 
 .loading-spinner {
@@ -74,7 +74,7 @@
   align-items: center;
   justify-content: center;
   padding: 40px;
-  background: $background-elevated;
+  background: var(--background-elevated);
   border-radius: 12px;
   color: $error-color;
   font-weight: 500;

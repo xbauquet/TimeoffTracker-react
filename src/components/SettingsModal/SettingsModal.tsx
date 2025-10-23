@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ColorPicker } from '../ColorPicker';
-import { GistService, ICalService, ICalSettings } from '../../services';
+import { GistService, ICalService, ICalSettings, ThemeService, Theme } from '../../services';
 import { LegendColorService, LegendColorSettings } from '../../services/legendColorService';
 import { GistSettings } from '../../services/gistService';
 import './SettingsModal.scss';
@@ -14,6 +14,7 @@ interface SettingsModalProps {
 
 export interface AllSettings {
   country: string;
+  theme: Theme;
   gitHub: GistSettings;
   ical: ICalSettings;
   colors: LegendColorSettings;
@@ -60,6 +61,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     GistService.saveSettings(settings.gitHub.token!, settings.gitHub.gistId!);
     ICalService.saveSettings(settings.ical);
     LegendColorService.saveSettings(settings.colors);
+    ThemeService.applyTheme(settings.theme);
     
     onSettingsChange(settings);
     onClose();
@@ -155,10 +157,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     }));
   };
 
+  const handleThemeChange = (theme: Theme) => {
+    setSettings(prev => ({ ...prev, theme }));
+    // Apply theme immediately for preview
+    ThemeService.applyTheme(theme);
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className={`modal-overlay theme-${settings.theme}`} onClick={onClose}>
       <div className="modal-content settings-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">Settings</h2>
@@ -212,6 +220,29 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 </select>
                 <p className="setting-description">
                   Select your country to automatically load national holidays.
+                </p>
+              </div>
+
+              <div className="setting-group">
+                <label className="setting-label">Theme</label>
+                <div className="theme-toggle">
+                  <button
+                    className={`theme-option ${settings.theme === 'light' ? 'active' : ''}`}
+                    onClick={() => handleThemeChange('light')}
+                  >
+                    <span className="theme-icon">☀️</span>
+                    Light
+                  </button>
+                  <button
+                    className={`theme-option ${settings.theme === 'dark' ? 'active' : ''}`}
+                    onClick={() => handleThemeChange('dark')}
+                  >
+                    <span className="theme-icon">🌙</span>
+                    Dark
+                  </button>
+                </div>
+                <p className="setting-description">
+                  Choose between light and dark theme for the application.
                 </p>
               </div>
             </div>

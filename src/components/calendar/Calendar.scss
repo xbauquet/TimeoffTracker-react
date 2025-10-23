@@ -32,17 +32,18 @@
   align-items: center;
   justify-content: center;
   padding: $spacing-4xl;
-  background: $background-elevated;
+  background: var(--background-elevated);
   border-radius: $radius-2xl;
-  color: $text-primary;
+  color: var(--text-primary);
   box-shadow: $shadow-card;
-  border: 1px solid $border-separator;
+  border: 1px solid var(--border-separator);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .loading-spinner {
   width: 32px;
   height: 32px;
-  border: 2px solid $border-light;
+  border: 2px solid var(--border-light);
   border-top: 2px solid $primary-color;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -59,12 +60,13 @@
   align-items: center;
   justify-content: center;
   padding: $spacing-4xl;
-  background: $background-elevated;
+  background: var(--background-elevated);
   border-radius: $radius-2xl;
   color: $error-color;
   font-weight: $font-weight-medium;
   box-shadow: $shadow-card;
-  border: 1px solid $border-separator;
+  border: 1px solid var(--border-separator);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .calendar-container {

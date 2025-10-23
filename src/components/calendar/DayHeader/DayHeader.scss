@@ -35,7 +35,7 @@
   font-size: $font-size-xs;
   font-weight: $font-weight-semibold;
   margin: $day-cell-margin !important;
-  color: $text-secondary;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   box-sizing: border-box;

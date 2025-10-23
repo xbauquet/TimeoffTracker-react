@@ -18,8 +18,8 @@
 .menu {
   width: 240px;
   height: 100vh;
-  background: $background-elevated;
-  border-right: 1px solid $border-separator;
+  background: var(--background-elevated);
+  border-right: 1px solid var(--border-separator);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -30,6 +30,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   animation: slideInLeft 0.6s ease-out;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 @keyframes slideInLeft {
@@ -46,10 +47,10 @@
 // === MENU HEADER ===
 .menu-header {
   padding: $spacing-2xl $spacing-lg;
-  border-bottom: 1px solid $border-separator;
+  border-bottom: 1px solid var(--border-separator);
   
   .menu-title {
-    color: $text-primary;
+    color: var(--text-primary);
     font-size: $font-size-2xl;
     font-weight: $font-weight-semibold;
     letter-spacing: -0.5px;
@@ -72,7 +73,7 @@
   gap: $spacing-sm;
   
   .menu-control-label {
-    color: $text-primary;
+    color: var(--text-primary);
     font-size: $font-size-sm;
     font-weight: 600;
     text-transform: uppercase;
@@ -86,7 +87,7 @@
   border: 1px solid $primary-strong;
   border-radius: $radius-xl;
   padding: $spacing-lg $spacing-2xl;
-  color: $text-primary;
+  color: var(--text-primary);
   font-size: $font-size-lg;
   width: 100px;
   transition: all 0.2s ease;
@@ -106,15 +107,15 @@
 .year-control {
   display: flex;
   align-items: center;
-  background: $background-secondary;
+  background: var(--background-secondary);
   border-radius: $radius-2xl;
   padding: $spacing-xs;
-  border: 1px solid $border-light;
+  border: 1px solid var(--border-light);
 }
 
 .year-button {
   @include button-base;
-  color: $text-secondary;
+  color: var(--text-secondary);
   font-size: $font-size-lg;
   font-weight: $font-weight-medium;
   padding: $spacing-sm $spacing-md;
@@ -127,12 +128,12 @@
   transition: all 0.2s ease;
   
   &:hover {
-    background: $background-hover;
-    color: $text-primary;
+    background: var(--background-hover);
+    color: var(--text-primary);
   }
   
   &:active {
-    background: $background-selected;
+    background: var(--background-selected);
     color: $primary-color;
   }
 }
@@ -140,7 +141,7 @@
 .year-display {
   flex: 1;
   text-align: center;
-  color: $text-primary;
+  color: var(--text-primary);
   font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
   padding: $spacing-sm $spacing-md;
@@ -158,8 +159,8 @@
 
 // === MENU LEGEND ===
 .menu-legend {
-  padding: $spacing-lg;
-  border-top: 1px solid $border-separator;
+  padding: $spacing-lg 0;
+  border-top: 1px solid var(--border-separator);
   
   .legend {
     background: transparent;
@@ -179,7 +180,7 @@
       
       span {
         font-size: $font-size-sm;
-        color: $text-secondary;
+        color: var(--text-secondary);
       }
     }
     
@@ -196,12 +197,12 @@
   flex-direction: column;
   align-items: center;
   padding: $spacing-lg;
-  background: $background-secondary;
+  background: var(--background-secondary);
   border-radius: $radius-xl;
-  border: 1px solid $border-light;
+  border: 1px solid var(--border-light);
   min-width: 120px;
   box-shadow: $shadow-card;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, background-color 0.2s ease, border-color 0.2s ease;
   animation: scaleIn 0.8s ease-out 0.2s both;
   
   &:hover {
@@ -232,7 +233,7 @@
 .holiday-counter-label {
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
-  color: $text-secondary;
+  color: var(--text-secondary);
   text-align: center;
   letter-spacing: 0.3px;
 }
@@ -252,16 +253,16 @@
   padding: $spacing-md $spacing-lg;
   width: 100%;
   gap: $spacing-sm;
-  border-top: 1px solid $border-separator;
+  border-top: 1px solid var(--border-separator);
   border-radius: 0;
   transition: all 0.2s ease;
   
   &:hover {
-    background: $background-hover;
+    background: var(--background-hover);
   }
   
   &:active {
-    background: $background-selected;
+    background: var(--background-selected);
   }
 }
 
@@ -269,16 +270,16 @@
   flex: 1;
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
-  color: $text-primary;
+  color: var(--text-primary);
 }
 
 .menu-control-input {
   width: 80px;
   padding: $spacing-sm $spacing-md;
-  background: $background-secondary;
-  border: 1px solid $border-light;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-light);
   border-radius: $radius-lg;
-  color: $text-primary;
+  color: var(--text-primary);
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   text-align: center;
@@ -291,28 +292,35 @@
   }
 
   &:hover {
-    border-color: $border-medium;
+    border-color: var(--border-medium);
   }
 }
 
 
 .settings-status {
-  color: $text-primary;
+  color: var(--text-primary);
   font-weight: $font-weight-medium;
 }
 
 .settings-button {
   background: transparent;
   border: none;
-  border-top: 1px solid $border-separator;
+  border-top: 1px solid var(--border-separator);
   margin-top: $spacing-sm;
+  color: var(--text-primary);
   
   &:hover {
-    background: $background-hover;
+    background: var(--background-hover);
   }
   
   &:active {
-    background: $background-selected;
+    background: var(--background-selected);
+  }
+  
+  // Style the caret arrow
+  div:last-child {
+    color: var(--text-primary);
+    font-weight: $font-weight-medium;
   }
 }
 
@@ -328,7 +336,7 @@
   }
   
   &.disconnected {
-    color: $text-tertiary;
+    color: var(--text-tertiary);
   }
 }
 
@@ -339,7 +347,7 @@
     height: auto;
     position: relative;
     border-right: none;
-    border-bottom: 1px solid $border-separator;
+    border-bottom: 1px solid var(--border-separator);
     box-shadow: none;
   }
   
@@ -426,7 +434,7 @@
     flex: 1;
     min-width: 120px;
     border-top: none;
-    border-right: 1px solid $border-separator;
+    border-right: 1px solid var(--border-separator);
     
     &:last-child {
       border-right: none;

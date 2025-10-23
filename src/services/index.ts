@@ -5,6 +5,7 @@ export { ICalService } from './icalService';
 export { EventColorService } from './eventColorService';
 export { LegendColorService } from './legendColorService';
 export { SettingsService } from './settingsService';
+export { ThemeService } from './themeService';
 export type { Day, Month, YearData, BankHoliday, BankHolidayRule } from '../types/year';
 export type { ICalEvent, ICalSettings, ICalServiceResult } from '../types/ical';
 export type { LegendColorSettings } from './legendColorService';

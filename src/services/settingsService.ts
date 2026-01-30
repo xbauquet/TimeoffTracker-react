@@ -1,6 +1,5 @@
 import { GistService } from './gistService';
 import { ICalService } from './icalService';
-import { LegendColorService } from './legendColorService';
 import { AllSettings } from '../components/SettingsModal';
 
 export class SettingsService {
@@ -31,18 +30,17 @@ export class SettingsService {
       // Load from individual services first
       const gitHubSettings = GistService.loadSettings();
       const icalSettings = ICalService.loadSettings();
-      const colorSettings = LegendColorService.loadSettings();
+      // Colors are now loaded from gist, use defaults as fallback
+      const colorSettings = this.DEFAULT_SETTINGS.colors;
 
-      // Try to load from unified storage
+      // Try to load from unified storage (only theme now, country/language are in gist)
       const stored = localStorage.getItem(this.STORAGE_KEY);
       let generalSettings = {};
 
       if (stored) {
         const parsed = JSON.parse(stored);
         generalSettings = {
-          country: parsed.country || this.DEFAULT_SETTINGS.country,
-          theme: parsed.theme || this.DEFAULT_SETTINGS.theme,
-          language: parsed.language || this.DEFAULT_SETTINGS.language
+          theme: parsed.theme || this.DEFAULT_SETTINGS.theme
         };
       }
 
@@ -70,14 +68,24 @@ export class SettingsService {
       try {
         const result = await GistService.loadConfigurationFromGist(settings.gitHub.token, settings.gitHub.gistId);
         
-        if (result.success && result.configuration) {
+        if (result.success && result.configuration?.legendColors) {
           // Override with gist configuration
+          settings.colors = result.configuration.legendColors;
           if (result.configuration.country) {
             settings.country = result.configuration.country;
           }
-          if (result.configuration.legendColors) {
-            settings.colors = result.configuration.legendColors;
+          if (result.configuration.language) {
+            settings.language = result.configuration.language;
           }
+        } else if (result.success) {
+          // If gist doesn't have configuration, save current configuration to gist
+          await GistService.saveConfigurationToGist(
+            settings.gitHub.token,
+            settings.gitHub.gistId,
+            settings.country,
+            settings.language,
+            settings.colors
+          );
         }
       } catch (error) {
         console.error('Failed to load configuration from gist:', error);
@@ -96,22 +104,21 @@ export class SettingsService {
       if (settings.gitHub.token && settings.gitHub.gistId) {
         GistService.saveSettings(settings.gitHub.token, settings.gitHub.gistId);
         
-        // Save configuration to gist (country and colors)
+        // Save configuration to gist (country, language, and colors)
         await GistService.saveConfigurationToGist(
           settings.gitHub.token,
           settings.gitHub.gistId,
           settings.country,
+          settings.language,
           settings.colors
         );
       }
       ICalService.saveSettings(settings.ical);
-      LegendColorService.saveSettings(settings.colors);
+      // Colors are now saved to gist, not localStorage
 
-      // Save general settings to unified storage
+      // Save only theme to localStorage (country/language/colors are in gist)
       const generalSettings = {
-        country: settings.country,
-        theme: settings.theme,
-        language: settings.language
+        theme: settings.theme
       };
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(generalSettings));
@@ -126,10 +133,10 @@ export class SettingsService {
   static resetToDefaults(): AllSettings {
     const defaults = { ...this.DEFAULT_SETTINGS };
     
-    // Reset individual services
-    GistService.clearSettings();
-    ICalService.saveSettings({ url: '' });
-    LegendColorService.resetToDefaults();
+      // Reset individual services
+      GistService.clearSettings();
+      ICalService.saveSettings({ url: '' });
+      // Colors are now in gist, no need to reset localStorage
 
     // Clear unified storage
     localStorage.removeItem(this.STORAGE_KEY);

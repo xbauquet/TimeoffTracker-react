@@ -6,6 +6,7 @@ export interface YearData {
 
 export interface ConfigurationData {
   country: string;
+  language: string;
   legendColors: {
     normal: string;
     weekend: string;
@@ -76,6 +77,7 @@ export class GistService {
     token: string,
     gistId: string,
     country: string,
+    language: string,
     legendColors: {
       normal: string;
       weekend: string;
@@ -114,6 +116,11 @@ export class GistService {
       delete (cleanedExistingData as any).workDaysPerYear;
       delete (cleanedExistingData as any).savedAt;
       delete (cleanedExistingData as any).note;
+      // Explicitly remove sensitive credentials that should never be in gist
+      delete (cleanedExistingData as any).token;
+      delete (cleanedExistingData as any).githubToken;
+      delete (cleanedExistingData as any).gistId;
+      delete (cleanedExistingData as any).gitHub;
       
       // Clean up legacy fields from year data
       Object.keys(cleanedExistingData).forEach(key => {
@@ -123,6 +130,10 @@ export class GistService {
           delete yearData.state;
           delete yearData.savedAt;
           delete yearData.note;
+          delete yearData.token;
+          delete yearData.githubToken;
+          delete yearData.gistId;
+          delete yearData.gitHub;
         }
       });
 
@@ -131,14 +142,15 @@ export class GistService {
         ...cleanedExistingData,
         configuration: {
           country,
+          language,
           legendColors
         }
       };
 
       console.log('Saving configuration to gist:', {
         country,
-        legendColors,
-        gistId
+        language,
+        legendColors
       });
 
       const gistData = {
@@ -213,6 +225,11 @@ export class GistService {
       delete (cleanedExistingData as any).workDaysPerYear;
       delete (cleanedExistingData as any).savedAt;
       delete (cleanedExistingData as any).note;
+      // Explicitly remove sensitive credentials that should never be in gist
+      delete (cleanedExistingData as any).token;
+      delete (cleanedExistingData as any).githubToken;
+      delete (cleanedExistingData as any).gistId;
+      delete (cleanedExistingData as any).gitHub;
       
       // Clean up legacy fields from year data
       Object.keys(cleanedExistingData).forEach(key => {
@@ -222,6 +239,10 @@ export class GistService {
           delete yearData.state;
           delete yearData.savedAt;
           delete yearData.note;
+          delete yearData.token;
+          delete yearData.githubToken;
+          delete yearData.gistId;
+          delete yearData.gitHub;
         }
       });
 

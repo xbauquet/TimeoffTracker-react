@@ -2,9 +2,6 @@ import { ICalEvent, ICalSettings, ICalServiceResult } from '../types/ical';
 
 export class ICalService {
   private static readonly STORAGE_KEY = 'timeofftracker_ical_settings';
-  private static readonly EVENTS_CACHE_KEY = 'timeofftracker_ical_events';
-  private static readonly CACHE_EXPIRY_KEY = 'timeofftracker_ical_cache_expiry';
-  private static readonly CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
 
   /**
    * Load iCal settings from localStorage
@@ -54,12 +51,6 @@ export class ICalService {
    */
   static async fetchEvents(url: string): Promise<ICalServiceResult> {
     try {
-      // Check if we have cached data that's still valid
-      const cachedEvents = this.getCachedEvents();
-      if (cachedEvents) {
-        return { success: true, events: cachedEvents };
-      }
-
       // Convert webcal:// URLs to https://
       let icalUrl = this.convertWebcalUrl(url);
 
@@ -151,9 +142,6 @@ export class ICalService {
 
       const icalText = await response.text();
       const events = this.parseICal(icalText);
-      
-      // Cache the events
-      this.cacheEvents(events);
       
       return { success: true, events };
     } catch (error) {
@@ -330,49 +318,9 @@ export class ICalService {
   }
 
   /**
-   * Cache events in localStorage
-   */
-  private static cacheEvents(events: ICalEvent[]): void {
-    try {
-      localStorage.setItem(this.EVENTS_CACHE_KEY, JSON.stringify(events));
-      localStorage.setItem(this.CACHE_EXPIRY_KEY, (Date.now() + this.CACHE_DURATION).toString());
-    } catch (error) {
-      console.error('Failed to cache iCal events:', error);
-    }
-  }
-
-  /**
-   * Get cached events if still valid
-   */
-  private static getCachedEvents(): ICalEvent[] | null {
-    try {
-      const expiry = localStorage.getItem(this.CACHE_EXPIRY_KEY);
-      if (!expiry || Date.now() > parseInt(expiry)) {
-        return null;
-      }
-
-      const cached = localStorage.getItem(this.EVENTS_CACHE_KEY);
-      if (cached) {
-        const events = JSON.parse(cached);
-        // Convert date strings back to Date objects
-        return events.map((event: any) => ({
-          ...event,
-          startDate: new Date(event.startDate),
-          endDate: new Date(event.endDate)
-        }));
-      }
-    } catch (error) {
-      console.error('Failed to get cached iCal events:', error);
-    }
-    
-    return null;
-  }
-
-  /**
-   * Clear cached events
+   * Clear cached events (no longer used, but kept for API compatibility)
    */
   static clearCache(): void {
-    localStorage.removeItem(this.EVENTS_CACHE_KEY);
-    localStorage.removeItem(this.CACHE_EXPIRY_KEY);
+    // Cache functionality removed - this is a no-op for backward compatibility
   }
 }

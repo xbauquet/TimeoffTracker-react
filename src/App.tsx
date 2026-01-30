@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar } from './components/calendar';
 import { Menu } from './components/Menu';
-import { SettingsService, ICalEvent, EventColorService, GistService, ThemeService } from './services';
+import { SettingsService, ICalEvent, EventColorService, GistService, ThemeService, Language } from './services';
 import { ICalService } from './services/icalService';
 import { AllSettings } from './components/SettingsModal';
 import { HolidayCalculationService } from './services/holidayCalculationService';
@@ -348,11 +348,12 @@ function App() {
         }
         
         if (result.data.configuration?.language) {
+          const lang = result.data.configuration.language as Language;
           setSettings(prev => ({
             ...prev,
-            language: result.data!.configuration!.language
+            language: lang
           }));
-          i18n.changeLanguage(result.data!.configuration!.language);
+          i18n.changeLanguage(lang);
         }
         
         // If gist doesn't have configuration, save current configuration to gist

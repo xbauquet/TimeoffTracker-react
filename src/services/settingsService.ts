@@ -1,6 +1,7 @@
 import { GistService } from './gistService';
 import { ICalService } from './icalService';
 import { AllSettings } from '../components/SettingsModal';
+import type { Language } from '../types/language';
 
 export class SettingsService {
   private static readonly STORAGE_KEY = 'timeoffTrackerSettings';
@@ -75,7 +76,7 @@ export class SettingsService {
             settings.country = result.configuration.country;
           }
           if (result.configuration.language) {
-            settings.language = result.configuration.language;
+            settings.language = result.configuration.language as Language;
           }
         } else if (result.success) {
           // If gist doesn't have configuration, save current configuration to gist
